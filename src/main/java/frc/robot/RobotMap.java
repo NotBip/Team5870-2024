@@ -72,28 +72,10 @@ public class RobotMap {
 
   public static final DifferentialDrive driveSystem = new DifferentialDrive(leftMotorGroup, rightMotorGroup);
 
-  // Button Declarations
-  public static final int BTN_A = 1;
-  public static final int BTN_B = 2;
-  public static final int BTN_X = 3;
-  public static final int BTN_Y = 4;
-  public static final int BTN_LEFT_BUMPER = 5;
-  public static final int BTN_RIGHT_BUMPER = 6;
-  public static final int BTN_SELECT = 7;
-  public static final int BTN_START = 8;
-  public static final int BTN_LEFT_JOY_PRESS = 9;
-  public static final int BTN_RIGHT_JOY_PRESS = 10;
-
   // Controller
-  public static final int OPERATOR_STICK_PORT = 0;
-  public static final int DRIVER_STICK_PORT = 2;
+  public static final int DRIVER_STICK_PORT = 0;
+  public static final int OPERATOR_STICK_PORT = 1;
 
-  // Sensors
-  public static final int HD_LIMIT_SWITCH_PORT = 0; // Limit switch for hatch delivery
-  public static final int BD_LEAF_SWITCH_PORT = 1; // Leaf switch for ball delivery
-  
-  // If you are using multiple modules, make sure to define both the port
-  // number and the module. For example you with a rangefinder:
-  // public static int rangefinderPort = 1;
-  // public static int rangefinderModule = l1;
+  public static final XboxController DRIVER_CONTROLLER = new XboxController(DRIVER_STICK_PORT);
+  public static final XboxController OPERATOR_CONTROLLER = new XboxController(OPERATOR_STICK_PORT);
 }

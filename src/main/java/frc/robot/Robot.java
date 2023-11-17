@@ -27,7 +27,6 @@ import edu.wpi.first.networktables.NetworkTable;
 public class Robot extends TimedRobot {
 
   public static DriveTrain driveTrain = new DriveTrain();
-  public static IO io;
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -40,8 +39,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-
-    io = new IO();
   }
 
   /**
