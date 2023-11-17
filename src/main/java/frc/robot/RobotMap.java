@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot;
 
 /**
@@ -17,11 +10,11 @@ package frc.robot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
-import edu.wpi.first.wpilibj.XboxController;
 
 
 public class RobotMap {
-  // Motors for Driving
+  
+  // Motors for Driving 
   public static final int TOP_LEFT_MOTOR = 0;
   public static final int TOP_RIGHT_MOTOR = 2; 
   public static final int BOTTOM_LEFT_MOTOR = 4; 
@@ -31,7 +24,13 @@ public class RobotMap {
   public static final int TOP_LEFT_ROTMOTOR = 1; 
   public static final int TOP_RIGHT_ROTMOTOR = 3; 
   public static final int BOTTOM_LEFT_ROTMOTOR = 5; 
-  public static final int BOTTOM_RIGHT_ROTMOTOR = 7; 
+  public static final int BOTTOM_RIGHT_ROTMOTOR = 7;
+  
+  // Encoders for Rotating
+  public static final int TOP_LEFT_ROTMOTOR_ENCODER = 0; 
+  public static final int TOP_RIGHT_ROTMOTOR_ENCODER = 0; 
+  public static final int BOTTOM_LEFT_ROTMOTOR_ENCODER = 0; 
+  public static final int BOTTOM_RIGHT_ROTMOTOR_ENCODER = 0; 
 
   // Driving Motor Groups
   public static final Spark[] LEFT_GROUP = { new Spark(TOP_LEFT_MOTOR), new Spark(BOTTOM_LEFT_MOTOR) };
@@ -76,7 +75,4 @@ public class RobotMap {
   // Controller
   public static final int DRIVER_STICK_PORT = 0;
   public static final int OPERATOR_STICK_PORT = 1;
-
-  public static final XboxController DRIVER_CONTROLLER = new XboxController(DRIVER_STICK_PORT);
-  public static final XboxController OPERATOR_CONTROLLER = new XboxController(OPERATOR_STICK_PORT);
 }
