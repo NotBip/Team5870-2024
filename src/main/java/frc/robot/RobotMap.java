@@ -20,9 +20,30 @@ import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
 
 public class RobotMap {
-  // Drive Train motors
-  public static final int[] LEFT_GROUP = { 0, 1 };
-  public static final int[] RIGHT_GROUP = { 8, 9 };
+
+  // Motors for Rotating
+  public static final int TOP_LEFT_ROTMOTOR = 0; 
+  public static final int TOP_RIGHT_ROTMOTOR = 0; 
+  public static final int BOTTOM_LEFT_ROTMOTOR = 0; 
+  public static final int BOTTOM_RIGHT_ROTMOTOR = 0; 
+
+  // Motors for Driving
+  public static final int TOP_LEFT_MOTOR = 0;
+  public static final int TOP_RIGHT_MOTOR = 0; 
+  public static final int BOTTOM_LEFT_MOTOR = 0; 
+  public static final int BOTTOM_RIGHT_MOTOR = 0;  
+
+  // Driving Motor Groups
+  public static final int[] LEFT_GROUP = { TOP_LEFT_MOTOR, BOTTOM_LEFT_MOTOR };
+  public static final int[] RIGHT_GROUP = { TOP_RIGHT_MOTOR, BOTTOM_RIGHT_MOTOR };
+  public static final int[] FRONT_GROUP = { TOP_LEFT_MOTOR, TOP_RIGHT_MOTOR };
+  public static final int[] BACK_GROUP = { BOTTOM_LEFT_MOTOR, BOTTOM_RIGHT_MOTOR };
+
+   // Rotating Motor Groups
+  public static final int[] LEFT_ROT_GROUP = { TOP_LEFT_ROTMOTOR, BOTTOM_LEFT_ROTMOTOR };
+  public static final int[] RIGHT_ROT_GROUP = { TOP_RIGHT_ROTMOTOR, BOTTOM_RIGHT_ROTMOTOR };
+  public static final int[] FRONT_ROT_GROUP = { TOP_LEFT_ROTMOTOR, TOP_RIGHT_ROTMOTOR };
+  public static final int[] BACK_ROT_GROUP = { BOTTOM_LEFT_ROTMOTOR, BOTTOM_RIGHT_ROTMOTOR };
 
   // Makes a motor controller group for all motors. 
   public static final MotorControllerGroup allMotorGroup = new MotorControllerGroup(new Spark(RobotMap.LEFT_GROUP[0]), new Spark((RobotMap.LEFT_GROUP[0])), new Spark(RobotMap.RIGHT_GROUP[8]), new Spark(RobotMap.RIGHT_GROUP[9]));
