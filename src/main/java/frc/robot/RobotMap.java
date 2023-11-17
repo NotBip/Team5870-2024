@@ -14,20 +14,12 @@ package frc.robot;
  * floating around.
  */
 
-import frc.robot.util.DoubleSolenoidToggler;
-import frc.robot.util.FloatableSolenoid;
-
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
 
 public class RobotMap {
-
-  // Ball Shooter Motors
-  public static final int LEFT_MOTOR = 3;
-  public static final int RIGHT_MOTOR = 4;
-
   // Drive Train motors
   public static final int[] LEFT_GROUP = { 0, 1 };
   public static final int[] RIGHT_GROUP = { 8, 9 };
@@ -44,11 +36,6 @@ public class RobotMap {
     new Spark(RobotMap.RIGHT_GROUP[1]));
 
   public static final DifferentialDrive driveSystem = new DifferentialDrive(leftMotorGroup, rightMotorGroup);
-
-  // Pneumatics
-  public static final FloatableSolenoid extenderSolenoid = new FloatableSolenoid(2, 3, 4, 5);
-  public static final DoubleSolenoidToggler grabberSolenoid = new DoubleSolenoidToggler(1, 0); 
-  public static final DoubleSolenoidToggler pistons = new DoubleSolenoidToggler(6, 7);
 
   // Button Declarations
   public static final int BTN_A = 1;
@@ -74,5 +61,4 @@ public class RobotMap {
   // number and the module. For example you with a rangefinder:
   // public static int rangefinderPort = 1;
   // public static int rangefinderModule = 1;
- 
 }
