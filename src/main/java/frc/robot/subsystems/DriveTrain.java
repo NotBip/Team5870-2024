@@ -21,7 +21,7 @@ public class DriveTrain extends SubsystemBase {
         addChild("Drive", driveSystem);
         driveSystem.setDeadband(0.1);
 
-        Command justDrive = new RunCommand(() -> Robot.driveTrain.arcadeDrive(Robot.io.driverController), Robot.driveTrain);
+        Command justDrive = new RunCommand(() -> Robot.driveTrain.arcadeDrive(RobotMap.DRIVER_CONTROLLER), Robot.driveTrain);
         setDefaultCommand(justDrive);
     }
 

@@ -17,20 +17,21 @@ package frc.robot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.XboxController;
 
 
 public class RobotMap {
   // Motors for Driving
   public static final int TOP_LEFT_MOTOR = 0;
-  public static final int TOP_RIGHT_MOTOR = 0; 
-  public static final int BOTTOM_LEFT_MOTOR = 0; 
-  public static final int BOTTOM_RIGHT_MOTOR = 0;  
+  public static final int TOP_RIGHT_MOTOR = 2; 
+  public static final int BOTTOM_LEFT_MOTOR = 4; 
+  public static final int BOTTOM_RIGHT_MOTOR = 6;  
 
   // Motors for Rotating
-  public static final int TOP_LEFT_ROTMOTOR = 0; 
-  public static final int TOP_RIGHT_ROTMOTOR = 0; 
-  public static final int BOTTOM_LEFT_ROTMOTOR = 0; 
-  public static final int BOTTOM_RIGHT_ROTMOTOR = 0; 
+  public static final int TOP_LEFT_ROTMOTOR = 1; 
+  public static final int TOP_RIGHT_ROTMOTOR = 3; 
+  public static final int BOTTOM_LEFT_ROTMOTOR = 5; 
+  public static final int BOTTOM_RIGHT_ROTMOTOR = 7; 
 
   // Driving Motor Groups
   public static final Spark[] LEFT_GROUP = { new Spark(TOP_LEFT_MOTOR), new Spark(BOTTOM_LEFT_MOTOR) };
