@@ -13,8 +13,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 //Subsystems
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.BallDelivery;
-import frc.robot.subsystems.HatchDelivery;
 
 //Sensors
 import edu.wpi.first.networktables.NetworkTable;
@@ -28,9 +26,7 @@ import edu.wpi.first.networktables.NetworkTable;
  */
 public class Robot extends TimedRobot {
 
-  public static BallDelivery ballDelivery = new BallDelivery();
   public static DriveTrain driveTrain = new DriveTrain();
-  public static HatchDelivery hatchDelivery = new HatchDelivery();
   public static IO io;
 
   Command m_autonomousCommand;

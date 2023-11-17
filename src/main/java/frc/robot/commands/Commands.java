@@ -32,49 +32,5 @@ public class Commands {
 
 	// Drive Train
 	public static final CommandBase emergencyStop = new InstantCommand(() -> Robot.driveTrain.stop(), Robot.driveTrain);
-		
-	// Ball delivery
-	public static final Command launch = new RunCommand(() -> Robot.ballDelivery.power(Robot.io.operatorController.getRightY()), Robot.ballDelivery);
-
-	public static final Command ballDeliveryReset = new InstantCommand(() -> {
-		Robot.ballDelivery.raise();
-		Robot.ballDelivery.stop();
-	}, Robot.ballDelivery);
-
-	public static final Command toggleBallDeliveryPistons = new InstantCommand(Robot.ballDelivery::togglePistons, Robot.ballDelivery);
-
-	// Hatch Delivery
-	public static final Command hatchDeliveryReset = new StartEndCommand(() -> {
-		Robot.hatchDelivery.retract();
-		Robot.hatchDelivery.closeGrabber();
-	}, () -> {
-		Robot.hatchDelivery.floatExtender();
-		CommandScheduler.getInstance().schedule(vibrateBoth);
-	}, Robot.hatchDelivery).withTimeout(1.0);
-	
-	public static final Command grab = new SequentialCommandGroup(
-		new InstantCommand(Robot.hatchDelivery::closeGrabber, Robot.hatchDelivery),
-		new InstantCommand(Robot.hatchDelivery::extend, Robot.hatchDelivery),
-		new WaitUntilCommand(Robot.hatchDelivery::getLimitSwitch),
-		new InstantCommand(Robot.hatchDelivery::floatExtender),
-		new WaitUntilCommand(() -> !Robot.hatchDelivery.getLimitSwitch()),
-		new InstantCommand(Robot.hatchDelivery::openGrabber),
-		new WaitCommand(0.2),
-		new InstantCommand(Robot.hatchDelivery::retract, Robot.hatchDelivery),
-		new ScheduleCommand(vibrateBoth)
-	);
-
-	public static final Command release = new SequentialCommandGroup(
-		new InstantCommand(Robot.hatchDelivery::openGrabber, Robot.hatchDelivery),
-		new InstantCommand(Robot.hatchDelivery::extend, Robot.hatchDelivery),
-		new WaitUntilCommand(Robot.hatchDelivery::getLimitSwitch),
-		new InstantCommand(Robot.hatchDelivery::floatExtender),
-		new WaitUntilCommand(() -> !Robot.hatchDelivery.getLimitSwitch()),
-		new InstantCommand(Robot.hatchDelivery::closeGrabber),
-		new WaitCommand(0.2),
-		new InstantCommand(Robot.hatchDelivery::retract, Robot.hatchDelivery),
-		new ScheduleCommand(vibrateBoth)
-	);
-		
 }
  
