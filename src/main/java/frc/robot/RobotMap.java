@@ -32,9 +32,14 @@ public class RobotMap {
   public static final int[] LEFT_GROUP = { 0, 1 };
   public static final int[] RIGHT_GROUP = { 8, 9 };
 
+  // Makes a motor controller group for all motors. 
+  public static final MotorControllerGroup allMotorGroup = new MotorControllerGroup(new Spark(RobotMap.LEFT_GROUP[0]), new Spark((RobotMap.LEFT_GROUP[0])), new Spark(RobotMap.RIGHT_GROUP[8]), new Spark(RobotMap.RIGHT_GROUP[9]));
+
+  // Makes a motor controller group for left motor group
   public static final MotorControllerGroup leftMotorGroup = new MotorControllerGroup(new Spark(RobotMap.LEFT_GROUP[0]),
     new Spark(RobotMap.LEFT_GROUP[1]));
 
+  // Makes a motor controller group for right motor group
   public static final MotorControllerGroup rightMotorGroup = new MotorControllerGroup(new Spark(RobotMap.RIGHT_GROUP[0]),
     new Spark(RobotMap.RIGHT_GROUP[1]));
 
