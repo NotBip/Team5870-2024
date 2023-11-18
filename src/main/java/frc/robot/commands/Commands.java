@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Robot;
 
+// import static frc.robot.util.MotorUtils.stopAllMotors;
+
 public class Commands {
 	// Vibrate
 	public static final Command vibrateDriver = new StartEndCommand(
@@ -31,10 +33,6 @@ public class Commands {
 	public static final Command vibrateBoth = new ParallelCommandGroup(vibrateDriver, vibrateOperator);
 
 	// Drive Train
-	public static final CommandBase emergencyStop = new InstantCommand(() -> Robot.driveTrain.stop(), Robot.driveTrain);
-
-
-
-
+	// public static final CommandBase emergencyStop = new InstantCommand(() -> { stopAllMotors(); }, Robot.driveTrain);
 }
  
