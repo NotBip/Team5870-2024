@@ -1,5 +1,15 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.SPI;
+
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+
+import com.revrobotics.*;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -7,42 +17,51 @@ package frc.robot;
  * floating around.
  */
 
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
-
-
 public class RobotMap {
   
   // Motors for Driving 
-  public static final int TOP_LEFT_MOTOR = 0;
-  public static final int TOP_RIGHT_MOTOR = 2; 
-  public static final int BOTTOM_LEFT_MOTOR = 4; 
-  public static final int BOTTOM_RIGHT_MOTOR = 6;  
-
+  public static final CANSparkMax TOP_LEFT_MOTOR = new CANSparkMax(0, MotorType.kBrushless);
+  public static final CANSparkMax TOP_RIGHT_MOTOR =  new CANSparkMax(2, MotorType.kBrushless); 
+  public static final CANSparkMax BOTTOM_LEFT_MOTOR =  new CANSparkMax(4, MotorType.kBrushless); 
+  public static final CANSparkMax BOTTOM_RIGHT_MOTOR =  new CANSparkMax(6, MotorType.kBrushless);  
+  
   // Motors for Rotating
-  public static final int TOP_LEFT_ROTMOTOR = 1; 
-  public static final int TOP_RIGHT_ROTMOTOR = 3; 
-  public static final int BOTTOM_LEFT_ROTMOTOR = 5; 
-  public static final int BOTTOM_RIGHT_ROTMOTOR = 7;
+  public static final CANSparkMax TOP_LEFT_ROTMOTOR =  new CANSparkMax(1, MotorType.kBrushless); 
+  public static final CANSparkMax TOP_RIGHT_ROTMOTOR =  new CANSparkMax(3, MotorType.kBrushless); 
+  public static final CANSparkMax BOTTOM_LEFT_ROTMOTOR =  new CANSparkMax(5, MotorType.kBrushless); 
+  public static final CANSparkMax BOTTOM_RIGHT_ROTMOTOR =  new CANSparkMax(7, MotorType.kBrushless);
+
+  // Encoders for Driving
+  public static final RelativeEncoder TOP_LEFT_MOTOR_BUILTIN_ENCODER = TOP_LEFT_MOTOR.getEncoder(); 
+  public static final RelativeEncoder TOP_RIGHT_MOTOR_BUILTIN_ENCODER = TOP_RIGHT_MOTOR.getEncoder(); 
+  public static final RelativeEncoder BOTTOM_LEFT_MOTOR_BUILTIN_ENCODER = BOTTOM_LEFT_MOTOR.getEncoder(); 
+  public static final RelativeEncoder BOTTOM_RIGHT_MOTOR_BUILTIN_ENCODER = BOTTOM_RIGHT_MOTOR.getEncoder(); 
   
   // Encoders for Rotating
-  public static final int TOP_LEFT_ROTMOTOR_ENCODER = 0; 
-  public static final int TOP_RIGHT_ROTMOTOR_ENCODER = 0; 
-  public static final int BOTTOM_LEFT_ROTMOTOR_ENCODER = 0; 
-  public static final int BOTTOM_RIGHT_ROTMOTOR_ENCODER = 0; 
+  public static final RelativeEncoder TOP_LEFT_ROTMOTOR_BUILTIN_ENCODER = TOP_LEFT_ROTMOTOR.getEncoder(); 
+  public static final RelativeEncoder TOP_RIGHT_ROTMOTOR_BUILTIN_ENCODER = TOP_RIGHT_ROTMOTOR.getEncoder(); 
+  public static final RelativeEncoder BOTTOM_LEFT_ROTMOTOR_BUILTIN_ENCODER = BOTTOM_LEFT_ROTMOTOR.getEncoder(); 
+  public static final RelativeEncoder BOTTOM_RIGHT_ROTMOTOR_BUILTIN_ENCODER = BOTTOM_RIGHT_ROTMOTOR.getEncoder(); 
+
+  public static final Encoder TOP_LEFT_ROTMOTOR_ENCODER = new Encoder(0, 1); 
+  public static final Encoder TOP_RIGHT_ROTMOTOR_ENCODER = new Encoder(2, 3); 
+  public static final Encoder BOTTOM_LEFT_ROTMOTOR_ENCODER = new Encoder(4, 5); 
+  public static final Encoder BOTTOM_RIGHT_ROTMOTOR_ENCODER = new Encoder(6, 7); 
 
   // Driving Motor Groups
-  public static final Spark[] LEFT_GROUP = { new Spark(TOP_LEFT_MOTOR), new Spark(BOTTOM_LEFT_MOTOR) };
-  public static final Spark[] RIGHT_GROUP = { new Spark(TOP_RIGHT_MOTOR), new Spark(BOTTOM_RIGHT_MOTOR) };
-  public static final Spark[] FRONT_GROUP = { new Spark(TOP_LEFT_MOTOR), new Spark(TOP_RIGHT_MOTOR) };
-  public static final Spark[] BACK_GROUP = { new Spark(BOTTOM_LEFT_MOTOR), new Spark(BOTTOM_RIGHT_MOTOR) };
+  public static final CANSparkMax[] LEFT_GROUP = { TOP_LEFT_MOTOR, BOTTOM_LEFT_MOTOR };
+  public static final CANSparkMax[] RIGHT_GROUP = { TOP_RIGHT_MOTOR, BOTTOM_RIGHT_MOTOR };
+  public static final CANSparkMax[] FRONT_GROUP = { TOP_LEFT_MOTOR, TOP_RIGHT_MOTOR };
+  public static final CANSparkMax[] BACK_GROUP = { BOTTOM_LEFT_MOTOR, BOTTOM_RIGHT_MOTOR };
 
    // Rotating Motor Groups
-  public static final Spark[] LEFT_ROT_GROUP = { new Spark(TOP_LEFT_ROTMOTOR), new Spark(BOTTOM_LEFT_ROTMOTOR) };
-  public static final Spark[] RIGHT_ROT_GROUP = { new Spark(TOP_RIGHT_ROTMOTOR), new Spark(BOTTOM_RIGHT_ROTMOTOR) };
-  public static final Spark[] FRONT_ROT_GROUP = { new Spark(TOP_LEFT_ROTMOTOR), new Spark(TOP_RIGHT_ROTMOTOR) };
-  public static final Spark[] BACK_ROT_GROUP = { new Spark(BOTTOM_LEFT_ROTMOTOR), new Spark(BOTTOM_RIGHT_ROTMOTOR) };
+  public static final CANSparkMax[] LEFT_ROT_GROUP = { TOP_LEFT_ROTMOTOR, BOTTOM_LEFT_ROTMOTOR };
+  public static final CANSparkMax[] RIGHT_ROT_GROUP = { TOP_RIGHT_ROTMOTOR, BOTTOM_RIGHT_ROTMOTOR };
+  public static final CANSparkMax[] FRONT_ROT_GROUP = { TOP_LEFT_ROTMOTOR, TOP_RIGHT_ROTMOTOR };
+  public static final CANSparkMax[] BACK_ROT_GROUP = { BOTTOM_LEFT_ROTMOTOR, BOTTOM_RIGHT_ROTMOTOR };
+
+  // Gyro
+  public static final ADXRS450_Gyro GYRO = new ADXRS450_Gyro(SPI.Port.kOnboardCS2);
 
 
   // ======================================================== DRIVING MOTORS ==============================================  
