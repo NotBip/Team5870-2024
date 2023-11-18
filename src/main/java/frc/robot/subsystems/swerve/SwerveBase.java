@@ -9,19 +9,15 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.networktables.GenericEntry;
+//import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.math.GeometryUtils;
-import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
-
-import java.util.Map;
 
 public class SwerveBase extends SubsystemBase {
 
@@ -35,12 +31,12 @@ public class SwerveBase extends SubsystemBase {
 
     //private Rotation2d fieldOffset = new Rotation2d(gyro.getYaw()).rotateBy(new Rotation2d(180));
     private final Field2d field = new Field2d();
-    private boolean hasInitialized = false;
+    //private boolean hasInitialized = false;
 
-    private GenericEntry aprilTagTarget = RobotContainer.autoTab
-    .add("Currently Seeing April Tag", false).withWidget(BuiltInWidgets.kBooleanBox)
-    .withProperties(Map.of("Color when true", "green", "Color when false", "red"))
-    .withPosition(8, 4).withSize(2, 2).getEntry();
+   // private GenericEntry aprilTagTarget = RobotContainer.autoTab
+    //.add("Currently Seeing April Tag", false).withWidget(BuiltInWidgets.kBooleanBox)
+    //.withProperties(Map.of("Color when true", "green", "Color when false", "red"))
+    //.withPosition(8, 4).withSize(2, 2).getEntry();
 
 
     public SwerveBase() {

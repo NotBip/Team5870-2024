@@ -52,7 +52,9 @@
   },
   "NTProvider": {
     "types": {
-      "/FMSInfo": "FMSInfo"
+      "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Movement": "String Chooser",
+      "/SmartDashboard/field": "Field2d"
     },
     "windows": {
       "/FMSInfo": {
