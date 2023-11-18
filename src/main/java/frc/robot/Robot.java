@@ -5,8 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-//Subsystems
-import frc.robot.subsystems.DriveTrain;
+//Subsystem
 
 //Sensors
 import edu.wpi.first.networktables.NetworkTable;
@@ -14,7 +13,6 @@ import edu.wpi.first.networktables.NetworkTable;
 
 public class Robot extends TimedRobot {
 
-  public static DriveTrain driveTrain = new DriveTrain();
   public static IO io;
 
   Command m_autonomousCommand;
