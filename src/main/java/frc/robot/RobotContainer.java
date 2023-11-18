@@ -44,7 +44,7 @@ public class RobotContainer {
     public static final int BTN_RIGHT_JOY_PRESS = 10;
 
     /* Driver Buttons */
-    JoystickButton zeroGyro = new JoystickButton(driver, BTN_RIGHT_BUMPER);
+    JoystickButton zeroGyro = new JoystickButton(driver, BTN_A);
     JoystickButton autoMove = new JoystickButton(driver, BTN_B);
     // private final JoystickButton PlaceHolderX = new JoystickButton(driver, XboxController.Button.kX.value); 
     // private final JoystickButton PlaceHolderY = new JoystickButton(driver, XboxController.Button.kY.value);

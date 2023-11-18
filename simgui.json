@@ -53,6 +53,7 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+<<<<<<< HEAD
       "/LiveWindow/Ungrouped/ADXRS450_Gyro[2]": "Gyro",
       "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[2]": "PIDController",
@@ -62,6 +63,8 @@
       "/LiveWindow/Ungrouped/PIDController[6]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[7]": "PIDController",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+=======
+>>>>>>> 249d99be3cb6c9251d638e53505383266e33422d
       "/SmartDashboard/Movement": "String Chooser",
       "/SmartDashboard/field": "Field2d"
     },
