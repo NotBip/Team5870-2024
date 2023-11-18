@@ -36,8 +36,8 @@ public class RobotMap {
 
     // meters per rotation
     // ========================= NEED TO FIND ===============================
-    public static final double driveGearRatio = 0; 
-    public static final double angleGearRatio = 0; 
+    public static final double driveGearRatio = 6.75; 
+    public static final double angleGearRatio = 21.43; 
     public static final double wheelCircumference = 5;
     public static final double driveRevToMeters =  wheelCircumference / driveGearRatio;
     public static final double driveRpmToMetersPerSecond = driveRevToMeters / 60 ;

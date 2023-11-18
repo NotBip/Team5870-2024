@@ -1,59 +1,56 @@
 {
   "HALProvider": {
-    "Encoders": {
-      "0": {
-        "header": {
-          "open": true
-        }
-      },
-      "1": {
-        "header": {
-          "open": true
-        }
-      },
-      "2": {
-        "header": {
-          "open": true
-        }
-      },
-      "3": {
-        "header": {
-          "open": true
-        }
-      },
-      "window": {
-        "visible": true
-      }
-    },
     "Other Devices": {
       "ADXRS450[2]": {
         "header": {
           "open": true
         }
-      }
-    },
-    "RoboRIO": {
-      "3.3V Rail": {
-        "open": true
       },
-      "5V Rail": {
-        "open": true
+      "SPARK MAX [0]": {
+        "header": {
+          "open": true
+        }
       },
-      "6V Rail": {
-        "open": true
+      "SPARK MAX [1]": {
+        "header": {
+          "open": true
+        }
       },
-      "RoboRIO Input": {
-        "open": true
+      "SPARK MAX [2]": {
+        "header": {
+          "open": true
+        }
       },
-      "window": {
-        "visible": true
+      "SPARK MAX [3]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [4]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [5]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [6]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [7]": {
+        "header": {
+          "open": true
+        }
       }
     }
   },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
-<<<<<<< HEAD
       "/LiveWindow/Ungrouped/ADXRS450_Gyro[2]": "Gyro",
       "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[2]": "PIDController",
@@ -63,25 +60,8 @@
       "/LiveWindow/Ungrouped/PIDController[6]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[7]": "PIDController",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
-=======
->>>>>>> 249d99be3cb6c9251d638e53505383266e33422d
       "/SmartDashboard/Movement": "String Chooser",
       "/SmartDashboard/field": "Field2d"
-    },
-    "windows": {
-      "/FMSInfo": {
-        "window": {
-          "visible": true
-        }
-      }
-    }
-  },
-  "NetworkTables Info": {
-    "Connections": {
-      "open": true
-    },
-    "Server": {
-      "open": true
     }
   }
 }

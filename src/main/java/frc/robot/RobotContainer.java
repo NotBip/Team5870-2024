@@ -25,27 +25,16 @@ public class RobotContainer {
     public static ShuffleboardTab autoTab = Shuffleboard.getTab("Auto");
 
     /* Controllers */
-    public XboxController driver = new XboxController(RobotMap.DRIVER_STICK_PORT);
+    public final XboxController driver = new XboxController(RobotMap.DRIVER_STICK_PORT);
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
     private final int rotationAxis = XboxController.Axis.kRightX.value;
 
-    public static final int BTN_A = 1;
-    public static final int BTN_B = 2;
-    public static final int BTN_X = 3;
-    public static final int BTN_Y = 4;
-    public static final int BTN_LEFT_BUMPER = 5;
-    public static final int BTN_RIGHT_BUMPER = 6;
-    public static final int BTN_SELECT = 7;
-    public static final int BTN_START = 8;
-    public static final int BTN_LEFT_JOY_PRESS = 9;
-    public static final int BTN_RIGHT_JOY_PRESS = 10;
-
     /* Driver Buttons */
-    JoystickButton zeroGyro = new JoystickButton(driver, BTN_A);
-    JoystickButton autoMove = new JoystickButton(driver, BTN_B);
+    private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kA.value);
+    private final JoystickButton autoMove = new JoystickButton(driver, XboxController.Button.kB.value);
     // private final JoystickButton PlaceHolderX = new JoystickButton(driver, XboxController.Button.kX.value); 
     // private final JoystickButton PlaceHolderY = new JoystickButton(driver, XboxController.Button.kY.value);
     // private final JoystickButton PlaceHolderLBumper = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);  
@@ -88,7 +77,7 @@ public class RobotContainer {
 
         /* Networking */
         PortForwarder.add(5800, "10.75.20.40", 5800);
-        PortForwarder.add(1181, "10.75.20.40", 1181);   
+        PortForwarder.add(1181, "10.75.20.40", 1181);
 
         // Configure the button bindings
         configureButtonBindings();
