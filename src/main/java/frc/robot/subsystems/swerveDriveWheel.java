@@ -11,8 +11,7 @@ public class swerveDriveWheel {
     public PIDOutput directionOutput;
     public PIDSource directionSource;
 
-    public swerveDriveWheel(){
+    public swerveDriveWheel() {
         // directionController.set
     }
-
 }
