@@ -172,3 +172,4 @@ out/
 *-window.json
 
 .fake
+.vscode/settings.json
