@@ -1,13 +1,15 @@
 package frc.robot;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.util.Units;
-import frc.lib.util.swerveUtil.RevSwerveModuleConstants;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.SPI;
+
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -17,161 +19,80 @@ import frc.lib.util.swerveUtil.RevSwerveModuleConstants;
  */
 
 public class RobotMap {
+  
+  // Motors for Driving 
+  public static final CANSparkMax TOP_LEFT_MOTOR = new CANSparkMax(0, MotorType.kBrushless);
+  public static final CANSparkMax TOP_RIGHT_MOTOR =  new CANSparkMax(2, MotorType.kBrushless); 
+  public static final CANSparkMax BOTTOM_LEFT_MOTOR =  new CANSparkMax(4, MotorType.kBrushless); 
+  public static final CANSparkMax BOTTOM_RIGHT_MOTOR =  new CANSparkMax(6, MotorType.kBrushless);  
+  
+  // Motors for Rotating
+  public static final CANSparkMax TOP_LEFT_ROTMOTOR =  new CANSparkMax(1, MotorType.kBrushless); 
+  public static final CANSparkMax TOP_RIGHT_ROTMOTOR =  new CANSparkMax(3, MotorType.kBrushless); 
+  public static final CANSparkMax BOTTOM_LEFT_ROTMOTOR =  new CANSparkMax(5, MotorType.kBrushless); 
+  public static final CANSparkMax BOTTOM_RIGHT_ROTMOTOR =  new CANSparkMax(7, MotorType.kBrushless);
+
+  // Encoders for Driving
+  public static final RelativeEncoder TOP_LEFT_MOTOR_BUILTIN_ENCODER = TOP_LEFT_MOTOR.getEncoder(); 
+  public static final RelativeEncoder TOP_RIGHT_MOTOR_BUILTIN_ENCODER = TOP_RIGHT_MOTOR.getEncoder(); 
+  public static final RelativeEncoder BOTTOM_LEFT_MOTOR_BUILTIN_ENCODER = BOTTOM_LEFT_MOTOR.getEncoder(); 
+  public static final RelativeEncoder BOTTOM_RIGHT_MOTOR_BUILTIN_ENCODER = BOTTOM_RIGHT_MOTOR.getEncoder(); 
+  
+  // Encoders for Rotating
+  public static final RelativeEncoder TOP_LEFT_ROTMOTOR_BUILTIN_ENCODER = TOP_LEFT_ROTMOTOR.getEncoder(); 
+  public static final RelativeEncoder TOP_RIGHT_ROTMOTOR_BUILTIN_ENCODER = TOP_RIGHT_ROTMOTOR.getEncoder(); 
+  public static final RelativeEncoder BOTTOM_LEFT_ROTMOTOR_BUILTIN_ENCODER = BOTTOM_LEFT_ROTMOTOR.getEncoder(); 
+  public static final RelativeEncoder BOTTOM_RIGHT_ROTMOTOR_BUILTIN_ENCODER = BOTTOM_RIGHT_ROTMOTOR.getEncoder(); 
+
+  public static final Encoder TOP_LEFT_ROTMOTOR_ENCODER = new Encoder(0, 1); 
+  public static final Encoder TOP_RIGHT_ROTMOTOR_ENCODER = new Encoder(2, 3); 
+  public static final Encoder BOTTOM_LEFT_ROTMOTOR_ENCODER = new Encoder(4, 5); 
+  public static final Encoder BOTTOM_RIGHT_ROTMOTOR_ENCODER = new Encoder(6, 7); 
+
+  // Driving Motor Groups
+  public static final CANSparkMax[] LEFT_GROUP = { TOP_LEFT_MOTOR, BOTTOM_LEFT_MOTOR };
+  public static final CANSparkMax[] RIGHT_GROUP = { TOP_RIGHT_MOTOR, BOTTOM_RIGHT_MOTOR };
+  public static final CANSparkMax[] FRONT_GROUP = { TOP_LEFT_MOTOR, TOP_RIGHT_MOTOR };
+  public static final CANSparkMax[] BACK_GROUP = { BOTTOM_LEFT_MOTOR, BOTTOM_RIGHT_MOTOR };
+
+   // Rotating Motor Groups
+  public static final CANSparkMax[] LEFT_ROT_GROUP = { TOP_LEFT_ROTMOTOR, BOTTOM_LEFT_ROTMOTOR };
+  public static final CANSparkMax[] RIGHT_ROT_GROUP = { TOP_RIGHT_ROTMOTOR, BOTTOM_RIGHT_ROTMOTOR };
+  public static final CANSparkMax[] FRONT_ROT_GROUP = { TOP_LEFT_ROTMOTOR, TOP_RIGHT_ROTMOTOR };
+  public static final CANSparkMax[] BACK_ROT_GROUP = { BOTTOM_LEFT_ROTMOTOR, BOTTOM_RIGHT_ROTMOTOR };
+
+  // ALL motor group
+  public static final CANSparkMax[] ALL_MOTORS = { TOP_LEFT_MOTOR, TOP_LEFT_ROTMOTOR, TOP_RIGHT_MOTOR, TOP_RIGHT_ROTMOTOR, BOTTOM_LEFT_MOTOR, BOTTOM_LEFT_ROTMOTOR, BOTTOM_RIGHT_MOTOR, BOTTOM_RIGHT_ROTMOTOR };
+
+  // Gyro
+  public static final ADXRS450_Gyro GYRO = new ADXRS450_Gyro(SPI.Port.kOnboardCS2);
+
+
+  // ======================================================== DRIVING MOTORS ==============================================  
+  // Makes a motor controller group for all Driving motors. 
+  public static final MotorControllerGroup allMotorGroup = new MotorControllerGroup(LEFT_GROUP[0], LEFT_GROUP[1], RIGHT_GROUP[0], RIGHT_GROUP[1]);
+
+  // Makes a motor controller group for left and right motor group
+  public static final MotorControllerGroup leftMotorGroup = new MotorControllerGroup(LEFT_GROUP[0], LEFT_GROUP[1]);
+  public static final MotorControllerGroup rightMotorGroup = new MotorControllerGroup(RIGHT_GROUP[0], RIGHT_GROUP[1]);
+
+  // Makes a motor controller group for Front and Back motor group
+  public static final MotorControllerGroup frontMotorGroup = new MotorControllerGroup(FRONT_GROUP[0], FRONT_GROUP[1]);
+  public static final MotorControllerGroup backMotorGroup = new MotorControllerGroup(BACK_GROUP[0], BACK_GROUP[1]);
+
+  // ======================================================== ROTATING MOTORS ===============================================
+  // Makes a motor controller group for all Rotating Motors
+  public static final MotorControllerGroup allRotMotorGroup = new MotorControllerGroup(LEFT_ROT_GROUP[0], LEFT_ROT_GROUP[1], RIGHT_ROT_GROUP[0], RIGHT_ROT_GROUP[1]);
+
+  // Makes a motor controller group for left and right motor group
+  public static final MotorControllerGroup leftRotMotorGroup = new MotorControllerGroup(LEFT_ROT_GROUP[0], LEFT_ROT_GROUP[1]);
+  public static final MotorControllerGroup rightRotMotorGroup = new MotorControllerGroup(RIGHT_ROT_GROUP[0], RIGHT_ROT_GROUP[1]);
+
+  // Makes motor controller group for Front and Back motor group
+  public static final MotorControllerGroup frontRotMotorGroup = new MotorControllerGroup(FRONT_ROT_GROUP[0], FRONT_ROT_GROUP[1]);
+  public static final MotorControllerGroup backRotMotorGroup = new MotorControllerGroup(BACK_ROT_GROUP[0], BACK_ROT_GROUP[1]);
+
   // Controller
   public static final int DRIVER_STICK_PORT = 0;
   public static final int OPERATOR_STICK_PORT = 1;
-  public static final double stickDeadband = 0.1;
-
-  public static final class Swerve {
-    // Spark Max Idle Modes
-    public static final CANSparkMax.IdleMode driveIdleMode = CANSparkMax.IdleMode.kBrake;
-    public static final CANSparkMax.IdleMode angleIdleMode = CANSparkMax.IdleMode.kBrake;
-
-    // Max Output Powers
-    public static final double drivePower = 1;
-    public static final double anglePower = .9;
-
-    // Gyro
-    public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
-
-    // meters per rotation
-    // ========================= NEED TO FIND ===============================
-    public static final double driveGearRatio = 6.75; 
-    public static final double angleGearRatio = 21.43; 
-    public static final double wheelCircumference = 5;
-    public static final double driveRevToMeters =  wheelCircumference / driveGearRatio;
-    public static final double driveRpmToMetersPerSecond = driveRevToMeters / 60 ;
-
-    public static final boolean driveMotorInvert = false;
-
-    /* Motor Inverts */
-    public static final boolean angleMotorInvert = false;
-
-    // the number of degrees that a single rotation of the turn motor turns the wheel.
-    public static final double DegreesPerTurnRotation = 360/angleGearRatio;
-
-    /* Drivetrain Constants */ // ========================= NEED TO FIND ===============================
-    public static final double trackWidth = Units.inchesToMeters(23.75);
-    public static final double wheelBase = Units.inchesToMeters(23.75);
-    
-    // Max Output Powers
-    public static final double maxDrivePower = 1;
-    public static final double maxAnglePower = .9;
-
-    /* Swerve Kinematics 
-    * No need to ever change this unless you are not doing a traditional rectangular/square 4 module swerve */
-    public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(
-        new Translation2d(wheelBase / 2.0, trackWidth / 2.0),
-        new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
-        new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
-        new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0)
-    );
-
-    /* Swerve Current Limiting */
-    public static final int angleContinuousCurrentLimit = 20;
-    public static final int anglePeakCurrentLimit = 40;
-    public static final double anglePeakCurrentDuration = 0.1;
-    public static final boolean angleEnableCurrentLimit = true;
-    public static final int driveContinuousCurrentLimit = 35;
-    public static final int drivePeakCurrentLimit = 60;
-    public static final double drivePeakCurrentDuration = 0.1;
-    public static final boolean driveEnableCurrentLimit = true;
-
-    /* Angle Motor PID Values */
-    public static final double angleKP = 0.05;
-    public static final double angleKI = 0;
-    public static final double angleKD = 0;
-    public static final double angleKFF = 0;
-
-    /* Drive Motor info  */
-    public static final double kDrivingMotorFreeSpeedRps = NeoMotorConstants.kFreeSpeedRpm / 60;
-
-    public static final double kDriveWheelFreeSpeedRps = (kDrivingMotorFreeSpeedRps * wheelCircumference) / driveGearRatio;
-
-    /* Drive Motor PID Values */
-    public static final double driveKP = 0.04;
-    public static final double driveKI = 0.0;
-    public static final double driveKD = 0.0;
-    public static final double driveKFF = 1 / kDriveWheelFreeSpeedRps;
-    /** Meters per Second */
-    public static final double maxSpeed = 3.6576;
-    /** Radians per Second */
-    public static final double maxAngularVelocity = 5.0;
-    public static double angleRampRate = 0;
-
-    // CANCoder CONFIG
-    // public static final CANCoderConfiguration swerveCANcoderConfig = new CANCoderConfiguration();
-
-
-
-    public static class Modules {
-      /* Front Left Module - Module 0 */
-      public static final class FLMod {
-
-          public static final int driveMotorID = 0;
-          public static final int angleMotorID = 1;
-          public static final int canCoderID = 0;
-          public static final Rotation2d angleOffset = Rotation2d.fromDegrees(162.146-180); //Rotation2d.fromDegrees(37.7);
-          public static final RevSwerveModuleConstants constants = new RevSwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
-      }
-
-      /* Front Right Module - Module 1 */
-      public static final class FRMod {
-          public static final int driveMotorID = 2;
-          public static final int angleMotorID = 3;
-          public static final int canCoderID = 1;
-          public static final Rotation2d angleOffset = Rotation2d.fromDegrees(26.015);
-          public static final RevSwerveModuleConstants constants = new RevSwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
-      }
-
-      /* Back Left Module - Module 2 */
-      public static final class BLMod {
-          public static final int driveMotorID = 4;
-          public static final int angleMotorID = 5;
-          public static final int canCoderID = 2;
-          public static final Rotation2d angleOffset = Rotation2d.fromDegrees(263.603);
-          public static final RevSwerveModuleConstants constants = new RevSwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
-      }
-
-      /* Back Right Module - Modu */
-      public static final class BRMod {
-          public static final int driveMotorID = 6;
-          public static final int angleMotorID = 7;
-          public static final int canCoderID = 3;
-          public static final Rotation2d angleOffset = Rotation2d.fromDegrees(317.021);
-          public static final RevSwerveModuleConstants constants = new RevSwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
-      }
-    }
-  }
-
-  public static final class AutoConstants {
-    public static final double kMaxSpeedMetersPerSecond = 2;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 1;
-    public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI * 16;
-    public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI * 16;
-
-    public static final double X_kP = 5;
-    public static final double X_kI = 0;
-    public static final double X_kD = 0;
-
-    public static final double Y_kP = 5;
-    public static final double Y_kI = 0;
-    public static final double Y_kD = 0;
-
-    public static final double THETA_kP = 6.2;
-    public static final double THETA_kI = 0;
-    public static final double THETA_kD = 0;
-
-
-    // Motion profilied robot angle controller
-    public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
-            new TrapezoidProfile.Constraints(kMaxAngularSpeedRadiansPerSecond,
-                    kMaxAngularSpeedRadiansPerSecondSquared);
-}
-
-
-
-  public static final class NeoMotorConstants {
-    public static final double kFreeSpeedRpm = 5676;
-  }
 }
