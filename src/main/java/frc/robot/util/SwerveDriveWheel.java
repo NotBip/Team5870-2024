@@ -9,12 +9,14 @@ public class SwerveDriveWheel {
     public PIDController directionController;
     public RelativeEncoder rotateEncoder; 
     public CANSparkMax driveMotors; 
+    public CANSparkMax rotateMotors; 
 
 
-    public SwerveDriveWheel(double P, double I, double D, RelativeEncoder enc, CANSparkMax drive) {
-        this.rotateEncoder = enc; 
+    public SwerveDriveWheel(double P, double I, double D, RelativeEncoder encoder, CANSparkMax drive, CANSparkMax rotate) {
+        this.rotateEncoder = encoder; 
         directionController = new PIDController(P, I, D);
         this.driveMotors = drive; 
+        this.rotateMotors = rotate;
     }
 
     public void setDirection(double setpoint) {
@@ -24,14 +26,14 @@ public class SwerveDriveWheel {
 
         double setpointAngleFlipped = closestAngle(currentAngle, setpoint + 180.0);
 
-        if (Math.abs(setpointAngle) <= Math.abs(setpointAngleFlipped)){
+        if (Math.abs(setpointAngle) <= Math.abs(setpointAngleFlipped)) {
             // unflip the motor direction use the setpoint
-            directionController.setP(1.0);
+            rotateMotors.setInverted(false);
             directionController.setSetpoint(currentAngle + setpointAngle);
         } else {
             // if the closest angle to setpoint + 180 is shorter
             // flip the motor direction and use the setpoint + 180
-             directionController.setD(-1.0);
+            rotateMotors.setInverted(true);
             directionController.setSetpoint(currentAngle + setpointAngleFlipped);
         }
 
@@ -53,4 +55,4 @@ public class SwerveDriveWheel {
         }
         return dir;
     }
-}
+}   

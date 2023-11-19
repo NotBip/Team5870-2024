@@ -27,10 +27,10 @@ public class DriveTrain extends SubsystemBase {
     public DriveTrain() {
         Command justDrive = new RunCommand(() -> swerveDrive(Robot.io.driverController), this);
         setDefaultCommand(justDrive);
-        TL_TURN_WHEEL = new SwerveDriveWheel(TL.p, TL.i, TL.d, TL.rotateEncoder, TL.drive);
-        TR_TURN_WHEEL = new SwerveDriveWheel(TR.p, TR.i, TR.d, TR.rotateEncoder, TR.drive);
-        BL_TURN_WHEEL = new SwerveDriveWheel(BL.p, BL.i, BL.d, BL.rotateEncoder, BL.drive);
-        BR_TURN_WHEEL = new SwerveDriveWheel(BR.p, BR.i, BR.d, BR.rotateEncoder, BR.drive);
+        TL_TURN_WHEEL = new SwerveDriveWheel(TL.p, TL.i, TL.d, TL.rotateEncoder, TL.drive, TL.rotate);
+        TR_TURN_WHEEL = new SwerveDriveWheel(TR.p, TR.i, TR.d, TR.rotateEncoder, TR.drive, TR.rotate);
+        BL_TURN_WHEEL = new SwerveDriveWheel(BL.p, BL.i, BL.d, BL.rotateEncoder, BL.drive, BL.rotate);
+        BR_TURN_WHEEL = new SwerveDriveWheel(BR.p, BR.i, BR.d, BR.rotateEncoder, BR.drive, BR.rotate);
         Wheels = new SwerveDriveCoordinator(TL_TURN_WHEEL, TR_TURN_WHEEL, BL_TURN_WHEEL, BR_TURN_WHEEL);
     }
 
