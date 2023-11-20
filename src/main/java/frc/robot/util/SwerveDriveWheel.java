@@ -36,9 +36,6 @@ public class SwerveDriveWheel {
             driveMotors.setInverted(true);
             directionController.setSetpoint(currentAngle + setpointAngleFlipped);
         }
-
-
-        directionController.setSetpoint(currentAngle + closestAngle(currentAngle, setpoint));
     }
 
     public void setSpeed(double speed) {

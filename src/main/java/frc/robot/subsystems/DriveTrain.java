@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Robot;
+import frc.robot.RobotMap;
 import frc.robot.RobotMap.Modules.TL;
 import frc.robot.util.MotorUtils;
 import frc.robot.util.SwerveDriveCoordinator;
@@ -40,10 +41,16 @@ public class DriveTrain extends SubsystemBase {
     }
 
     public void swerveDrive(XboxController driverController) {
-        if ((getPosition(driverController) > 0 ? getPosition(driverController) : -getPosition(driverController)) > LeftStickDeadBand) {
-            Wheels.translate(getAngle(driverController), getPosition(driverController));
-            System.out.println(getAngle(driverController));
-        }
+        
+        // get joystick input
+        double angle = Math.atan2(driverController.getRightY(), driverController.getRightX());
+        double magnitude = deadzone(getPosition(driverController), RobotMap.LeftStickDeadBand);
+        double twist = deadzone(getPosition(driverController), 0.1);
+
+        // use field centric controls by subtracting off the robot angle
+        angle -= RobotMap.GYRO.getAngle();
+
+        Wheels.setSwerveDrive(angle, magnitude, twist);
     }
 
     public double getPosition(XboxController driverController) {
@@ -73,6 +80,15 @@ public class DriveTrain extends SubsystemBase {
         // TL.hardwareRotateEncoder.setPosition((int) Math.toDegrees(Theta));
         return Math.toDegrees(Theta); 
     }
+
+    private double deadzone(double value, double deadzone)
+    {
+        if (Math.abs(value) < deadzone)
+        {
+            return 0;
+        }
+        return value;
+    }
 }
         // double Theta = Math.atan(driverController.getRightY() / driverController.getRightX());
 
@@ -86,6 +102,9 @@ public class DriveTrain extends SubsystemBase {
         // bottom left -45
         // bottom right 45
 
-
+        // if ((getPosition(driverController) > 0 ? getPosition(driverController) : -getPosition(driverController)) > LeftStickDeadBand) {
+        //     Wheels.translate(getAngle(driverController), getPosition(driverController));
+        //     System.out.println(getAngle(driverController));
+        // }
 
         
