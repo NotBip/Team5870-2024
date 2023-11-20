@@ -28,12 +28,12 @@ public class SwerveDriveWheel {
 
         if (Math.abs(setpointAngle) <= Math.abs(setpointAngleFlipped)) {
             // unflip the motor direction use the setpoint
-            rotateMotors.setInverted(false);
+            driveMotors.setInverted(false);
             directionController.setSetpoint(currentAngle + setpointAngle);
-        } else {
+        } else {    
             // if the closest angle to setpoint + 180 is shorter
             // flip the motor direction and use the setpoint + 180
-            rotateMotors.setInverted(true);
+            driveMotors.setInverted(true);
             directionController.setSetpoint(currentAngle + setpointAngleFlipped);
         }
 
@@ -50,9 +50,10 @@ public class SwerveDriveWheel {
         double dir = (b % 360.0) - (a % 360.0);
 
         // convert from -360 to 360 to -180 to 180
-        if (Math.abs(dir) > 180.0){
-                dir = -(Math.signum(dir) * 360.0) + dir;
+        if (Math.abs(dir) > 180.0) {
+            dir = -(Math.signum(dir) * 360.0) + dir;
         }
+        
         return dir;
     }
 }   

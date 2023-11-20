@@ -5,6 +5,7 @@ import frc.robot.RobotMap.Modules.TL;
 import frc.robot.util.MotorUtils;
 import frc.robot.util.SwerveDriveCoordinator;
 import frc.robot.util.SwerveDriveWheel;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.*;
 import static frc.robot.RobotMap.LeftStickDeadBand;
@@ -41,12 +42,13 @@ public class DriveTrain extends SubsystemBase {
     public void swerveDrive(XboxController driverController) {
         if ((getPosition(driverController) > 0 ? getPosition(driverController) : -getPosition(driverController)) > LeftStickDeadBand) {
             Wheels.translate(getAngle(driverController), getPosition(driverController));
-            System.out.println(TL_TURN_WHEEL.driveMotors.get());
+            System.out.println(getAngle(driverController));
         }
     }
 
     public double getPosition(XboxController driverController) {
         double pos = Math.sqrt(((driverController.getRightX() * driverController.getRightX()) + (driverController.getRightY() * driverController.getRightY())));
+        // remove if the y axis isn't flipped for school controllers. 
         pos = driverController.getRightY() > 0 ? pos*-1 : pos;
         if (pos > 1) pos = 1;
         else if (pos < -1) pos = -1;
@@ -54,7 +56,21 @@ public class DriveTrain extends SubsystemBase {
     }
 
     public double getAngle(XboxController driverController) {
-        double Theta = Math.atan((double) driverController.getRightY() / (double) driverController.getRightX());
+        double Theta = Math.atan2((double) driverController.getRightY(), (double) driverController.getRightX());
+
+        if (driverController.getRightY() < 0)
+            Theta = Math.abs(Theta); 
+
+        if (driverController.getRightY() > 0) {
+            double something  = 180 - Math.toDegrees(Theta); 
+            double something2 = 180 + something;
+            return something2; 
+        }
+
+        //  System.out.println(driverController.getRightY() + " " + driverController.getRightX());
+        // remove if the y axis isn't flipped for school controllers. 
+        //Theta = driverController.getRightY() > 0 ? Theta*-1 : Theta;
+        // TL.hardwareRotateEncoder.setPosition((int) Math.toDegrees(Theta));
         return Math.toDegrees(Theta); 
     }
 }
