@@ -76,7 +76,7 @@ public class SwerveDriveCoordinator {
         BRWheel.setSpeed(translatePower);
     }
 
-    public void setSwerveDrive(double direction, double translatePower, double turnPower) {
+    public void setSwerveDrive(double direction, double translatePower, double turnPower) { // never used, whats the point of this?
         if ((translatePower == 0.0) && (turnPower != 0.0)) {
             inplaceTurn(turnPower);
         } else {
