@@ -21,12 +21,11 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
  */
 
 public class RobotMap {
+  // Gyro
+  public static final ADXRS450_Gyro GYRO = new ADXRS450_Gyro(SPI.Port.kOnboardCS2);
   
   // Left Joystick DeadBand
   public static final double LeftStickDeadBand = 0.15; 
-
-  // Gyro
-  public static final ADXRS450_Gyro GYRO = new ADXRS450_Gyro(SPI.Port.kOnboardCS2);
 
   // Controller
   public static final int DRIVER_STICK_PORT = 0;
@@ -36,7 +35,6 @@ public class RobotMap {
   public static final CANSparkMax[] ALL_GROUP = { Modules.TL.drive, Modules.TL.rotate, Modules.TR.drive, Modules.TR.rotate, Modules.BL.drive, Modules.BL.rotate, Modules.BR.drive, Modules.BR.rotate };
   public static final MotorControllerGroup ALL_DRIVE_GROUP = new MotorControllerGroup(Modules.TL.drive, Modules.TR.drive, Modules.BL.drive, Modules.BR.drive);
   public static final MotorControllerGroup ALL_ROTATE_GROUP = new MotorControllerGroup(Modules.TL.rotate, Modules.TR.rotate, Modules.BL.rotate, Modules.BR.rotate);
-
 
   
   public static class Modules {
