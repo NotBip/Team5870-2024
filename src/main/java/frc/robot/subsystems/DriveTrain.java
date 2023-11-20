@@ -49,7 +49,7 @@ public class DriveTrain extends SubsystemBase {
     public double getPosition(XboxController driverController) {
         double pos = Math.sqrt(((driverController.getRightX() * driverController.getRightX()) + (driverController.getRightY() * driverController.getRightY())));
         // remove if the y axis isn't flipped for school controllers. 
-        pos = driverController.getRightY() > 0 ? pos*-1 : pos;
+        pos = driverController.getRightY() > 0 ? -pos : pos; // changed pos*-1 to -pos, not sure if thats gonna cause a problem
         if (pos > 1) pos = 1;
         else if (pos < -1) pos = -1;
         return pos; 
