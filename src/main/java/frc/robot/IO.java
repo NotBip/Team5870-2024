@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.XboxController;
  */
 public class IO {
 
+  // Initializing Operator and Driver Controllers for Robot. 
   public XboxController operatorController = new XboxController(RobotMap.OPERATOR_STICK_PORT);
   public XboxController driverController = new XboxController(RobotMap.DRIVER_STICK_PORT);
 

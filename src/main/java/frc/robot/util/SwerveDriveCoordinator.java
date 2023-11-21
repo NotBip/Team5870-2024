@@ -4,11 +4,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class SwerveDriveCoordinator {
+    // Initializing all Wheels. 
     SwerveDriveWheel TLWheel;
     SwerveDriveWheel TRWheel;
     SwerveDriveWheel BLWheel;
     SwerveDriveWheel BRWheel;
 
+    // Constructor for all Wheels. 
     public SwerveDriveCoordinator(SwerveDriveWheel TLWheele, SwerveDriveWheel TRWheele, SwerveDriveWheel BLWheele, SwerveDriveWheel BRWheele) {
         this.TLWheel = TLWheele;
         this.TRWheel = TRWheele;
@@ -16,6 +18,7 @@ public class SwerveDriveCoordinator {
         this.BRWheel = BRWheele;
     }
 
+    // Method for Translate. 
     public void translate(double direction, double power) {
         TLWheel.setDirection(direction);
         TRWheel.setDirection(direction);
@@ -28,6 +31,7 @@ public class SwerveDriveCoordinator {
         BRWheel.setSpeed(power);
     }
 
+    // Method for turning robot in Place. 
     public void inplaceTurn(double power) {
         TLWheel.setDirection(45.0);
         TRWheel.setDirection(-45.0);
@@ -40,6 +44,7 @@ public class SwerveDriveCoordinator {
         BRWheel.setSpeed(power);
     }
 
+    // Method for turning robot while moving. 
     public void translateTurn(double direction, double translatePower, double turnPower) {
         double turnAngle = turnPower * 45.0;
 
@@ -78,6 +83,7 @@ public class SwerveDriveCoordinator {
         BRWheel.setSpeed(translatePower);
     }
 
+    // Method to pick the correct method depending on controller input.
     public void setSwerveDrive(double direction, double translatePower, double turnPower) {
         if ((translatePower == 0.0) && (turnPower != 0.0)) {
             SmartDashboard.putString("Type", "Inplace");
@@ -96,11 +102,8 @@ public class SwerveDriveCoordinator {
             BRWheel.setSpeed(translatePower);
         }
 
-
-
         SmartDashboard.putNumber("Direction", direction);
         SmartDashboard.putNumber("Turn Power", turnPower);
-        
         SmartDashboard.putNumber("Top Left Wheel", TLWheel.driveMotors.get());
         SmartDashboard.putNumber("Top Right Wheel", TRWheel.driveMotors.get());
         SmartDashboard.putNumber("Bottom Left Wheel", BLWheel.driveMotors.get());

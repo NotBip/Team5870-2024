@@ -1,13 +1,14 @@
 package frc.robot.subsystems;
 
 import frc.robot.Robot;
+import frc.robot.RobotMap;
 import frc.robot.RobotMap.Modules.TL;
 import frc.robot.util.MotorUtils;
 import frc.robot.util.SwerveDriveCoordinator;
 import frc.robot.util.SwerveDriveWheel;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
-import static frc.robot.RobotMap.LeftStickDeadBand;
 import static frc.robot.RobotMap.Modules.*;
 
 /**
@@ -39,28 +40,37 @@ public class DriveTrain extends SubsystemBase {
     }
 
     public void swerveDrive(XboxController driverController) {
-        if ((getPosition(driverController) > 0 ? getPosition(driverController) : -getPosition(driverController)) > LeftStickDeadBand) {
-            Wheels.translate(getAngle(driverController), getPosition(driverController));
-            System.out.println(getAngle(driverController));
-        }
+        // get joystick input
+        double angle = getAngle(driverController.getLeftX(), driverController.getLeftY());
+        double magnitude = deadzone(getPosition(driverController), RobotMap.LeftStickDeadBand);
+        double twist = deadzone(driverController.getRightX(), RobotMap.LeftStickDeadBand );
+        SmartDashboard.putNumber("Left Stick", deadzone(getAngle(driverController.getLeftX(), driverController.getLeftY()), RobotMap.LeftStickDeadBand));
+        SmartDashboard.putNumber("Right Stick", deadzone(getAngle(driverController.getRightX(), driverController.getRightY()), RobotMap.RightStickDeadBand));
+
+
+
+        // use field centric controls by subtracting off the robot angle
+        angle -= RobotMap.GYRO.getAngle();
+
+        Wheels.setSwerveDrive(angle, magnitude, twist);
     }
 
     public double getPosition(XboxController driverController) {
-        double pos = Math.sqrt(((driverController.getRightX() * driverController.getRightX()) + (driverController.getRightY() * driverController.getRightY())));
+        double pos = Math.sqrt(((driverController.getLeftY() * driverController.getLeftY()) + (driverController.getLeftX() * driverController.getLeftX())));
         // remove if the y axis isn't flipped for school controllers. 
-        pos = driverController.getRightY() > 0 ? -pos : pos; // changed pos*-1 to -pos, not sure if thats gonna cause a problem
+        pos = driverController.getLeftY() > 0 ? -pos : pos; // changed pos*-1 to -pos, not sure if thats gonna cause a problem
         if (pos > 1) pos = 1;
         else if (pos < -1) pos = -1;
         return pos; 
     }
 
-    public double getAngle(XboxController driverController) {
-        double Theta = Math.atan2((double) driverController.getRightY(), (double) driverController.getRightX());
+    public double getAngle(double x, double y) {
+        double Theta = Math.atan2(y, x);
 
-        if (driverController.getRightY() < 0)
+        if (y < 0)
             Theta = Math.abs(Theta); 
 
-        if (driverController.getRightY() > 0) {
+        if (y > 0) {
             double something  = 180 - Math.toDegrees(Theta); 
             double something2 = 180 + something;
             return something2; 
@@ -71,6 +81,13 @@ public class DriveTrain extends SubsystemBase {
         //Theta = driverController.getRightY() > 0 ? Theta*-1 : Theta;
         // TL.hardwareRotateEncoder.setPosition((int) Math.toDegrees(Theta));
         return Math.toDegrees(Theta); 
+    }
+
+    private double deadzone(double value, double deadzone) {
+        if (Math.abs(value) < deadzone) {
+            return 0;
+        }
+        return value;
     }
 }
         // double Theta = Math.atan(driverController.getRightY() / driverController.getRightX());
@@ -85,6 +102,9 @@ public class DriveTrain extends SubsystemBase {
         // bottom left -45
         // bottom right 45
 
-
+        // if ((getPosition(driverController) > 0 ? getPosition(driverController) : -getPosition(driverController)) > LeftStickDeadBand) {
+        //     Wheels.translate(getAngle(driverController), getPosition(driverController));
+        //     System.out.println(getAngle(driverController));
+        // }
 
         

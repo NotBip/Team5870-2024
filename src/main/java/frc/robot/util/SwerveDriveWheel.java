@@ -12,7 +12,7 @@ public class SwerveDriveWheel {
     public CANSparkMax driveMotors; 
     public CANSparkMax rotateMotors; 
 
-
+    // Constructor
     public SwerveDriveWheel(double P, double I, double D, RelativeEncoder encoder, CANSparkMax drive, CANSparkMax rotate) {
         this.rotateEncoder = encoder; 
         directionController = new PIDController(P, I, D);
@@ -20,6 +20,7 @@ public class SwerveDriveWheel {
         this.rotateMotors = rotate;
     }
 
+    // Find the closes angle and fastest way to get to it and set position. 
     public void setDirection(double setpoint) {
         directionController.reset();
         double currentAngle = rotateEncoder.getPosition();
@@ -45,10 +46,14 @@ public class SwerveDriveWheel {
         
     }
 
+    
+    // Set Speed for Motors. 
     public void setSpeed(double speed) {
         driveMotors.set(speed);
     }
 
+
+    // Find the Closing angle to get to position wanted.
     static double closestAngle(double a, double b) {
         // get direction
         double dir = (b % 360.0) - (a % 360.0);
@@ -60,4 +65,6 @@ public class SwerveDriveWheel {
         
         return dir;
     }
+
+
 }   

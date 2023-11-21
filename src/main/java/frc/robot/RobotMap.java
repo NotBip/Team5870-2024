@@ -34,8 +34,9 @@ public class RobotMap {
   public static final MotorControllerGroup ALL_DRIVE_GROUP = new MotorControllerGroup(Modules.TL.drive, Modules.TR.drive, Modules.BL.drive, Modules.BR.drive);
   public static final MotorControllerGroup ALL_ROTATE_GROUP = new MotorControllerGroup(Modules.TL.rotate, Modules.TR.rotate, Modules.BL.rotate, Modules.BR.rotate);
 
-  
+  // Making modules for all four Motors. 
   public static class Modules {
+    // Top Left Motor
     public static class TL {
       public static CANSparkMax drive = new CANSparkMax(0, MotorType.kBrushless);
       public static CANSparkMax rotate = new CANSparkMax(1, MotorType.kBrushless);
@@ -56,6 +57,7 @@ public class RobotMap {
       }
     }
 
+    // Top Right Motor
     public static class TR {
       public static CANSparkMax drive = new CANSparkMax(2, MotorType.kBrushless);
       public static CANSparkMax rotate = new CANSparkMax(3, MotorType.kBrushless);
@@ -76,6 +78,7 @@ public class RobotMap {
       }
     }
 
+    // Back Left Motor. 
     public static class BL {
       public static CANSparkMax drive = new CANSparkMax(4, MotorType.kBrushless);
       public static CANSparkMax rotate = new CANSparkMax(5, MotorType.kBrushless);
@@ -96,6 +99,7 @@ public class RobotMap {
       }
     }
 
+    // Back Right Motor. 
     public static class BR {
       public static CANSparkMax drive = new CANSparkMax(6, MotorType.kBrushless);
       public static CANSparkMax rotate = new CANSparkMax(7, MotorType.kBrushless);
@@ -107,7 +111,7 @@ public class RobotMap {
       public static RelativeEncoder driveEncoder = drive.getEncoder(); 
       public static RelativeEncoder rotateEncoder = rotate.getEncoder(); 
       public static CANCoder hardwareRotateEncoder = new CANCoder(3);
-
+      
       public static void driveAngle(double angle) {
         rotatePID.setReference(angle, ControlType.kPosition);
       }
