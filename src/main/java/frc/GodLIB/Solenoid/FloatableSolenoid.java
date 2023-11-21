@@ -1,4 +1,4 @@
-package frc.robot.util;
+package frc.GodLIB.Solenoid;
 
 /**
  * Using two double solenoids to allow floating of piston.

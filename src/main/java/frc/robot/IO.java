@@ -6,7 +6,7 @@
 /*----------------------------------------------------------------------------*/
 package frc.robot;
 
-import edu.wpi.first.wpilibj.XboxController;
+import frc.GodLIB.Controller;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -14,10 +14,12 @@ import edu.wpi.first.wpilibj.XboxController;
  */
 public class IO {
 
-  public XboxController operatorController = new XboxController(RobotMap.OPERATOR_STICK_PORT);
-  public XboxController driverController = new XboxController(RobotMap.DRIVER_STICK_PORT);
+  public Controller driverController = new Controller(RobotMap.DRIVER_STICK_PORT);
+  // public XboxController operatorController = new XboxController(RobotMap.OPERATOR_STICK_PORT);
+  public Controller operatorController = new Controller(RobotMap.OPERATOR_STICK_PORT);
 
   public IO() {
-
+    // operatorController.registerButtonEvent(Button.kA, true, new InstantCommand(() -> driverController.rumble(1, true, true)));
+    // operatorController.registerButtonEvent(Button.kA, false, new InstantCommand(() -> driverController.endRumble()));
   }
 }

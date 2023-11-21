@@ -1,4 +1,4 @@
-package frc.robot.util;
+package frc.GodLIB.Solenoid;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;

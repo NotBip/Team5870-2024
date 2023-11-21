@@ -222,6 +222,21 @@
               "Visuals/Show text": true,
               "Visuals/Orientation": "HORIZONTAL"
             }
+          },
+          "5,5": {
+            "size": [
+              4,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/Inverted",
+              "_title": "Inverted",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
           }
         }
       }
