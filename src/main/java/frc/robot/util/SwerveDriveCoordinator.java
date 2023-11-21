@@ -1,5 +1,7 @@
 package frc.robot.util;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 public class SwerveDriveCoordinator {
     SwerveDriveWheel TLWheel;
@@ -78,9 +80,30 @@ public class SwerveDriveCoordinator {
 
     public void setSwerveDrive(double direction, double translatePower, double turnPower) {
         if ((translatePower == 0.0) && (turnPower != 0.0)) {
+            SmartDashboard.putString("Type", "Inplace");
             inplaceTurn(turnPower);
-        } else {
+        } else if ((translatePower != 0.0) && (turnPower != 0.0)) {
+            SmartDashboard.putString("Type", "Turn While Moving");
             translateTurn(direction, translatePower, turnPower);
+        } else if ((translatePower != 0.0 ) && (turnPower == 0.0)){
+            SmartDashboard.putString("Type", "Translate");
+            translate(direction, translatePower);
+        } else {
+            SmartDashboard.putString("Type", "Idle");
+            TLWheel.setSpeed(translatePower);
+            TRWheel.setSpeed(translatePower);
+            BLWheel.setSpeed(translatePower);
+            BRWheel.setSpeed(translatePower);
         }
+
+
+
+        SmartDashboard.putNumber("Direction", direction);
+        SmartDashboard.putNumber("Turn Power", turnPower);
+        
+        SmartDashboard.putNumber("Top Left Wheel", TLWheel.driveMotors.get());
+        SmartDashboard.putNumber("Top Right Wheel", TRWheel.driveMotors.get());
+        SmartDashboard.putNumber("Bottom Left Wheel", BLWheel.driveMotors.get());
+        SmartDashboard.putNumber("Bottom Right Wheel", BRWheel.driveMotors.get());
     }
 }

@@ -9,7 +9,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.SPI;
-
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
 /**
@@ -23,8 +23,9 @@ public class RobotMap {
   // Gyro
   public static final ADXRS450_Gyro GYRO = new ADXRS450_Gyro(SPI.Port.kOnboardCS2);
   
-  // Left Joystick DeadBand
-  public static final double LeftStickDeadBand = 0.15; 
+  // Joystick DeadBands
+  public static final double LeftStickDeadBand = 0.35; 
+  public static final double RightStickDeadBand = 0.15; 
 
   // Controller
   public static final int DRIVER_STICK_PORT = 0;
