@@ -14,9 +14,8 @@ import frc.GodLIB.Controller;
  */
 public class IO {
 
-  public Controller driverController = new Controller(RobotMap.DRIVER_STICK_PORT);
-  // public XboxController operatorController = new XboxController(RobotMap.OPERATOR_STICK_PORT);
-  public Controller operatorController = new Controller(RobotMap.OPERATOR_STICK_PORT);
+  public XboxController operatorController = new XboxController(RobotMap.OPERATOR_STICK_PORT);
+  public XboxController driverController = new XboxController(RobotMap.DRIVER_STICK_PORT);
 
   public IO() {
     // operatorController.registerButtonEvent(Button.kA, true, new InstantCommand(() -> driverController.rumble(1, true, true)));
