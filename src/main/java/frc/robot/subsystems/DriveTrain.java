@@ -56,10 +56,7 @@ public class DriveTrain extends SubsystemBase {
         SmartDashboard.putNumber("Left Stick", deadzone(getAngle(driverController.getLeftX(), driverController.getLeftY()), RobotMap.LeftStickDeadBand));
         SmartDashboard.putNumber("Right Stick", deadzone(getAngle(driverController.getRightX(), driverController.getRightY()), RobotMap.RightStickDeadBand));
 
-        SmartDashboard.putNumber("Top Left Wheel", TL.drive.get());
-        SmartDashboard.putNumber("Top Right Wheel", TR.drive.get());
-        SmartDashboard.putNumber("Bottom Left Wheel", BL.drive.get());
-        SmartDashboard.putNumber("Bottom Right Wheel", BR.drive.get());
+
 
         // use field centric controls by subtracting off the robot angle
         angle -= RobotMap.GYRO.getAngle();
