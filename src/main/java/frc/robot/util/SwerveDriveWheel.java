@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveDriveWheel {
     public PIDController directionController;
@@ -29,11 +30,13 @@ public class SwerveDriveWheel {
         if (Math.abs(setpointAngle) <= Math.abs(setpointAngleFlipped)) {
             // unflip the motor direction use the setpoint
             driveMotors.setInverted(false);
+            SmartDashboard.putNumber("Wheel Point: ", (currentAngle + setpointAngle));
             directionController.setSetpoint(currentAngle + setpointAngle);
         } else {    
             // if the closest angle to setpoint + 180 is shorter
             // flip the motor direction and use the setpoint + 180
             driveMotors.setInverted(true);
+            SmartDashboard.putNumber("Wheel Point Flipped: ", (currentAngle + setpointAngleFlipped));
             directionController.setSetpoint(currentAngle + setpointAngleFlipped);
         }
     }

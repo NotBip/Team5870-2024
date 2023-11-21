@@ -1,5 +1,11 @@
 package frc.robot.util;
 
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardComponent;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardContainer;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveDriveCoordinator {
     SwerveDriveWheel TLWheel;
@@ -78,9 +84,15 @@ public class SwerveDriveCoordinator {
 
     public void setSwerveDrive(double direction, double translatePower, double turnPower) {
         if ((translatePower == 0.0) && (turnPower != 0.0)) {
+            SmartDashboard.putString("Type", "Inplace");
             inplaceTurn(turnPower);
         } else {
+            SmartDashboard.putString("Type", "Translate");
             translateTurn(direction, translatePower, turnPower);
         }
+
+        SmartDashboard.putNumber("Direction", direction);
+        SmartDashboard.putNumber("Translate Power", translatePower);
+        SmartDashboard.putNumber("Turn Power", turnPower);
     }
 }

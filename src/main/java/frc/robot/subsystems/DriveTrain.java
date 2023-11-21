@@ -6,11 +6,19 @@ import frc.robot.RobotMap.Modules.TL;
 import frc.robot.util.MotorUtils;
 import frc.robot.util.SwerveDriveCoordinator;
 import frc.robot.util.SwerveDriveWheel;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.LayoutType;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import static frc.robot.RobotMap.LeftStickDeadBand;
 import static frc.robot.RobotMap.Modules.*;
+
+import java.util.Map;
 
 /**
  * Auto-executing driving subsystem
@@ -41,11 +49,17 @@ public class DriveTrain extends SubsystemBase {
     }
 
     public void swerveDrive(XboxController driverController) {
-        
         // get joystick input
-        double angle = Math.atan2(driverController.getRightY(), driverController.getRightX());
+        double angle = getAngle(driverController.getLeftX(), driverController.getLeftY());
         double magnitude = deadzone(getPosition(driverController), RobotMap.LeftStickDeadBand);
-        double twist = deadzone(getPosition(driverController), 0.1);
+        double twist = deadzone(driverController.getRightX(), RobotMap.LeftStickDeadBand );
+        SmartDashboard.putNumber("Left Stick", deadzone(getAngle(driverController.getLeftX(), driverController.getLeftY()), RobotMap.LeftStickDeadBand));
+        SmartDashboard.putNumber("Right Stick", deadzone(getAngle(driverController.getRightX(), driverController.getRightY()), RobotMap.RightStickDeadBand));
+
+        SmartDashboard.putNumber("Top Left Wheel", TL.drive.get());
+        SmartDashboard.putNumber("Top Right Wheel", TR.drive.get());
+        SmartDashboard.putNumber("Bottom Left Wheel", BL.drive.get());
+        SmartDashboard.putNumber("Bottom Right Wheel", BR.drive.get());
 
         // use field centric controls by subtracting off the robot angle
         angle -= RobotMap.GYRO.getAngle();
@@ -54,21 +68,21 @@ public class DriveTrain extends SubsystemBase {
     }
 
     public double getPosition(XboxController driverController) {
-        double pos = Math.sqrt(((driverController.getRightX() * driverController.getRightX()) + (driverController.getRightY() * driverController.getRightY())));
+        double pos = Math.sqrt(((driverController.getLeftY() * driverController.getLeftY()) + (driverController.getLeftX() * driverController.getLeftX())));
         // remove if the y axis isn't flipped for school controllers. 
-        pos = driverController.getRightY() > 0 ? -pos : pos; // changed pos*-1 to -pos, not sure if thats gonna cause a problem
+        pos = driverController.getLeftY() > 0 ? -pos : pos; // changed pos*-1 to -pos, not sure if thats gonna cause a problem
         if (pos > 1) pos = 1;
         else if (pos < -1) pos = -1;
         return pos; 
     }
 
-    public double getAngle(XboxController driverController) {
-        double Theta = Math.atan2((double) driverController.getRightY(), (double) driverController.getRightX());
+    public double getAngle(double x, double y) {
+        double Theta = Math.atan2(y, x);
 
-        if (driverController.getRightY() < 0)
+        if (y < 0)
             Theta = Math.abs(Theta); 
 
-        if (driverController.getRightY() > 0) {
+        if (y > 0) {
             double something  = 180 - Math.toDegrees(Theta); 
             double something2 = 180 + something;
             return something2; 
@@ -81,10 +95,8 @@ public class DriveTrain extends SubsystemBase {
         return Math.toDegrees(Theta); 
     }
 
-    private double deadzone(double value, double deadzone)
-    {
-        if (Math.abs(value) < deadzone)
-        {
+    private double deadzone(double value, double deadzone) {
+        if (Math.abs(value) < deadzone) {
             return 0;
         }
         return value;
