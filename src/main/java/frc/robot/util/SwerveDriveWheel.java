@@ -32,13 +32,17 @@ public class SwerveDriveWheel {
             driveMotors.setInverted(false);
             SmartDashboard.putNumber("Wheel Point: ", (currentAngle + setpointAngle));
             directionController.setSetpoint(currentAngle + setpointAngle);
+            driveMotors.set(Math.abs(driveMotors.get()));
+            SmartDashboard.putBoolean("Inverted", false); 
         } else {    
             // if the closest angle to setpoint + 180 is shorter
             // flip the motor direction and use the setpoint + 180
-            driveMotors.setInverted(true);
+            driveMotors.set(-driveMotors.get());
             SmartDashboard.putNumber("Wheel Point Flipped: ", (currentAngle + setpointAngleFlipped));
             directionController.setSetpoint(currentAngle + setpointAngleFlipped);
+            SmartDashboard.putBoolean("Inverted", true); 
         }
+        
     }
 
     public void setSpeed(double speed) {
