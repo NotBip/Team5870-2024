@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.GodLIB.Controller;
 
 /**
@@ -12,7 +14,7 @@ public class IO {
   public Controller operatorController = new Controller(RobotMap.OPERATOR_STICK_PORT);
 
   public IO() {
-    // operatorController.registerButtonEvent(Button.kA, true, new InstantCommand(() -> driverController.rumble(1, true, true)));
-    // operatorController.registerButtonEvent(Button.kA, false, new InstantCommand(() -> driverController.endRumble()));
+    driverController.registerButtonEvent(Button.kA, true, new InstantCommand(() -> driverController.rumble(1, true, true)));
+    driverController.registerButtonEvent(Button.kA, false, new InstantCommand(() -> driverController.endRumble()));
   }
 }
