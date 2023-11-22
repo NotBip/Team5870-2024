@@ -38,7 +38,8 @@ public class SwerveDriveWheel {
     
     public void setDirection(double setpoint) {
         directionController.reset();
-        double currentAngle = rotateEncoder.getPositionConversionFactor();
+        double currentAngle = rotateEncoder.getPosition();
+        SmartDashboard.putNumber("Rotate Encoder Angle", currentAngle);
         double setpointAngle = closestAngle(currentAngle, setpoint);
 
         double setpointAngleFlipped = closestAngle(currentAngle, setpoint + 180.0);
