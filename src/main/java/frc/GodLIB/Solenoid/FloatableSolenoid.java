@@ -43,5 +43,4 @@ public class FloatableSolenoid{
     public boolean isExtended() {
         return extended;
     }
-
 }

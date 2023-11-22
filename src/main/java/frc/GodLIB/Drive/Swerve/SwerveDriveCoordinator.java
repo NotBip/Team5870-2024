@@ -1,7 +1,13 @@
-package frc.robot.util;
+package frc.GodLIB.Drive.Swerve;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+Library for Swerve Drive.
+@author Hamad Mohammed, Tallon Semeniuk
+@version 1.0
+@since September 21, 2023
+*/
 
 public class SwerveDriveCoordinator {
     // Initializing all Wheels. 
@@ -10,15 +16,26 @@ public class SwerveDriveCoordinator {
     SwerveDriveWheel BLWheel;
     SwerveDriveWheel BRWheel;
 
-    // Constructor for all Wheels. 
-    public SwerveDriveCoordinator(SwerveDriveWheel TLWheele, SwerveDriveWheel TRWheele, SwerveDriveWheel BLWheele, SwerveDriveWheel BRWheele) {
-        this.TLWheel = TLWheele;
-        this.TRWheel = TRWheele;
-        this.BLWheel = BLWheele;
-        this.BRWheel = BRWheele;
+    /**
+    Constructor
+    @param TLWheel Top Left wheel.
+    @param TRWheel Top Bottom wheel.
+    @param BLWheel Bottom Left wheel.
+    @param BRWheel Bottom Right wheel.
+    */
+    public SwerveDriveCoordinator(SwerveDriveWheel TLWheel, SwerveDriveWheel TRWheel, SwerveDriveWheel BLWheel, SwerveDriveWheel BRWheel) {
+        this.TLWheel = TLWheel;
+        this.TRWheel = TRWheel;
+        this.BLWheel = BLWheel;
+        this.BRWheel = BRWheel;
     }
 
-    // Method for Translate. 
+    
+    /**
+    Method for translating the robot where all the wheels face the same direction and move in the same direction (Make sure to call it only when input from left JoyStick). 
+    @param direction Wheel direction you would like to set in degrees. 
+    @param power Speed of the driving wheels you would like (1.0 to -1.0)
+    */
     public void translate(double direction, double power) {
         TLWheel.setDirection(direction);
         TRWheel.setDirection(direction);
@@ -31,7 +48,10 @@ public class SwerveDriveCoordinator {
         BRWheel.setSpeed(power);
     }
 
-    // Method for turning robot in Place. 
+    /**
+    Method for turning the robot in place (Make sure to only call when input from right JoyStick). 
+    @param power Speed of the driving wheels you would like (1.0 to -1.0)
+    */
     public void inplaceTurn(double power) {
         TLWheel.setDirection(45.0);
         TRWheel.setDirection(-45.0);
@@ -44,7 +64,12 @@ public class SwerveDriveCoordinator {
         BRWheel.setSpeed(power);
     }
 
-    // Method for turning robot while moving. 
+    /**
+    Method for turning the robot while moving (Call when input from both JoySticks). 
+    @param direction  Direction of the wheels. 
+    @param translatePower Speed of the driving wheels you would like (1.0 to -1.0)/
+    @param turnPower Gets turn speed from (usually) right JoyStick to calculate turnAngle. 
+    */
     public void translateTurn(double direction, double translatePower, double turnPower) {
         double turnAngle = turnPower * 45.0;
 
@@ -83,7 +108,12 @@ public class SwerveDriveCoordinator {
         BRWheel.setSpeed(translatePower);
     }
 
-    // Method to pick the correct method depending on controller input.
+    /**
+    Method to have the robot actually move based on which joyStick you are getting input from.  
+    @param direction  Direction of the wheels. 
+    @param translatePower Speed of the driving wheels you would like (1.0 to -1.0)/
+    @param turnPower Gets turn speed from (usually) right JoyStick to calculate turnAngle. 
+    */
     public void setSwerveDrive(double direction, double translatePower, double turnPower) {
         if ((translatePower == 0.0) && (turnPower != 0.0)) {
             SmartDashboard.putString("Type", "Inplace");

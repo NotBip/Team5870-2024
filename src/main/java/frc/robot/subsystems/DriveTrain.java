@@ -1,12 +1,12 @@
 package frc.robot.subsystems;
 
 import frc.GodLIB.Controller;
+import frc.GodLIB.Drive.Swerve.SwerveDriveCoordinator;
+import frc.GodLIB.Drive.Swerve.SwerveDriveWheel;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.RobotMap.Modules.TL;
 import frc.robot.util.MotorUtils;
-import frc.robot.util.SwerveDriveCoordinator;
-import frc.robot.util.SwerveDriveWheel;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import static frc.robot.RobotMap.Modules.*;

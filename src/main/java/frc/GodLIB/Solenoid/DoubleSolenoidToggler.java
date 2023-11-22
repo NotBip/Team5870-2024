@@ -60,6 +60,4 @@ public class DoubleSolenoidToggler extends DoubleSolenoid {
         extended = false;
         set(DoubleSolenoid.Value.kReverse);
     }
-
-
 }

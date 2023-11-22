@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 
 /**
+Quality of life functions for Xbox Controllers. 
 @author Tallon Semeniuk
 @version 1.0
 @since September 21, 2023
@@ -20,14 +21,15 @@ public class Controller {
     private CommandXboxController commandController;
 
     /**
-    Method used to set ports for XboxController. 
-    */  
+    Constructor
+    @param port The port of the Xbox Controller
+    */
     public Controller(int port) {
         this.commandController = new CommandXboxController(port);
         this.controller = commandController.getHID();
     }
 
-
+    
     /**
     Returns the Xbox Controller
     @return The Xbox Controller 

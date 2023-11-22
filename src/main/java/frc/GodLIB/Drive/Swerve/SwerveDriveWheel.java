@@ -1,4 +1,4 @@
-package frc.robot.util;
+package frc.GodLIB.Drive.Swerve;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -6,13 +6,28 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+Library for Swerve Drive.
+@author Hamad Mohammed, Tallon Semeniuk
+@version 1.0
+@since September 21, 2023
+*/
+
 public class SwerveDriveWheel {
     public PIDController directionController;
     public RelativeEncoder rotateEncoder; 
     public CANSparkMax driveMotors; 
     public CANSparkMax rotateMotors; 
 
-    // Constructor
+    /**
+    Constructor
+    @param P Proportional Gain
+    @param I Integral Gain
+    @param D Derivitave Gain
+    @param encoder Relative Encoder to the rotating motor of the wheel
+    @param drive The Drive motor
+    @param rotate The Rotate motor
+    */
     public SwerveDriveWheel(double P, double I, double D, RelativeEncoder encoder, CANSparkMax drive, CANSparkMax rotate) {
         this.rotateEncoder = encoder; 
         directionController = new PIDController(P, I, D);
@@ -20,7 +35,7 @@ public class SwerveDriveWheel {
         this.rotateMotors = rotate;
     }
 
-    // Find the closes angle and fastest way to get to it and set position. 
+    
     public void setDirection(double setpoint) {
         directionController.reset();
         double currentAngle = rotateEncoder.getPosition();
@@ -42,16 +57,13 @@ public class SwerveDriveWheel {
             SmartDashboard.putNumber("Wheel Point Flipped: ", (currentAngle + setpointAngleFlipped));
             directionController.setSetpoint(currentAngle + setpointAngleFlipped);
             SmartDashboard.putBoolean("Inverted", true); 
-        }
-        
+        }    
     }
-
     
-    // Set Speed for Motors. 
+
     public void setSpeed(double speed) {
         driveMotors.set(speed);
     }
-
 
     // Find the Closing angle to get to position wanted.
     static double closestAngle(double a, double b) {
@@ -65,6 +77,4 @@ public class SwerveDriveWheel {
         
         return dir;
     }
-
-
 }   
