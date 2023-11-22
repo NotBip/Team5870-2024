@@ -38,7 +38,7 @@ public class SwerveDriveWheel {
     
     public void setDirection(double setpoint) {
         directionController.reset();
-        double currentAngle = rotateEncoder.getPosition();
+        double currentAngle = rotateEncoder.getPositionConversionFactor();
         double setpointAngle = closestAngle(currentAngle, setpoint);
 
         double setpointAngleFlipped = closestAngle(currentAngle, setpoint + 180.0);
@@ -76,5 +76,15 @@ public class SwerveDriveWheel {
         }
         
         return dir;
+    }
+
+     /**
+    Converts Encoder's ticks per rotation to angles 
+    @param encoderValue Input the current position of the encoder. 
+    @param TicksPerRotation Input Ticks per Rotation for the encoder. 
+    @return Ticks per rotation converted to angle. 
+    */
+    public double getRotaryAngleByTicks(int encoderValue, int TicksPerRotation){  
+        return (encoderValue % TicksPerRotation) / TicksPerRotation * 30; 
     }
 }   
