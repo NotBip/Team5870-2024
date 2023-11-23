@@ -101,7 +101,7 @@ public class SwerveDriveCoordinator {
             // if it's in the back
             BRWheel.setDirection(direction - turnAngle);
         }
-
+        
         TLWheel.setSpeed(translatePower);
         TRWheel.setSpeed(translatePower);
         BLWheel.setSpeed(translatePower);

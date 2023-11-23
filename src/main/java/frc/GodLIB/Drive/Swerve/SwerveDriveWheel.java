@@ -54,6 +54,8 @@ public class SwerveDriveWheel {
         } else {    
             // if the closest angle to setpoint + 180 is shorter
             // flip the motor direction and use the setpoint + 180
+
+            // Unsure if this actually works? won't know till test. 
             driveMotors.set(-driveMotors.get());
             SmartDashboard.putNumber("Wheel Point Flipped: ", (currentAngle + setpointAngleFlipped));
             directionController.setSetpoint(currentAngle + setpointAngleFlipped);
@@ -61,7 +63,7 @@ public class SwerveDriveWheel {
         }    
     }
     
-
+    
     public void setSpeed(double speed) {
         driveMotors.set(speed);
     }
