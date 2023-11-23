@@ -35,6 +35,23 @@ public class SwerveDriveWheel {
         this.rotateMotors = rotate;
     }
 
+    // /**
+    //  * 
+    //  * @param setpoint The position of the wheel wanted 
+    //  * @return the angle of the wheel after it has been set
+    // */
+    // public double getDirection(double setpoint) {
+    //     directionController.reset();
+    //     double currentAngle = rotateEncoder.getPosition();
+    //     double setpointAngle = closestAngle(currentAngle, setpoint);
+
+    //     double setpointAngleFlipped = closestAngle(currentAngle, setpoint + 180.0);
+
+    //     if (Math.abs(setpointAngle) <= Math.abs(setpointAngleFlipped)) {
+    //         SmartDashboard.putNumber("Wheel Angles", setpointAngle + 180);
+    //     } else {    
+    //         SmartDashboard.putNumber("Wheel Angles", setpointAngleFlipped  + 180);
+    //     }    
     
     public void setDirection(double setpoint) {
         directionController.reset();

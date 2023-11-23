@@ -1,7 +1,90 @@
 {
+  "HALProvider": {
+    "Other Devices": {
+      "ADXRS450[2]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [1]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [2]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [3]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [4]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [5]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [6]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [7]": {
+        "header": {
+          "open": true
+        }
+      }
+    },
+    "RoboRIO": {
+      "3.3V Rail": {
+        "open": true
+      },
+      "5V Rail": {
+        "open": true
+      },
+      "6V Rail": {
+        "open": true
+      },
+      "RoboRIO Input": {
+        "open": true
+      }
+    }
+  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo"
+    }
+  },
+  "NetworkTables": {
+    "transitory": {
+      "FMSInfo": {
+        "open": true
+      },
+      "LiveWindow": {
+        ".status": {
+          "open": true
+        },
+        "open": true
+      },
+      "Shuffleboard": {
+        ".metadata": {
+          "open": true
+        },
+        ".recording": {
+          "open": true
+        },
+        "open": true
+      },
+      "SmartDashboard": {
+        "open": true
+      }
     }
   }
 }

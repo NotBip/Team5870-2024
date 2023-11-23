@@ -266,12 +266,25 @@
         "titleType": 0,
         "tiles": {}
       }
+    },
+    {
+      "title": "Tab 3",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "titleType": 0,
+        "tiles": {}
+      }
     }
   ],
   "windowGeometry": {
     "x": -7.0,
-    "y": -7.0,
+    "y": 0.0,
     "width": 1940.0,
-    "height": 1100.0
+    "height": 1039.0
   }
 }
