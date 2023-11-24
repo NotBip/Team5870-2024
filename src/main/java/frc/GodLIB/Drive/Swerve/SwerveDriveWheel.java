@@ -52,7 +52,7 @@ public class SwerveDriveWheel {
     //     } else {    
     //         SmartDashboard.putNumber("Wheel Angles", setpointAngleFlipped  + 180);
     //     }    
-    
+
     public void setDirection(double setpoint) {
         directionController.reset();
         double currentAngle = rotateEncoder.getPosition();
@@ -63,8 +63,9 @@ public class SwerveDriveWheel {
 
         if (Math.abs(setpointAngle) <= Math.abs(setpointAngleFlipped)) {
             // unflip the motor direction use the setpoint
+            double asdaopsid = currentAngle + setpointAngle;
             driveMotors.setInverted(false);
-            SmartDashboard.putNumber("Wheel Point: ", (currentAngle + setpointAngle));
+            SmartDashboard.putNumber("Wheel Point: ", asdaopsid);
             directionController.setSetpoint(currentAngle + setpointAngle);
             driveMotors.set(Math.abs(driveMotors.get()));
             SmartDashboard.putBoolean("Inverted", false); 

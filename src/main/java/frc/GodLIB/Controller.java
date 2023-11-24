@@ -46,9 +46,9 @@ public class Controller {
     public double getAngle(boolean... rightStick) {
         double y = rightStick.length > 0 && rightStick[0] ? controller.getRightY() : controller.getLeftY();
         double x = rightStick.length > 0 && rightStick[0] ? controller.getRightX() : controller.getLeftX();
-
+        
         double Theta = Math.atan2(y, x);
-
+        
         if (y < 0)
             Theta = Math.abs(Theta); 
 

@@ -1,6 +1,16 @@
 package frc.GodLIB.Drive.Swerve;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardComponent;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Robot;
+import frc.robot.Odometry.SwerveModuleStates;
+import static frc.robot.Odometry.SwerveModuleStates.*; 
 
 /**
 Library for Swerve Drive.
@@ -10,13 +20,13 @@ Library for Swerve Drive.
 */
 
 public class SwerveDriveCoordinator {
+
     // Initializing all Wheels. 
     SwerveDriveWheel TLWheel;
     SwerveDriveWheel TRWheel;
     SwerveDriveWheel BLWheel;
     SwerveDriveWheel BRWheel;
-
-    /**
+   /**
     Constructor
     @param TLWheel Top Left wheel.
     @param TRWheel Top Bottom wheel.
@@ -41,12 +51,16 @@ public class SwerveDriveCoordinator {
         TRWheel.setDirection(direction);
         BLWheel.setDirection(direction);
         BRWheel.setDirection(direction);
-        
+        frontLeft = new SwerveModuleState(20, Rotation2d.fromDegrees(direction));
         TLWheel.setSpeed(power);
         TRWheel.setSpeed(power);
         BLWheel.setSpeed(power);
         BRWheel.setSpeed(power);
+       // Logger.rec
+        //Shuffleboard.getTab("Tab 3").addPersistent("asdasd", frontLeft);
+
     }
+    
 
     /**
     Method for turning the robot in place (Make sure to only call when input from right JoyStick). 
@@ -132,7 +146,7 @@ public class SwerveDriveCoordinator {
             BRWheel.setSpeed(translatePower);
         }
 
-        SmartDashboard.putNumber("Direction", direction);
+        SmartDashboard.putNumber("Direction", Robot.io.driverController.getAngle());
         SmartDashboard.putNumber("Turn Power", turnPower);
         SmartDashboard.putNumber("Top Left Wheel", TLWheel.driveMotors.get());
         SmartDashboard.putNumber("Top Right Wheel", TRWheel.driveMotors.get());
