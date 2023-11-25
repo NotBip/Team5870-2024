@@ -7,6 +7,9 @@ import edu.wpi.first.math.util.Units;
 
 public final class Constants {
 
+    /**
+     * Module for setting constants. 
+     */
     public static final class ModuleConstants {
         public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
         public static final double kDriveMotorGearRatio = 1 / 5.8462;
@@ -18,6 +21,9 @@ public final class Constants {
         public static final double kPTurning = 0.5;
     }
 
+    /**
+     *  Setting Kinmatics and initializing variables for each wheel. 
+     */
     public static final class DriveConstants {
 
         public static final double kTrackWidth = Units.inchesToMeters(21);
@@ -75,22 +81,10 @@ public final class Constants {
         public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
     }
 
-    public static final class AutoConstants {
-        public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 4;
-        public static final double kMaxAngularSpeedRadiansPerSecond = //
-                DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10;
-        public static final double kMaxAccelerationMetersPerSecondSquared = 3;
-        public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 4;
-        public static final double kPXController = 1.5;
-        public static final double kPYController = 1.5;
-        public static final double kPThetaController = 3;
-
-        public static final TrapezoidProfile.Constraints kThetaControllerConstraints = //
-                new TrapezoidProfile.Constraints(
-                        kMaxAngularSpeedRadiansPerSecond,
-                        kMaxAngularAccelerationRadiansPerSecondSquared);
-    }
-
+   
+    /**
+     * Constants for Controller
+     */
     public static final class OIConstants {
         public static final int kDriverControllerPort = 0;
 

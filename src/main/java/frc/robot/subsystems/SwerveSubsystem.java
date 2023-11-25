@@ -15,6 +15,9 @@ import frc.robot.Constants.DriveConstants;
 
 public class SwerveSubsystem extends SubsystemBase {
     
+    /**
+     * Making Swerve Modules for each wheel. 
+     */
     private final SwerveModule frontLeft = new SwerveModule(
         DriveConstants.kFrontLeftDriveMotorPort,
         DriveConstants.kFrontLeftTurningMotorPort,
@@ -51,14 +54,14 @@ public class SwerveSubsystem extends SubsystemBase {
         DriveConstants.kBackRightDriveAbsoluteEncoderOffsetRad,
         DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
 
+    // Initializing Gyros. 
     private ADXRS450_Gyro gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS2);
     private AHRS navx = new AHRS(SPI.Port.kMXP);
 
-
-   static SwerveModuleState[] states;
-
+    // reset gyro position when the robot is turned on. 
     public SwerveSubsystem(){
         new Thread(() -> {
+            // Add delay so it actually resets
             try{
                 Thread.sleep(1000);
                 zeroHeading();
@@ -66,23 +69,40 @@ public class SwerveSubsystem extends SubsystemBase {
         }).start();
     }
 
+    /**
+     * Reset Gyro heading usually only during the initializing. 
+     */
     public void zeroHeading() {
         navx.reset();
     }
 
+    /**
+     * Method to get the current heading of the gyro. Used for swerve
+     * @return The Heading of the gyro in degrees. 
+     */
     public double getHeading() {
         return Math.IEEEremainder(gyro.getAngle(), 360);
     }
 
+    /**
+     * Method to get the rotation. 
+     * @return Rotation2d in degrees. 
+     */
     public Rotation2d getRotation2d() {
         return Rotation2d.fromDegrees(getHeading());
     }
 
+    /**
+     * Get Robot Heading in smart Dashboard. 
+     */
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Robot Heading", getHeading());
     }
 
+    /**
+     * Stop al wheels/modules when called. 
+     */
     public void stopModules() {
         frontLeft.stop();
         frontRight.stop();
@@ -90,6 +110,10 @@ public class SwerveSubsystem extends SubsystemBase {
         backRight.stop();
     }
 
+    /**
+     * sets the state for each modules/wheel.
+     * @param desiredStates Array of state. 
+     */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         frontLeft.setDesiredState(desiredStates[0]);
@@ -97,12 +121,6 @@ public class SwerveSubsystem extends SubsystemBase {
         backLeft.setDesiredState(desiredStates[2]);
         backRight.setDesiredState(desiredStates[3]);
 
-        states = new SwerveModuleState[] {
-            desiredStates[0],
-            desiredStates[1],
-            desiredStates[2],
-            desiredStates[3]
-        };
     }
     
 
