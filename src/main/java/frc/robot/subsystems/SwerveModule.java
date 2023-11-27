@@ -146,12 +146,13 @@ public class SwerveModule {
             return;
         }
         state = SwerveModuleState.optimize(state, getState().angle);
-        SmartDashboard.putNumber("Angle Wheel [" + absoluteEncoder.getChannel() + "] state", state.angle.getDegrees());
-
-        if(state.speedMetersPerSecond > 0)
+        //SmartDashboard.putNumber("Angle Wheel [" + absoluteEncoder.getChannel() + "] Original", state.angle.getDegrees());
+        if(state.speedMetersPerSecond > 0) {
         SmartDashboard.putBoolean("Wheel [" + absoluteEncoder.getChannel() + "] Inverted", false);
-        else
+        SmartDashboard.putNumber("Angle Wheel [" + absoluteEncoder.getChannel() + "] state", state.angle.getDegrees());}
+        else {
         SmartDashboard.putBoolean("Wheel [" + absoluteEncoder.getChannel() + "] Inverted", true);
+        SmartDashboard.putNumber("Angle Wheel [" + absoluteEncoder.getChannel() + "] state", state.angle.getDegrees() + 180);}
 
 
         ;
