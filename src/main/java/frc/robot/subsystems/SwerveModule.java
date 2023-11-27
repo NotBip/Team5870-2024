@@ -146,6 +146,17 @@ public class SwerveModule {
             return;
         }
         state = SwerveModuleState.optimize(state, getState().angle);
+        SmartDashboard.putNumber("Angle Wheel [" + absoluteEncoder.getChannel() + "] state", state.angle.getDegrees());
+
+        if(state.speedMetersPerSecond > 0)
+        SmartDashboard.putBoolean("Wheel [" + absoluteEncoder.getChannel() + "] Inverted", false);
+        else
+        SmartDashboard.putBoolean("Wheel [" + absoluteEncoder.getChannel() + "] Inverted", true);
+
+
+        ;
+        ; 
+      //  System.out.println(state.angle.getDegrees());
         driveMotor.set(state.speedMetersPerSecond / Constants.DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
         SmartDashboard.putString("Swerve[" + absoluteEncoder.getChannel() + "] state", state.toString());
