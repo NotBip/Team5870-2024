@@ -40,10 +40,7 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-       // new JoystickButton(driverJoytick, 2).onTrue(getAutonomousCommand() - > swer)(() -> swerveSubsystem.zeroHeading());
+
     }
 
-//     public Command getAutonomousCommand() {
-//     return 0; 
-// }
 }

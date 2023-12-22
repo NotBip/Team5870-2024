@@ -48,7 +48,7 @@ public class SwerveModule {
         // Set Absolute Encoder Port. 
         this.absoluteEncoderOffsetRad = absoluteEncoderOffset; 
         this.absoluteEncoderReversed = absoluteEncoderReversed; 
-        absoluteEncoder = new AnalogInput(absoluteEncoderId);
+        absoluteEncoder = null;
 
         // Set drive Motor and turning Motor type and port.
         driveMotor = new CANSparkMax(driveMotorId, MotorType.kBrushless);
@@ -113,7 +113,7 @@ public class SwerveModule {
      * @return (Double) Absolute Encoder vol in rads. 
      */
     public double getAbsoluteEncoderRad() {
-        double angle = absoluteEncoder.getVoltage() / RobotController.getVoltage5V();
+        double angle = 0;  //absoluteEncoder.getVoltage() / RobotController.getVoltage5V();
         angle *= 2.0 * Math.PI;
         angle -= absoluteEncoderOffsetRad;
         return angle * (absoluteEncoderReversed ? -1.0 : 1.0);
@@ -147,12 +147,12 @@ public class SwerveModule {
         }
         state = SwerveModuleState.optimize(state, getState().angle);
         //SmartDashboard.putNumber("Angle Wheel [" + absoluteEncoder.getChannel() + "] Original", state.angle.getDegrees());
-        if(state.speedMetersPerSecond > 0) {
-        SmartDashboard.putBoolean("Wheel [" + absoluteEncoder.getChannel() + "] Inverted", false);
-        SmartDashboard.putNumber("Angle Wheel [" + absoluteEncoder.getChannel() + "] state", state.angle.getDegrees());}
-        else {
-        SmartDashboard.putBoolean("Wheel [" + absoluteEncoder.getChannel() + "] Inverted", true);
-        SmartDashboard.putNumber("Angle Wheel [" + absoluteEncoder.getChannel() + "] state", state.angle.getDegrees() + 180);}
+        // if(state.speedMetersPerSecond > 0) {
+        // SmartDashboard.putBoolean("Wheel [" + absoluteEncoder.getChannel() + "] Inverted", false);
+        // SmartDashboard.putNumber("Angle Wheel [" + absoluteEncoder.getChannel() + "] state", state.angle.getDegrees());}
+        // else {
+        // SmartDashboard.putBoolean("Wheel [" + absoluteEncoder.getChannel() + "] Inverted", true);
+        // SmartDashboard.putNumber("Angle Wheel [" + absoluteEncoder.getChannel() + "] state", state.angle.getDegrees() + 180);}
 
 
         ;
@@ -160,7 +160,7 @@ public class SwerveModule {
       //  System.out.println(state.angle.getDegrees());
         driveMotor.set(state.speedMetersPerSecond / Constants.DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
-        SmartDashboard.putString("Swerve[" + absoluteEncoder.getChannel() + "] state", state.toString());
+      //  SmartDashboard.putString("Swerve[" + absoluteEncoder.getChannel() + "] state", state.toString());
     }
 
     /**

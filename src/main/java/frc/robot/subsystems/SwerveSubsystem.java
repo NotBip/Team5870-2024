@@ -56,7 +56,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     // Initializing Gyros. 
     private ADXRS450_Gyro gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS2);
-    private AHRS navx = new AHRS(SPI.Port.kMXP);
+  //  private AHRS navx = new AHRS(SPI.Port.kMXP);
 
     // reset gyro position when the robot is turned on. 
     public SwerveSubsystem(){
@@ -73,7 +73,7 @@ public class SwerveSubsystem extends SubsystemBase {
      * Reset Gyro heading usually only during the initializing. 
      */
     public void zeroHeading() {
-        navx.reset();
+        gyro.reset();
     }
 
     /**
