@@ -67,6 +67,10 @@ public class SwerveSubsystem extends SubsystemBase {
                 zeroHeading();
             } catch (Exception e){}
         }).start();
+        System.out.println("front left enc: " + frontLeft.getTurningPosition());
+        System.out.println("back left enc: " + backLeft.getTurningPosition());
+        System.out.println("front right enc: " + frontRight.getTurningPosition());
+        System.out.println("back right enc: " + backRight.getTurningPosition());
     }
 
     /**
@@ -120,7 +124,6 @@ public class SwerveSubsystem extends SubsystemBase {
         frontRight.setDesiredState(desiredStates[1]);
         backLeft.setDesiredState(desiredStates[2]);
         backRight.setDesiredState(desiredStates[3]);
-
     }
     
 
