@@ -65,12 +65,13 @@ public class SwerveSubsystem extends SubsystemBase {
             try{
                 Thread.sleep(1000);
                 zeroHeading();
+                System.out.println("front left enc: " + frontLeft.getTurningPosition());
+                System.out.println("back left enc: " + backLeft.getTurningPosition());
+                System.out.println("front right enc: " + frontRight.getTurningPosition());
+                System.out.println("back right enc: " + backRight.getTurningPosition());
             } catch (Exception e){}
         }).start();
-        System.out.println("front left enc: " + frontLeft.getTurningPosition());
-        System.out.println("back left enc: " + backLeft.getTurningPosition());
-        System.out.println("front right enc: " + frontRight.getTurningPosition());
-        System.out.println("back right enc: " + backRight.getTurningPosition());
+
     }
 
     /**
