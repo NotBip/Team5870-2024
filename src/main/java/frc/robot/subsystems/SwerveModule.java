@@ -1,6 +1,6 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Constants.ModuleConstants;
+import swervelib.encoders.CANCoderSwerve;
 
 public class SwerveModule {
 
@@ -30,7 +31,7 @@ public class SwerveModule {
     PIDController turningPidController;
 
     // Initalizing ports for encoder. 
-    private final CANCoder absoluteEncoder;
+    private final CANCoderSwerve absoluteEncoder;
     private final boolean absoluteEncoderReversed;
     private double absoluteEncoderOffsetRad;
 
@@ -49,7 +50,7 @@ public class SwerveModule {
         // Set Absolute Encoder Port. 
         this.absoluteEncoderOffsetRad = absoluteEncoderOffset; 
         this.absoluteEncoderReversed = absoluteEncoderReversed; 
-        absoluteEncoder = new CANCoder(absoluteEncoderId);
+        absoluteEncoder = new CANCoderSwerve(absoluteEncoderId);
         // Set drive Motor and turning Motor type and port.
         driveMotor = new CANSparkMax(driveMotorId, MotorType.kBrushless);
         turningMotor = new CANSparkMax(turningMotorId, MotorType.kBrushless);
@@ -113,7 +114,7 @@ public class SwerveModule {
      * @return (Double) Absolute Encoder vol in rads. 
      */
     public double getAbsoluteEncoderRad() {
-        double angle = absoluteEncoder.getBusVoltage() / RobotController.getVoltage5V();
+        double angle = absoluteEncoder.getAbsolutePosition(); 
         angle *= 2.0 * Math.PI;
         angle -= absoluteEncoderOffsetRad;
         return angle * (absoluteEncoderReversed ? -1.0 : 1.0);
@@ -140,7 +141,7 @@ public class SwerveModule {
      * Sets the desired State of the Robots (Angles and Speed). 
      * @param state
      */
-    public void setDesiredState(SwerveModuleState state) {
+    public void setDesiredState(SwerveModuleState state, String wheel) {
         if (Math.abs(state.speedMetersPerSecond) < 0.001) {
             stop();
             return;
@@ -148,7 +149,10 @@ public class SwerveModule {
         state = SwerveModuleState.optimize(state, getState().angle);
         driveMotor.set(state.speedMetersPerSecond / Constants.DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
-      //  SmartDashboard.putString("Swerve[" + absoluteEncoder.getSimCollection() + "] state", state.toString());
+        SmartDashboard.putNumber(wheel, absoluteEncoder.getAbsolutePosition()); 
+        SmartDashboard.putNumber(wheel + " Moving speed", driveMotor.get()); 
+        SmartDashboard.putNumber(wheel + " Turning speed", turningMotor.get()); 
+
     }
 
     /** 
