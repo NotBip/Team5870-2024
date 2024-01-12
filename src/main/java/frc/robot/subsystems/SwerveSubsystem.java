@@ -98,7 +98,7 @@ public class SwerveSubsystem extends SubsystemBase {
      */
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Robot Heading", getHeading());
+    //    SmartDashboard.putNumber("Robot Heading", getHeading());
     }
 
     /**
