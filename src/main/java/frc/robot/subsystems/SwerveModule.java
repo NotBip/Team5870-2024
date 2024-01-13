@@ -150,10 +150,8 @@ public class SwerveModule {
         SmartDashboard.putNumber(wheel, getTurningPosition()); 
         SmartDashboard.putNumber(wheel + " Moving speed", driveMotor.get()); 
         SmartDashboard.putNumber(wheel + " Turning speed", turningMotor.get()); 
-      //  System.out.println("ASD");
-      //  System.out.println(getAbsoluteEncoderRad());
-
     }
+
 
     /** 
      * Stops the Drive Motor and Turning Motor. 

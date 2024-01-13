@@ -123,6 +123,35 @@ public class SwerveSubsystem extends SubsystemBase {
         backRight.setDesiredState(desiredStates[3], "Back Right");
     }
     
+    // ============================================== METHODS FOR ZEROING WHEELS ===================================================
+
+    public boolean zerofrontRight() { 
+        if(frontRight.getAbsoluteEncoderRad() >= -0.009 && frontRight.getAbsoluteEncoderRad() <= 0.009) { 
+            return false; 
+        }
+        else return true; 
+    }
+    
+    public boolean zerofrontLeft() { 
+        if(frontLeft.getAbsoluteEncoderRad() >= -0.009 && frontLeft.getAbsoluteEncoderRad() <= 0.009) { 
+            return false; 
+        }
+        else return true; 
+    }
+
+    public boolean zerobackRight() { 
+        if(backRight.getAbsoluteEncoderRad() >= -0.009 && backRight.getAbsoluteEncoderRad() <= 0.009) { 
+            return false; 
+        }
+        else return true; 
+    }
+
+    public boolean zerobackLeft() { 
+        if(backLeft.getAbsoluteEncoderRad() >= -0.009 && backLeft.getAbsoluteEncoderRad() <= 0.009) { 
+            return false; 
+        }
+        else return true; 
+    }
 
 
 
