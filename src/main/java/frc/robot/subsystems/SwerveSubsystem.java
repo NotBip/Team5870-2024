@@ -15,66 +15,73 @@ import frc.robot.Constants.DriveConstants;
 
 public class SwerveSubsystem extends SubsystemBase {
     
-    /**
-     * Making Swerve Modules for each wheel. 
-     */
-    private final SwerveModule frontLeft = new SwerveModule(
-        DriveConstants.kFrontLeftDriveMotorPort,
-        DriveConstants.kFrontLeftTurningMotorPort,
-        DriveConstants.kFrontLeftDriveEncoderReversed,
-        DriveConstants.kFrontLeftTurningEncoderReversed,
-        DriveConstants.kFrontLeftDriveAbsoluteEncoderPort,
-        DriveConstants.kFrontLeftDriveAbsoluteEncoderOffsetRad,
-        DriveConstants.kFrontLeftDriveAbsoluteEncoderReversed);
+    private SwerveModule frontLeft; 
 
-    private final SwerveModule frontRight = new SwerveModule(
-        DriveConstants.kFrontRightDriveMotorPort,
-        DriveConstants.kFrontRightTurningMotorPort,
-        DriveConstants.kFrontRightDriveEncoderReversed,
-        DriveConstants.kFrontRightTurningEncoderReversed,
-        DriveConstants.kFrontRightDriveAbsoluteEncoderPort,
-        DriveConstants.kFrontRightDriveAbsoluteEncoderOffsetRad,
-        DriveConstants.kFrontRightDriveAbsoluteEncoderReversed);
+    private SwerveModule frontRight;
 
-    private final SwerveModule backLeft = new SwerveModule(
-        DriveConstants.kBackLeftDriveMotorPort,
-        DriveConstants.kBackLeftTurningMotorPort,
-        DriveConstants.kBackLeftDriveEncoderReversed,
-        DriveConstants.kBackLeftTurningEncoderReversed,
-        DriveConstants.kBackLeftDriveAbsoluteEncoderPort,
-        DriveConstants.kBackLeftDriveAbsoluteEncoderOffsetRad,
-        DriveConstants.kBackLeftDriveAbsoluteEncoderReversed);
+    private SwerveModule backLeft;
 
-    private final SwerveModule backRight = new SwerveModule(
-        DriveConstants.kBackRightDriveMotorPort,
-        DriveConstants.kBackRightTurningMotorPort,
-        DriveConstants.kBackRightDriveEncoderReversed,
-        DriveConstants.kBackRightTurningEncoderReversed,
-        DriveConstants.kBackRightDriveAbsoluteEncoderPort,
-        DriveConstants.kBackRightDriveAbsoluteEncoderOffsetRad,
-        DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
+    private SwerveModule backRight;
 
     // Initializing Gyros. 
-    private ADXRS450_Gyro gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS2);
-  //  private AHRS navx = new AHRS(SPI.Port.kMXP);
+   // private ADXRS450_Gyro gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS2);
+      private AHRS navx = new AHRS(SPI.Port.kMXP);
 
-    // reset gyro position when the robot is turned on. 
     public SwerveSubsystem(){
         new Thread(() -> {
-            // Add delay so it actually resets
             try{
                 Thread.sleep(1000);
                 zeroHeading();
             } catch (Exception e){}
         }).start();
 
+        new Thread(() -> {
+            try{
+                    frontLeft = new SwerveModule(
+                    DriveConstants.kFrontLeftDriveMotorPort,
+                    DriveConstants.kFrontLeftTurningMotorPort,
+                    DriveConstants.kFrontLeftDriveEncoderReversed,
+                    DriveConstants.kFrontLeftTurningEncoderReversed,
+                    DriveConstants.kFrontLeftDriveAbsoluteEncoderPort,
+                    DriveConstants.kFrontLeftDriveAbsoluteEncoderOffsetRad,
+                    DriveConstants.kFrontLeftDriveAbsoluteEncoderReversed);
+                    Thread.sleep(500);
+                    frontRight = new SwerveModule(
+                    DriveConstants.kFrontRightDriveMotorPort,
+                    DriveConstants.kFrontRightTurningMotorPort,
+                    DriveConstants.kFrontRightDriveEncoderReversed,
+                    DriveConstants.kFrontRightTurningEncoderReversed,
+                    DriveConstants.kFrontRightDriveAbsoluteEncoderPort,
+                    DriveConstants.kFrontRightDriveAbsoluteEncoderOffsetRad,
+                    DriveConstants.kFrontRightDriveAbsoluteEncoderReversed);
+                    Thread.sleep(500);
+                    backLeft = new SwerveModule(
+                    DriveConstants.kBackLeftDriveMotorPort,
+                    DriveConstants.kBackLeftTurningMotorPort,
+                    DriveConstants.kBackLeftDriveEncoderReversed,
+                    DriveConstants.kBackLeftTurningEncoderReversed,
+                    DriveConstants.kBackLeftDriveAbsoluteEncoderPort,
+                    DriveConstants.kBackLeftDriveAbsoluteEncoderOffsetRad,
+                    DriveConstants.kBackLeftDriveAbsoluteEncoderReversed);
+                    Thread.sleep(500);
+                    backRight = new SwerveModule(
+                    DriveConstants.kBackRightDriveMotorPort,
+                    DriveConstants.kBackRightTurningMotorPort,
+                    DriveConstants.kBackRightDriveEncoderReversed,
+                    DriveConstants.kBackRightTurningEncoderReversed,
+                    DriveConstants.kBackRightDriveAbsoluteEncoderPort,
+                    DriveConstants.kBackRightDriveAbsoluteEncoderOffsetRad,
+                    DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
+                
+            } catch (Exception e){}
+        }).start();
     }
 
     /**
      * Reset Gyro heading usually only during the initializing. 
      */
     public void zeroHeading() {
-        gyro.reset();
+        navx.reset();
     }
 
     /**
@@ -82,7 +89,7 @@ public class SwerveSubsystem extends SubsystemBase {
      * @return The Heading of the gyro in degrees. 
      */
     public double getHeading() {
-        return Math.IEEEremainder(gyro.getAngle(), 360);
+        return Math.IEEEremainder(navx.getAngle(), 360);
     }
 
     /**
