@@ -39,6 +39,9 @@ public class SwerveJoystickCmd extends CommandBase {
     public void initialize() {
 
         // =============================== ZEROING WHEELS TEST LOL ==============================================
+        // new Thread(() -> {
+        //     try{
+        //         Thread.sleep(5000);
 
         // ChassisSpeeds chassisSpeeds; 
 
@@ -91,6 +94,9 @@ public class SwerveJoystickCmd extends CommandBase {
         // chassisSpeeds = new ChassisSpeeds(0, 0, 0);
         // SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
         // swerveSubsystem.setModuleStates(moduleStates);
+    //     } catch (Exception e){}
+    // }).start();
+
     }
 
     @Override
