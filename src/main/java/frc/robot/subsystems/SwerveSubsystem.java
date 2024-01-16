@@ -45,7 +45,7 @@ public class SwerveSubsystem extends SubsystemBase {
                     DriveConstants.kFrontLeftDriveAbsoluteEncoderPort,
                     DriveConstants.kFrontLeftDriveAbsoluteEncoderOffsetRad,
                     DriveConstants.kFrontLeftDriveAbsoluteEncoderReversed);
-                    Thread.sleep(500);
+                    Thread.sleep(200);
                     frontRight = new SwerveModule(
                     DriveConstants.kFrontRightDriveMotorPort,
                     DriveConstants.kFrontRightTurningMotorPort,
@@ -54,7 +54,7 @@ public class SwerveSubsystem extends SubsystemBase {
                     DriveConstants.kFrontRightDriveAbsoluteEncoderPort,
                     DriveConstants.kFrontRightDriveAbsoluteEncoderOffsetRad,
                     DriveConstants.kFrontRightDriveAbsoluteEncoderReversed);
-                    Thread.sleep(500);
+                    Thread.sleep(200);
                     backLeft = new SwerveModule(
                     DriveConstants.kBackLeftDriveMotorPort,
                     DriveConstants.kBackLeftTurningMotorPort,
@@ -63,7 +63,7 @@ public class SwerveSubsystem extends SubsystemBase {
                     DriveConstants.kBackLeftDriveAbsoluteEncoderPort,
                     DriveConstants.kBackLeftDriveAbsoluteEncoderOffsetRad,
                     DriveConstants.kBackLeftDriveAbsoluteEncoderReversed);
-                    Thread.sleep(500);
+                    Thread.sleep(200);
                     backRight = new SwerveModule(
                     DriveConstants.kBackRightDriveMotorPort,
                     DriveConstants.kBackRightTurningMotorPort,

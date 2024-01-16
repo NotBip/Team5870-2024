@@ -41,7 +41,7 @@ public class SwerveJoystickCmd extends CommandBase {
         // =============================== ZEROING WHEELS TEST LOL ==============================================
         // new Thread(() -> {
         //     try{
-        //         Thread.sleep(5000);
+        //         Thread.sleep(2000);
 
         // ChassisSpeeds chassisSpeeds; 
 
