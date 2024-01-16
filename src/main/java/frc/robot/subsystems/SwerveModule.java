@@ -113,7 +113,7 @@ public class SwerveModule {
      */
     public double getAbsoluteEncoderRad() {
         double angle = absoluteEncoder.getAbsolutePosition();
-        angle *= Math.PI/180;
+        angle *= (Math.PI/180);
         angle -= absoluteEncoderOffsetRad;
         return angle * (absoluteEncoderReversed ? -1.0 : 1.0);
     }
@@ -149,7 +149,7 @@ public class SwerveModule {
         turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
         SmartDashboard.putNumber(wheel, getTurningPosition()); 
         SmartDashboard.putNumber(wheel + " Moving speed", driveMotor.get()); 
-        SmartDashboard.putNumber(wheel + " Turning speed", turningMotor.get()); 
+        SmartDashboard.putNumber(wheel + " Turning speed", turningEncoder.getPosition()); 
     }
 
 

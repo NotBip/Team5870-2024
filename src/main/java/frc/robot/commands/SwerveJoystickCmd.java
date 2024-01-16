@@ -37,66 +37,6 @@ public class SwerveJoystickCmd extends CommandBase {
 
     @Override
     public void initialize() {
-
-        // =============================== ZEROING WHEELS TEST LOL ==============================================
-        // new Thread(() -> {
-        //     try{
-        //         Thread.sleep(2000);
-
-        // ChassisSpeeds chassisSpeeds; 
-
-        // while (swerveSubsystem.zerofrontLeft()) {  
-        //     if(!swerveSubsystem.zerofrontLeft()) { 
-        //         chassisSpeeds = new ChassisSpeeds(0, 0, 0);
-        //         SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-        //         swerveSubsystem.setModuleStates(moduleStates);
-        //     }
-        // chassisSpeeds = new ChassisSpeeds(0, 0, 1);
-        // SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-        // swerveSubsystem.setModuleStates(moduleStates);
-        // }
-        
-        // while (swerveSubsystem.zerobackLeft() && !swerveSubsystem.zerofrontLeft()) {  
-        //     if(!swerveSubsystem.zerobackLeft()) { 
-        //         chassisSpeeds = new ChassisSpeeds(0, 0, 0);
-        //         SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-        //         swerveSubsystem.setModuleStates(moduleStates);
-        //     }
-        // chassisSpeeds = new ChassisSpeeds(0, 0, 1);
-        // SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-        // swerveSubsystem.setModuleStates(moduleStates);
-        // } 
-
-        // while (swerveSubsystem.zerofrontRight() && !swerveSubsystem.zerofrontLeft() && !swerveSubsystem.zerobackLeft()) {  
-        //     if(!swerveSubsystem.zerofrontRight()) { 
-        //         chassisSpeeds = new ChassisSpeeds(0, 0, 0);
-        //         SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-        //         swerveSubsystem.setModuleStates(moduleStates);
-        //     }
-        // chassisSpeeds = new ChassisSpeeds(0, 0, 1);
-        // SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-        // swerveSubsystem.setModuleStates(moduleStates);
-        // } 
-
-        // while (swerveSubsystem.zerobackRight() && !swerveSubsystem.zerofrontLeft() && !swerveSubsystem.zerobackLeft() && !swerveSubsystem.zerofrontRight()) {  
-        //     if(!swerveSubsystem.zerobackRight()) { 
-        //         chassisSpeeds = new ChassisSpeeds(0, 0, 0);
-        //         SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-        //         swerveSubsystem.setModuleStates(moduleStates);
-        //     }
-        // chassisSpeeds = new ChassisSpeeds(0, 0, 1);
-        // SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-        // swerveSubsystem.setModuleStates(moduleStates);
-        // } 
-
-
-
-        // chassisSpeeds = new ChassisSpeeds(0, 0, 0);
-        // SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-        // swerveSubsystem.setModuleStates(moduleStates);
-    //     } catch (Exception e){}
-    // }).start();
-
     }
 
     @Override
@@ -114,22 +54,20 @@ public class SwerveJoystickCmd extends CommandBase {
         // 3. Make the driving smoother
         xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
         ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-       turningSpeed = turningLimiter.calculate(turningSpeed)
+        turningSpeed = turningLimiter.calculate(turningSpeed)
                 * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
 
         // 4. Construct desired chassis speeds
         ChassisSpeeds chassisSpeeds;
-        // ---------------------------------------- UNCOMMENT WHEN IT IS FIELD CENTRIC ROBOT ----------------------------------------------
         // if (fieldOrientedFunction.get()) {
         //     // Relative to field
         //     chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
         //             xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());
-        // } else {
+      //  } else {
             // Relative to robot
             chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
-    //    }
-        // --------------------------------------------------------------------------------------------------------------------------------
-        
+       // }
+
         // 5. Convert chassis speeds to individual module states
         SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
 
