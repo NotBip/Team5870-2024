@@ -19,7 +19,7 @@ import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.ModuleConstants;
 //import swervelib.encoders.CANCoderSwerve;
-import frc.robot.commands.SwerveJoystickCmd;
+// import frc.robot.commands.SwerveJoystickCmd;
 
 public class SwerveModule {
     // Initalize the Motors. 
@@ -37,8 +37,7 @@ public class SwerveModule {
     private final CANCoder absoluteEncoder;
     private final boolean absoluteEncoderReversed;
     private double absoluteEncoderOffsetRad;
-    private Robot robot = new Robot(); 
-    private Joystick driverController; 
+
 
     /**
      * Constructor for each Swerve Module. 
@@ -53,7 +52,6 @@ public class SwerveModule {
     public SwerveModule(int driveMotorId, int turningMotorId, boolean driveMotorReversed, boolean turningMotorReversed, int absoluteEncoderId, double absoluteEncoderOffset, boolean absoluteEncoderReversed){
 
         // Set Absolute Encoder Port. 
-        driverController = new Joystick(0);
         this.absoluteEncoderOffsetRad = absoluteEncoderOffset; 
         this.absoluteEncoderReversed = absoluteEncoderReversed; 
         absoluteEncoder = new CANCoder(absoluteEncoderId);
@@ -147,9 +145,6 @@ public class SwerveModule {
      * @param state
      */
     public void setDesiredState(SwerveModuleState state, String wheel) {
-        if (robot.asd)
-            System.out.println("ASD");
-
         if (Math.abs(state.speedMetersPerSecond) < 0.001) {
             stop();
             return;

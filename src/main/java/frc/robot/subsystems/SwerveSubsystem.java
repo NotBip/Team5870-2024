@@ -164,6 +164,14 @@ public class SwerveSubsystem extends SubsystemBase {
         backLeft.setDesiredState(desiredStates[2], "Back Left");
         backRight.setDesiredState(desiredStates[3], "Back Right");
     }
+
+    public void Encoder() { 
+        SmartDashboard.putNumber("Front Left", frontLeft.getAbsoluteEncoderRad());
+        SmartDashboard.putNumber("Front RIght", frontRight.getAbsoluteEncoderRad());
+        SmartDashboard.putNumber("Back Left", backLeft.getAbsoluteEncoderRad());
+        SmartDashboard.putNumber("Back Right", backRight.getAbsoluteEncoderRad());
+
+    }
     
     // ============================================== METHODS FOR ZEROING WHEELS ===================================================
 
