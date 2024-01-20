@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
-// import frc.robot.commands.SwerveJoystickCmd;
+import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class RobotContainer {
@@ -27,21 +27,36 @@ public class RobotContainer {
     public final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
 
     public final Joystick driverJoytick = new Joystick(OIConstants.kDriverControllerPort);
-    public final XboxController driverController = new XboxController(0); 
+    // public final XboxController driverController = new XboxController(0); 
     //Get X and Y axis from the joystick to control the robot
     public RobotContainer() {
-        // swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
-        //         swerveSubsystem,
-        //         () -> -driverJoytick.getRawAxis(OIConstants.kDriverYAxis),
-        //         () -> -driverJoytick.getRawAxis(OIConstants.kDriverXAxis),
-        //         () -> driverJoytick.getRawAxis(OIConstants.kDriverRotAxis),
-        //         () -> !driverJoytick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
+        swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
+                swerveSubsystem,
+                () -> -driverJoytick.getRawAxis(OIConstants.kDriverYAxis),
+                () -> -driverJoytick.getRawAxis(OIConstants.kDriverXAxis),
+                () -> driverJoytick.getRawAxis(OIConstants.kDriverRotAxis),
+                () -> !driverJoytick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
 
-        // configureButtonBindings(); 
+        configureButtonBindings(); 
     }
 
     private void configureButtonBindings() {
 
+    }
+
+    public double getRotAxis() { 
+        return driverJoytick.getRawAxis(OIConstants.kDriverRotAxis);
+    }
+
+    public double getLeftXJoyStick() { 
+        return driverJoytick.getRawAxis(OIConstants.kDriverXAxis); 
+    }
+    public double getLeftYJoyStick() { 
+        return driverJoytick.getRawAxis(OIConstants.kDriverYAxis); 
+    }
+
+    public SwerveSubsystem getSwerveSubsystem() { 
+        return swerveSubsystem; 
     }
 
 

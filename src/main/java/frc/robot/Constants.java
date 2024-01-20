@@ -31,10 +31,10 @@ public final class Constants {
         public static final double kWheelBase = Units.inchesToMeters(35);
         // Distance between front and back wheels
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
-                new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
-                new Translation2d(kWheelBase / 2, kTrackWidth / 2),
-                new Translation2d(-kWheelBase / 2, -kTrackWidth / 2),
-                new Translation2d(-kWheelBase / 2, kTrackWidth / 2));
+            new Translation2d(kWheelBase / 2, kTrackWidth / 2),
+            new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
+            new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
+            new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
 
         public static final int kFrontLeftDriveMotorPort = 1;
         public static final int kBackLeftDriveMotorPort = 3;
@@ -66,10 +66,10 @@ public final class Constants {
         public static final boolean kFrontRightDriveAbsoluteEncoderReversed = false;
         public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
 
-        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 3.856493719956616;
-        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 2.41448576123;
-        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 5.956493719956616;
-        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = .13038836697028;
+        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 3.896311201229528;
+        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 2.34392264388926;
+        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 5.971787207238801;
+        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 0.159534001940107; 
 
         public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
@@ -93,6 +93,6 @@ public final class Constants {
         public static final int kDriverRotAxis = 4;
         public static final int kDriverFieldOrientedButtonIdx = 1;
 
-        public static final double kDeadband = 0.08;
+        public static final double kDeadband = 0.1;
     }
 }

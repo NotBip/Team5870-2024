@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
@@ -37,6 +38,7 @@ public class SwerveModule {
     private final CANCoder absoluteEncoder;
     private final boolean absoluteEncoderReversed;
     private double absoluteEncoderOffsetRad;
+    public double offset = 0; 
 
 
     /**
@@ -119,6 +121,7 @@ public class SwerveModule {
     public double getAbsoluteEncoderRad() {
         double angle = absoluteEncoder.getAbsolutePosition();
         angle *= (Math.PI/180);
+        // angle += offset; 
         angle -= absoluteEncoderOffsetRad;
         return angle * (absoluteEncoderReversed ? -1.0 : 1.0);
     }
@@ -145,14 +148,17 @@ public class SwerveModule {
      * @param state
      */
     public void setDesiredState(SwerveModuleState state, String wheel) {
+        // SmartDashboard.putNumber("Gyro", )
         if (Math.abs(state.speedMetersPerSecond) < 0.001) {
             stop();
             return;
         }
+        //System.out.println("asd");
+
         state = SwerveModuleState.optimize(state, getState().angle);
         driveMotor.set(state.speedMetersPerSecond / Constants.DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
-        SmartDashboard.putNumber(wheel, getTurningPosition()); 
+        SmartDashboard.putNumber("GET TURNING POSITONS", getState().angle.getRadians()); 
         SmartDashboard.putNumber(wheel + " Moving speed", driveMotor.get()); 
         SmartDashboard.putNumber(wheel + " Turning speed", turningEncoder.getPosition()); 
     }
