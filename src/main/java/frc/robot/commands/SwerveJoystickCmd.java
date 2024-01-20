@@ -58,24 +58,32 @@ public class SwerveJoystickCmd extends CommandBase {
         // 3. Make the driving smoother
         xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
         ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-        turningSpeed = turningLimiter.calculate(turningSpeed)
-               * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
+     
+        if(turningSpeed != 0.0)
+            turningSpeed = Math.PI/2; 
+        else 
+            turningSpeed = 0; 
 
         // 4. Construct desired chassis speeds
         ChassisSpeeds chassisSpeeds;
-        // if (fieldOrientedFunction.get()) {
+        if (fieldOrientedFunction.get()) {
             // Relative to field
-            // chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-            //         xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());
-    //    } else {
+            chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+                    xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());
+       } else {
     //         // Relative to robot
+
             chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
-    //    }
+        }
         SmartDashboard.putNumber("TURNING SPEED", turningSpeed);
         // 5. Convert chassis speeds to individual module states
         SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-
+        SmartDashboard.putBoolean("FIELD ORIENT", fieldOrientedFunction.get()); 
         // 6. Output each module states to wheels
+        SmartDashboard.putNumber("Turning Speed", turningSpeed); 
+        SmartDashboard.putNumber("x Speed", xSpeed); 
+        SmartDashboard.putNumber("y Speed", ySpeed); 
+        SmartDashboard.putNumber("Rotation", swerveSubsystem.getRotation2d().getRadians());
         swerveSubsystem.setModuleStates(moduleStates);
     }
 
