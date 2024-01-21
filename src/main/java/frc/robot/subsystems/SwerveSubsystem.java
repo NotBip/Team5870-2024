@@ -54,6 +54,7 @@ public class SwerveSubsystem extends SubsystemBase {
     // Initializing Gyros. 
    // private ADXRS450_Gyro gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS2);
       private AHRS navx = new AHRS(SPI.Port.kMXP);
+      private final AHRS gyro = new AHRS(SPI.Port.kMXP);
 
     public SwerveSubsystem(){
         new Thread(() -> {
@@ -132,7 +133,9 @@ public class SwerveSubsystem extends SubsystemBase {
      * @return Rotation2d in degrees. 
      */
     public Rotation2d getRotation2d() {
-        return Rotation2d.fromDegrees(getHeading());
+        return Rotation2d.fromDegrees(navx.getFusedHeading());
+        // return Rotation2d.fromDegrees(-navx.getYaw());
+
     }
 
     /**
