@@ -122,10 +122,10 @@ public class SwerveSubsystem extends SubsystemBase {
 
     /**
      * Method to get the current heading of the gyro. Used for swerve
-     * @return The Heading of the gyro in degrees. 
+     * @return The Heading of the gyro in degrees.  
      */
     public double getHeading() {
-        return Math.IEEEremainder(navx.getAngle(), 360); 
+        return Math.IEEEremainder(-navx.getAngle(), 360); 
     }
 
     /**
@@ -133,8 +133,8 @@ public class SwerveSubsystem extends SubsystemBase {
      * @return Rotation2d in degrees. 
      */
     public Rotation2d getRotation2d() {
-        return Rotation2d.fromDegrees(navx.getFusedHeading());
-        // return Rotation2d.fromDegrees(-navx.getYaw());
+        //return Rotation2d.fromDegrees(-navx.getFusedHeading());
+         return Rotation2d.fromDegrees(-navx.getYaw());
 
     }
 

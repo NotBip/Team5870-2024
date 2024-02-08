@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
   // public boolean asd; 
-  // private VictorSP motor; 
+  //  private VictorSP motor; 
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -55,7 +55,7 @@ public class Robot extends TimedRobot {
     //     this.xLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
     //     this.yLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
     //     this.turningLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
-    // motor = new VictorSP(9); 
+    //  motor = new VictorSP(6); 
    // asd = m_robotContainer.button(); 
   }
 
@@ -128,7 +128,7 @@ public class Robot extends TimedRobot {
    
    
    
-    // motor.set(-m_robotContainer.driverController.getRightTriggerAxis());
+    //  motor.set(-m_robotContainer.driverController.getRightTriggerAxis());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
