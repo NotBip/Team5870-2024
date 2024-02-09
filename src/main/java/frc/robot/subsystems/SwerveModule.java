@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Joystick;
@@ -75,7 +76,6 @@ public class SwerveModule {
         driveEncoder.setVelocityConversionFactor(ModuleConstants.kDriveEncoderRPM2MeterPerSec);
         turningEncoder.setPositionConversionFactor(ModuleConstants.kTurningEncoderRot2Rad);
         turningEncoder.setVelocityConversionFactor(ModuleConstants.kTurningEncoderRPM2RadPerSec);
-        System.out.println(modNum + driveMotorId);
         // Initialzing PID Controller. 
         turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI);
@@ -163,6 +163,12 @@ public class SwerveModule {
         // SmartDashboard.putNumber("GET TURNING POSITONS", getState().angle.getRadians()); 
         // SmartDashboard.putNumber(wheel + " Moving speed", driveMotor.get()); 
         // SmartDashboard.putNumber(wheel + " Turning speed", turningEncoder.getPosition()); 
+    }
+
+    public SwerveModulePosition getPositions(){ 
+        return new SwerveModulePosition(
+            driveEncoder.getPosition(), 
+            getState().angle);
     }
 
 

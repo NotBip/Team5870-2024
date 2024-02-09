@@ -141,21 +141,20 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void resetOdometry(Pose2d pose) { 
-        odometer.resetPosition(getRotation2d(), null, pose);
+        odometer.resetPosition(getRotation2d(), getModulePositions(), pose);
     }
 
-    /**
-     * Get Robot Heading in smart Dashboard. 
-     */
     @Override
     public void periodic() {
-       SmartDashboard.putNumber("Robot Heading", getHeading());
+        odometer.update(getRotation2d(), getModulePositions());
+        SmartDashboard.putNumber("Robot Heading", getHeading());
+        SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
     }
 
     public SwerveModulePosition[] getModulePositions(){
         SwerveModulePosition[] positions = new SwerveModulePosition[4];
         for(SwerveModule mod : SwerveMods){
-            // positions[mod.modNum] = mod.getPosition();
+             positions[mod.modNum] = mod.getPositions();
         }
         return positions;
     }
