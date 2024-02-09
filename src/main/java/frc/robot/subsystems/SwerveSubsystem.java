@@ -2,59 +2,63 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.SPI;
+import frc.robot.Constants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 
 
 
 public class SwerveSubsystem extends SubsystemBase {
     
-    public final SwerveModule frontLeft = new SwerveModule(
-        DriveConstants.kFrontLeftDriveMotorPort,
-        DriveConstants.kFrontLeftTurningMotorPort,
-        DriveConstants.kFrontLeftDriveEncoderReversed,
-        DriveConstants.kFrontLeftTurningEncoderReversed,
-        DriveConstants.kFrontLeftDriveAbsoluteEncoderPort,
-        DriveConstants.kFrontLeftDriveAbsoluteEncoderOffsetRad,
-        DriveConstants.kFrontLeftDriveAbsoluteEncoderReversed);
+    // public final SwerveModule frontLeft = new SwerveModule(
+    //     DriveConstants.kFrontLeftDriveMotorPort,
+    //     DriveConstants.kFrontLeftTurningMotorPort,
+    //     DriveConstants.kFrontLeftDriveEncoderReversed,
+    //     DriveConstants.kFrontLeftTurningEncoderReversed,
+    //     DriveConstants.kFrontLeftDriveAbsoluteEncoderPort,
+    //     DriveConstants.kFrontLeftDriveAbsoluteEncoderOffsetRad,
+    //     DriveConstants.kFrontLeftDriveAbsoluteEncoderReversed);
 
-    public final SwerveModule frontRight = new SwerveModule(
-        DriveConstants.kFrontRightDriveMotorPort,
-        DriveConstants.kFrontRightTurningMotorPort,
-        DriveConstants.kFrontRightDriveEncoderReversed,
-        DriveConstants.kFrontRightTurningEncoderReversed,
-        DriveConstants.kFrontRightDriveAbsoluteEncoderPort,
-        DriveConstants.kFrontRightDriveAbsoluteEncoderOffsetRad,
-        DriveConstants.kFrontRightDriveAbsoluteEncoderReversed);
+    // public final SwerveModule frontRight = new SwerveModule(
+    //     DriveConstants.kFrontRightDriveMotorPort,
+    //     DriveConstants.kFrontRightTurningMotorPort,
+    //     DriveConstants.kFrontRightDriveEncoderReversed,
+    //     DriveConstants.kFrontRightTurningEncoderReversed,
+    //     DriveConstants.kFrontRightDriveAbsoluteEncoderPort,
+    //     DriveConstants.kFrontRightDriveAbsoluteEncoderOffsetRad,
+    //     DriveConstants.kFrontRightDriveAbsoluteEncoderReversed);
 
-    public final SwerveModule backLeft = new SwerveModule(
-        DriveConstants.kBackLeftDriveMotorPort,
-        DriveConstants.kBackLeftTurningMotorPort,
-        DriveConstants.kBackLeftDriveEncoderReversed,
-        DriveConstants.kBackLeftTurningEncoderReversed,
-        DriveConstants.kBackLeftDriveAbsoluteEncoderPort,
-        DriveConstants.kBackLeftDriveAbsoluteEncoderOffsetRad,
-        DriveConstants.kBackLeftDriveAbsoluteEncoderReversed);
+    // public final SwerveModule backLeft = new SwerveModule(
+    //     DriveConstants.kBackLeftDriveMotorPort,
+    //     DriveConstants.kBackLeftTurningMotorPort,
+    //     DriveConstants.kBackLeftDriveEncoderReversed,
+    //     DriveConstants.kBackLeftTurningEncoderReversed,
+    //     DriveConstants.kBackLeftDriveAbsoluteEncoderPort,
+    //     DriveConstants.kBackLeftDriveAbsoluteEncoderOffsetRad,
+    //     DriveConstants.kBackLeftDriveAbsoluteEncoderReversed);
 
-    public final SwerveModule backRight = new SwerveModule(
-        DriveConstants.kBackRightDriveMotorPort,
-        DriveConstants.kBackRightTurningMotorPort,
-        DriveConstants.kBackRightDriveEncoderReversed,
-        DriveConstants.kBackRightTurningEncoderReversed,
-        DriveConstants.kBackRightDriveAbsoluteEncoderPort,
-        DriveConstants.kBackRightDriveAbsoluteEncoderOffsetRad,
-        DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
-
-    // Initializing Gyros. 
-   // private ADXRS450_Gyro gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS2);
-      private AHRS navx = new AHRS(SPI.Port.kMXP);
-      private final AHRS gyro = new AHRS(SPI.Port.kMXP);
+    // public final SwerveModule backRight = new SwerveModule(
+    //     DriveConstants.kBackRightDriveMotorPort,
+    //     DriveConstants.kBackRightTurningMotorPort,
+    //     DriveConstants.kBackRightDriveEncoderReversed,
+    //     DriveConstants.kBackRightTurningEncoderReversed,
+    //     DriveConstants.kBackRightDriveAbsoluteEncoderPort,
+    //     DriveConstants.kBackRightDriveAbsoluteEncoderOffsetRad,
+    //     DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
+    
+    private AHRS navx = new AHRS(SPI.Port.kMXP);
+    public SwerveModule[] SwerveMods;
+    private SwerveDriveOdometry odometer; 
 
     public SwerveSubsystem(){
         new Thread(() -> {
@@ -64,53 +68,47 @@ public class SwerveSubsystem extends SubsystemBase {
             } catch (Exception e){}
         }).start();
 
-        // new Thread(() -> {
-        //     try{
-        //             frontLeft = new SwerveModule(
-        //             DriveConstants.kFrontLeftDriveMotorPort,
-        //             DriveConstants.kFrontLeftTurningMotorPort,
-        //             DriveConstants.kFrontLeftDriveEncoderReversed,
-        //             DriveConstants.kFrontLeftTurningEncoderReversed,
-        //             DriveConstants.kFrontLeftDriveAbsoluteEncoderPort,
-        //             DriveConstants.kFrontLeftDriveAbsoluteEncoderOffsetRad,
-        //             DriveConstants.kFrontLeftDriveAbsoluteEncoderReversed);
-        //             System.out.println("WHEEL 1");
+            SwerveMods = new SwerveModule[] {
+                new SwerveModule(
+                    0,
+                    DriveConstants.kFrontLeftDriveMotorPort,
+                    DriveConstants.kFrontLeftTurningMotorPort,
+                    DriveConstants.kFrontLeftDriveEncoderReversed,
+                    DriveConstants.kFrontLeftTurningEncoderReversed,
+                    DriveConstants.kFrontLeftDriveAbsoluteEncoderPort,
+                    DriveConstants.kFrontLeftDriveAbsoluteEncoderOffsetRad,
+                    DriveConstants.kFrontLeftDriveAbsoluteEncoderReversed),
+                new SwerveModule(
+                    1,
+                    DriveConstants.kFrontRightDriveMotorPort,
+                    DriveConstants.kFrontRightTurningMotorPort,
+                    DriveConstants.kFrontRightDriveEncoderReversed,
+                    DriveConstants.kFrontRightTurningEncoderReversed,
+                    DriveConstants.kFrontRightDriveAbsoluteEncoderPort,
+                    DriveConstants.kFrontRightDriveAbsoluteEncoderOffsetRad,
+                    DriveConstants.kFrontRightDriveAbsoluteEncoderReversed),
+                new SwerveModule(
+                    2,
+                    DriveConstants.kBackLeftDriveMotorPort,
+                    DriveConstants.kBackLeftTurningMotorPort,
+                    DriveConstants.kBackLeftDriveEncoderReversed,
+                    DriveConstants.kBackLeftTurningEncoderReversed,
+                    DriveConstants.kBackLeftDriveAbsoluteEncoderPort,
+                    DriveConstants.kBackLeftDriveAbsoluteEncoderOffsetRad,
+                    DriveConstants.kBackLeftDriveAbsoluteEncoderReversed),
+                new SwerveModule(
+                    3,
+                    DriveConstants.kBackRightDriveMotorPort,
+                    DriveConstants.kBackRightTurningMotorPort,
+                    DriveConstants.kBackRightDriveEncoderReversed,
+                    DriveConstants.kBackRightTurningEncoderReversed,
+                    DriveConstants.kBackRightDriveAbsoluteEncoderPort,
+                    DriveConstants.kBackRightDriveAbsoluteEncoderOffsetRad,
+                    DriveConstants.kBackRightDriveAbsoluteEncoderReversed)
+        };
 
-        //             Thread.sleep(500);
-        //             frontRight = new SwerveModule(
-        //             DriveConstants.kFrontRightDriveMotorPort,
-        //             DriveConstants.kFrontRightTurningMotorPort,
-        //             DriveConstants.kFrontRightDriveEncoderReversed,
-        //             DriveConstants.kFrontRightTurningEncoderReversed,
-        //             DriveConstants.kFrontRightDriveAbsoluteEncoderPort,
-        //             DriveConstants.kFrontRightDriveAbsoluteEncoderOffsetRad,
-        //             DriveConstants.kFrontRightDriveAbsoluteEncoderReversed);
-        //             System.out.println("WHEEL 2");
+        odometer = new SwerveDriveOdometry(Constants.DriveConstants.kDriveKinematics, new Rotation2d(0), getModulePositions());
 
-        //             Thread.sleep(500);
-        //             backLeft = new SwerveModule(
-        //             DriveConstants.kBackLeftDriveMotorPort,
-        //             DriveConstants.kBackLeftTurningMotorPort,
-        //             DriveConstants.kBackLeftDriveEncoderReversed,
-        //             DriveConstants.kBackLeftTurningEncoderReversed,
-        //             DriveConstants.kBackLeftDriveAbsoluteEncoderPort,
-        //             DriveConstants.kBackLeftDriveAbsoluteEncoderOffsetRad,
-        //             DriveConstants.kBackLeftDriveAbsoluteEncoderReversed);
-        //             System.out.println("WHEEL 3");
-
-        //             Thread.sleep(500);
-        //             backRight = new SwerveModule(
-        //             DriveConstants.kBackRightDriveMotorPort,
-        //             DriveConstants.kBackRightTurningMotorPort,
-        //             DriveConstants.kBackRightDriveEncoderReversed,
-        //             DriveConstants.kBackRightTurningEncoderReversed,
-        //             DriveConstants.kBackRightDriveAbsoluteEncoderPort,
-        //             DriveConstants.kBackRightDriveAbsoluteEncoderOffsetRad,
-        //             DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
-        //             System.out.println("WHEEL 4");
-                
-        //     } catch (Exception e){}
-        // }).start();
     }
 
     /**
@@ -138,6 +136,14 @@ public class SwerveSubsystem extends SubsystemBase {
 
     }
 
+    public Pose2d getPose() { 
+        return odometer.getPoseMeters(); 
+    }
+
+    public void resetOdometry(Pose2d pose) { 
+        odometer.resetPosition(getRotation2d(), null, pose);
+    }
+
     /**
      * Get Robot Heading in smart Dashboard. 
      */
@@ -146,14 +152,22 @@ public class SwerveSubsystem extends SubsystemBase {
        SmartDashboard.putNumber("Robot Heading", getHeading());
     }
 
+    public SwerveModulePosition[] getModulePositions(){
+        SwerveModulePosition[] positions = new SwerveModulePosition[4];
+        for(SwerveModule mod : SwerveMods){
+            // positions[mod.modNum] = mod.getPosition();
+        }
+        return positions;
+    }
+
     /**
      * Stop al wheels/modules when called. 
      */
     public void stopModules() {
-        frontLeft.stop();
-        frontRight.stop();
-        backLeft.stop();
-        backRight.stop();
+        SwerveMods[0].stop();
+        SwerveMods[1].stop();
+        SwerveMods[2].stop();
+        SwerveMods[3].stop();
     }
 
     /**
@@ -161,52 +175,19 @@ public class SwerveSubsystem extends SubsystemBase {
      * @param desiredStates Array of state. 
      */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
-        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
-        frontLeft.setDesiredState(desiredStates[0], "Front Left");
-        frontRight.setDesiredState(desiredStates[1], "Front Right");
-        backLeft.setDesiredState(desiredStates[2], "Back Left");
-        backRight.setDesiredState(desiredStates[3], "Back Right");
+        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kPhysicalMaxSpeedMetersPerSecond*2);
+        SwerveMods[0].setDesiredState(desiredStates[0], "Front Left");
+        SwerveMods[1].setDesiredState(desiredStates[1], "Front Right");
+        SwerveMods[2].setDesiredState(desiredStates[2], "Back Left");
+        SwerveMods[3].setDesiredState(desiredStates[3], "Back Right");
         SmartDashboard.putNumber("LJKSAD", navx.getAngle());
     }
 
     public void Encoder() { 
-        SmartDashboard.putNumber("Front Left", frontLeft.getAbsoluteEncoderRad());
-        SmartDashboard.putNumber("Front RIght", frontRight.getAbsoluteEncoderRad());
-        SmartDashboard.putNumber("Back Left", backLeft.getAbsoluteEncoderRad());
-        SmartDashboard.putNumber("Back Right", backRight.getAbsoluteEncoderRad());
-
+        SmartDashboard.putNumber("Front Left", SwerveMods[0].getAbsoluteEncoderRad());
+        SmartDashboard.putNumber("Front RIght", SwerveMods[1].getAbsoluteEncoderRad());
+        SmartDashboard.putNumber("Back Left", SwerveMods[2].getAbsoluteEncoderRad());
+        SmartDashboard.putNumber("Back Right", SwerveMods[3].getAbsoluteEncoderRad());
     }
-    
-    // ============================================== METHODS FOR ZEROING WHEELS ===================================================
-
-//     public boolean zerofrontRight() { 
-//         if(frontRight.getAbsoluteEncoderRad() >= -0.009 && frontRight.getAbsoluteEncoderRad() <= 0.009) { 
-//             return false; 
-//         }
-//         else return true; 
-//     }
-    
-//     public boolean zerofrontLeft() { 
-//         if(frontLeft.getAbsoluteEncoderRad() >= -0.009 && frontLeft.getAbsoluteEncoderRad() <= 0.009) { 
-//             return false; 
-//         }
-//         else return true; 
-//     }
-
-//     public boolean zerobackRight() { 
-//         if(backRight.getAbsoluteEncoderRad() >= -0.009 && backRight.getAbsoluteEncoderRad() <= 0.009) { 
-//             return false; 
-//         }
-//         else return true; 
-//     }
-
-//     public boolean zerobackLeft() { 
-//         if(backLeft.getAbsoluteEncoderRad() >= -0.009 && backLeft.getAbsoluteEncoderRad() <= 0.009) { 
-//             return false; 
-//         }
-//         else return true; 
-//     }
-
-
 
  }

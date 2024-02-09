@@ -24,6 +24,7 @@ import frc.robot.Constants.ModuleConstants;
 
 public class SwerveModule {
     // Initalize the Motors. 
+    public int modNum; 
     private final CANSparkMax driveMotor; 
     private final CANSparkMax turningMotor; 
 
@@ -51,9 +52,10 @@ public class SwerveModule {
      * @param absoluteEncoderOffset absolute Encoder offset
      * @param absoluteEncoderReversed   Boolean if Absolute Encoder is Reversed. 
      */
-    public SwerveModule(int driveMotorId, int turningMotorId, boolean driveMotorReversed, boolean turningMotorReversed, int absoluteEncoderId, double absoluteEncoderOffset, boolean absoluteEncoderReversed){
+    public SwerveModule(int modNum, int driveMotorId, int turningMotorId, boolean driveMotorReversed, boolean turningMotorReversed, int absoluteEncoderId, double absoluteEncoderOffset, boolean absoluteEncoderReversed){
 
         // Set Absolute Encoder Port. 
+        this.modNum = modNum; 
         this.absoluteEncoderOffsetRad = absoluteEncoderOffset; 
         this.absoluteEncoderReversed = absoluteEncoderReversed; 
         absoluteEncoder = new CANCoder(absoluteEncoderId);
@@ -73,7 +75,7 @@ public class SwerveModule {
         driveEncoder.setVelocityConversionFactor(ModuleConstants.kDriveEncoderRPM2MeterPerSec);
         turningEncoder.setPositionConversionFactor(ModuleConstants.kTurningEncoderRot2Rad);
         turningEncoder.setVelocityConversionFactor(ModuleConstants.kTurningEncoderRPM2RadPerSec);
-
+        System.out.println(modNum + driveMotorId);
         // Initialzing PID Controller. 
         turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI);

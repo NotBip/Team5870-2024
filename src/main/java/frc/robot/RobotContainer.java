@@ -28,6 +28,7 @@ public class RobotContainer {
 
     public final Joystick driverJoytick = new Joystick(OIConstants.kDriverControllerPort);
     // s public final XboxController driverController = new XboxController(0); 
+    
     //Get X and Y axis from the joystick to control the robot
     public RobotContainer() {
         swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
@@ -43,22 +44,5 @@ public class RobotContainer {
     private void configureButtonBindings() {
 
     }
-
-    public double getRotAxis() { 
-        return driverJoytick.getRawAxis(OIConstants.kDriverRotAxis);
-    }
-
-    public double getLeftXJoyStick() { 
-        return driverJoytick.getRawAxis(OIConstants.kDriverXAxis); 
-    }
-    public double getLeftYJoyStick() { 
-        return driverJoytick.getRawAxis(OIConstants.kDriverYAxis); 
-    }
-
-    public SwerveSubsystem getSwerveSubsystem() { 
-        return swerveSubsystem; 
-    }
-
-
 
 }
