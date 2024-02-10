@@ -43,12 +43,14 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        new JoystickButton(driverJoytick, 2).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));        
+        new JoystickButton(driverJoytick, 9).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));      
+        new JoystickButton(driverJoytick, 2).onTrue(new InstantCommand(() -> swerveSubsystem.alignAprilTag(6)));      
         // if(driverController.getRawButtonPressed(2))
         //     swerveSubsystem.zeroHeading();
     }
 
     public Command getAutonomousCommand() {
+
         // 1. Create trajectory settings
         TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
                 AutoConstants.kMaxSpeedMetersPerSecond,
