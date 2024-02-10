@@ -64,7 +64,7 @@ public class SwerveSubsystem extends SubsystemBase {
         new Thread(() -> {
             try{
                 Thread.sleep(1000);
-                zeroHeading();
+                 zeroHeading();
             } catch (Exception e){}
         }).start();
 
@@ -115,7 +115,7 @@ public class SwerveSubsystem extends SubsystemBase {
      * Reset Gyro heading usually only during the initializing. 
      */
     public void zeroHeading() {
-        navx.reset();
+        navx.reset(); 
     }
 
     /**
@@ -149,6 +149,7 @@ public class SwerveSubsystem extends SubsystemBase {
         odometer.update(getRotation2d(), getModulePositions());
         SmartDashboard.putNumber("Robot Heading", getHeading());
         SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
+        SmartDashboard.putNumber("Magnet", navx.getFusedHeading()); 
     }
 
     public SwerveModulePosition[] getModulePositions(){
@@ -174,7 +175,7 @@ public class SwerveSubsystem extends SubsystemBase {
      * @param desiredStates Array of state. 
      */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
-        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kPhysicalMaxSpeedMetersPerSecond*2);
+        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         SwerveMods[0].setDesiredState(desiredStates[0], "Front Left");
         SwerveMods[1].setDesiredState(desiredStates[1], "Front Right");
         SwerveMods[2].setDesiredState(desiredStates[2], "Back Left");
