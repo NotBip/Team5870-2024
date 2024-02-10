@@ -57,15 +57,28 @@ public class RobotContainer {
                 AutoConstants.kMaxAccelerationMetersPerSecondSquared)
                         .setKinematics(DriveConstants.kDriveKinematics);
 
-        // 2. Generate trajectory
+        // 2. Generate trajectory 1
         Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
                 new Pose2d(0, 0, new Rotation2d(0)),
                 List.of(
                         new Translation2d(2, 0),   
                         new Translation2d(2, -2)),
                         // new Translation2d(0, -2)),
-                new Pose2d(0, 0, Rotation2d.fromDegrees(-180)),
+                new Pose2d(3, -2, Rotation2d.fromDegrees(-180)),
                 trajectoryConfig);
+        
+        // Generate Trajectory 2
+        Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(
+                new Pose2d(3, -2, new Rotation2d(-180)),
+                List.of(
+                        new Translation2d(2, -2),
+                        new Translation2d(2, 0)), 
+                new Pose2d(0, 0, new Rotation2d(-180)), 
+                trajectoryConfig); 
+
+        // Combine both Trajectories make sure that the end point of first trajectory is start point of the 2nd trajectory!
+        Trajectory conTrajectory = trajectory.concatenate(trajectory2);
+
 
         // 3. Define PID controllers for tracking trajectory
         PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
@@ -76,7 +89,7 @@ public class RobotContainer {
 
         // 4. Construct command to follow trajectory
         SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-                trajectory,
+                conTrajectory,
                 swerveSubsystem::getPose,
                 DriveConstants.kDriveKinematics,
                 xController,
