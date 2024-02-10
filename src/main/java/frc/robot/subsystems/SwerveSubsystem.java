@@ -224,7 +224,7 @@ public class SwerveSubsystem extends SubsystemBase {
             // if (area == 0) { 
             //     chassisSpeeds = new ChassisSpeeds(1, 0, 0); 
             // }
-            if (area < 80) { 
+            if (area < 80 && area > 0) { 
                 chassisSpeeds = new ChassisSpeeds(1, 0, 0); 
                 SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
                 setModuleStates(moduleStates);
