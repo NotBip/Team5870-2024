@@ -36,7 +36,7 @@ public class RobotContainer {
                 swerveSubsystem,
                 () -> -driverJoytick.getRawAxis(OIConstants.kDriverYAxis),
                 () -> -driverJoytick.getRawAxis(OIConstants.kDriverXAxis),
-                () -> driverJoytick.getRawAxis(OIConstants.kDriverRotAxis),
+                () -> -driverJoytick.getRawAxis(OIConstants.kDriverRotAxis),
                 () -> !driverJoytick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
 
         configureButtonBindings(); 
@@ -69,11 +69,11 @@ public class RobotContainer {
         
         // Generate Trajectory 2
         Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(
-                new Pose2d(3, -2, new Rotation2d(-180)),
+                new Pose2d(3, -2, Rotation2d.fromDegrees(-180)),
                 List.of(
                         new Translation2d(2, -2),
                         new Translation2d(2, 0)), 
-                new Pose2d(0, 0, new Rotation2d(-180)), 
+                new Pose2d(0, 0, new Rotation2d(0)), 
                 trajectoryConfig); 
 
         // Combine both Trajectories make sure that the end point of first trajectory is start point of the 2nd trajectory!
