@@ -44,7 +44,7 @@ public class RobotContainer {
 
     private void configureButtonBindings() {
         new JoystickButton(driverJoytick, 9).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));      
-        new JoystickButton(driverJoytick, 2).onTrue(new InstantCommand(() -> swerveSubsystem.alignAprilTag(6)));      
+        new JoystickButton(driverJoytick, 2).onTrue(new InstantCommand(() -> swerveSubsystem.alignAprilTag()));      
         // if(driverController.getRawButtonPressed(2))
         //     swerveSubsystem.zeroHeading();
     }

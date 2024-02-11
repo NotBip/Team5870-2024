@@ -207,9 +207,10 @@ public class SwerveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Back Right", SwerveMods[3].getAbsoluteEncoderRad());
     }
 
-    public void alignAprilTag(int id) { 
+    public void alignAprilTag() { 
         NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-        table.getEntry("pipeline").setNumber(id);
+        double tableID = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tid").getDouble(0); 
+        table.getEntry("pipeline").setNumber(tableID);
         NetworkTableEntry tx = table.getEntry("tx"); // Limelight's x-coordinate of the target
         NetworkTableEntry ty = table.getEntry("ty"); // Limelight's y-coordinate of the target
         NetworkTableEntry ta = table.getEntry("ta"); // Limelight's area of the target
@@ -266,7 +267,7 @@ public class SwerveSubsystem extends SubsystemBase {
                     SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
                     setModuleStates(moduleStates);
 
-                } else if (x < .5) { 
+                } else if (x < -.5) { 
                     if (area >= 0.85) { 
                         stopModules();
                         break; 
