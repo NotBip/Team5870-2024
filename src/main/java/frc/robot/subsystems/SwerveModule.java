@@ -1,7 +1,10 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -39,6 +42,7 @@ public class SwerveModule {
 
     // Initalizing ports for encoder. 
     private final CANcoder absoluteEncoder;
+    CANcoderConfiguration config = new CANcoderConfiguration();
     private final boolean absoluteEncoderReversed;
     private double absoluteEncoderOffsetRad;
     public double offset = 0; 
@@ -71,6 +75,7 @@ public class SwerveModule {
         // Get encoder values for both drive and turning motors. 
         driveEncoder = driveMotor.getEncoder(); 
         turningEncoder = turningMotor.getEncoder();
+        
 
         // Convert Encoder values. 
         driveEncoder.setPositionConversionFactor(ModuleConstants.kDriveEncoderRot2Meter);
@@ -80,6 +85,10 @@ public class SwerveModule {
         // Initialzing PID Controller. 
         turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI);
+        // Absolute Configs
+        config.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
+        config.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
+        absoluteEncoder.getConfigurator().apply(config); 
 
         // Reset Encoders at the start. 
         resetEncoders();
