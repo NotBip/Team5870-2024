@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
@@ -17,7 +16,6 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
@@ -85,7 +83,7 @@ public class SwerveModule {
         // Initialzing PID Controller. 
         turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI);
-        // Absolute Configs
+        // Absolute Encoder Configs
         config.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
         config.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
         absoluteEncoder.getConfigurator().apply(config); 
@@ -133,7 +131,6 @@ public class SwerveModule {
     public double getAbsoluteEncoderRad() {
         double angle = absoluteEncoder.getAbsolutePosition().getValueAsDouble();
         angle *= (Math.PI/180);
-        // angle += offset; 
         angle -= absoluteEncoderOffsetRad;
         return angle * (absoluteEncoderReversed ? -1.0 : 1.0);
     }
@@ -160,7 +157,6 @@ public class SwerveModule {
      * @param state
      */
     public void setDesiredState(SwerveModuleState state, String wheel) {
-        // SmartDashboard.putNumber("Gyro", )
         if (Math.abs(state.speedMetersPerSecond) < 0.001) {
             stop();
             return;
