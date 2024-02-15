@@ -1,5 +1,6 @@
 package frc.robot;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -23,6 +24,7 @@ import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.AutonomousMode;
 
 public class RobotContainer {
 
@@ -61,29 +63,48 @@ public class RobotContainer {
                 AutoConstants.kMaxSpeedMetersPerSecond,
                 AutoConstants.kMaxAccelerationMetersPerSecondSquared)
                         .setKinematics(DriveConstants.kDriveKinematics);
+        ArrayList<Trajectory> trajectories = new ArrayList<Trajectory>();
+        Trajectory finalTrajectory = new Trajectory();
 
-        // 2. Generate trajectory 1
-        Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
+
+        switch(AutonomousMode.currentMode) {
+                case bAlliance1:
+                        break;
+                case bAlliance2:
+                        break;
+                case bAlliance3:
+                        break;
+                case rAlliance1:
+                        break;
+                case rAlliance2:
+                        break;
+                case rAlliance3:
+                        break;
+                case test:
+                        trajectories.add(TrajectoryGenerator.generateTrajectory(
                 new Pose2d(0, 0, new Rotation2d(0)),
                 List.of(
                         new Translation2d(2, 0),   
                         new Translation2d(2, -2)),
                         // new Translation2d(0, -2)),
                 new Pose2d(3, -2, Rotation2d.fromDegrees(-180)),
-                trajectoryConfig);
-        
-        // Generate Trajectory 2
-        Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(
+                trajectoryConfig));
+                        trajectories.add(TrajectoryGenerator.generateTrajectory(
                 new Pose2d(3, -2, Rotation2d.fromDegrees(-180)),
                 List.of(
                         new Translation2d(2, -2),
                         new Translation2d(2, 0)), 
                 new Pose2d(0, 0, new Rotation2d(0)), 
-                trajectoryConfig); 
-
-        // Combine both Trajectories make sure that the end point of first trajectory is start point of the 2nd trajectory!
-        Trajectory conTrajectory = trajectory.concatenate(trajectory2);
-
+                trajectoryConfig));
+                        break;
+                default:
+                        break;
+        }
+        
+         // Combine both Trajectories make sure that the end point of first trajectory is start point of the 2nd trajectory!
+        for(Trajectory t : trajectories) {
+               finalTrajectory = finalTrajectory.concatenate(t);
+        }
 
         // 3. Define PID controllers for tracking trajectory
         PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
@@ -94,7 +115,7 @@ public class RobotContainer {
 
         // 4. Construct command to follow trajectory
         SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-                conTrajectory,
+                finalTrajectory,
                 swerveSubsystem::getPose,
                 DriveConstants.kDriveKinematics,
                 xController,
@@ -105,7 +126,7 @@ public class RobotContainer {
 
         // 5. Add some init and wrap-up, and return everything
         return new SequentialCommandGroup(
-                new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
+                new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectories.get(0).getInitialPose())),
                 swerveControllerCommand,
                 new InstantCommand(() -> swerveSubsystem.stopModules()));
     }

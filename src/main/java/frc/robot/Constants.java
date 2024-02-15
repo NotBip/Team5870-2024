@@ -22,8 +22,8 @@ public final class Constants {
     }
 
     public enum AutonomousMode {
-        rAlliance1, rAlliance2, rAlliance3, bAlliance1, bAlliance2, bAlliance3;
-        public static AutonomousMode currentMode = rAlliance1;
+        rAlliance1, rAlliance2, rAlliance3, bAlliance1, bAlliance2, bAlliance3, test;
+        public static AutonomousMode currentMode = test;
     }
 
     /**
