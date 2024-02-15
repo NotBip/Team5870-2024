@@ -20,37 +20,42 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.SwerveJoystickCmd;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.Constants.AutoConstants;
 
 public class RobotContainer {
 
     public final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+    public final Shooter shooter = new Shooter();
 
-    public final Joystick driverJoytick = new Joystick(OIConstants.kDriverControllerPort);
+    public final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
     public final XboxController driverController = new XboxController(0); 
     
     //Get X and Y axis from the joystick to control the robot
     public RobotContainer() {
         swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                 swerveSubsystem,
-                () -> -driverJoytick.getRawAxis(OIConstants.kDriverYAxis),
-                () -> -driverJoytick.getRawAxis(OIConstants.kDriverXAxis),
-                () -> -driverJoytick.getRawAxis(OIConstants.kDriverRotAxis),
-                () -> !driverJoytick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
+                () -> -driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
+                () -> -driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
+                () -> -driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
+                () -> !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
 
         configureButtonBindings(); 
     }
 
     private void configureButtonBindings() {
-        new JoystickButton(driverJoytick, 9).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));      
-        new JoystickButton(driverJoytick, 2).onTrue(new InstantCommand(() -> swerveSubsystem.alignAprilTag()));      
+        new JoystickButton(driverJoystick, 9).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));      
+        new JoystickButton(driverJoystick, 2).onTrue(new InstantCommand(() -> swerveSubsystem.alignAprilTag()));
+        // new JoystickButton(driverJoystick, 4).onTrue(new InstantCommand(() -> shooter.intake()));   
+        // new JoystickButton(driverJoystick, 6).onTrue(new InstantCommand(() -> shooter.shoot()));  
+        // new JoystickButton(driverJoystick, 7).onTrue(new InstantCommand(() -> shooter.stopMotor()));     
         // if(driverController.getRawButtonPressed(2))
         //     swerveSubsystem.zeroHeading();
     }
 
     public Command getAutonomousCommand() {
-
+        
         // 1. Create trajectory settings
         TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
                 AutoConstants.kMaxSpeedMetersPerSecond,
@@ -104,7 +109,5 @@ public class RobotContainer {
                 swerveControllerCommand,
                 new InstantCommand(() -> swerveSubsystem.stopModules()));
     }
-
     
-
 }

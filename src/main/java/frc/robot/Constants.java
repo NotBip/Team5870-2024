@@ -21,6 +21,11 @@ public final class Constants {
         public static final double kPTurning = 0.5;             
     }
 
+    public enum AutonomousMode {
+        rAlliance1, rAlliance2, rAlliance3, bAlliance1, bAlliance2, bAlliance3;
+        public static AutonomousMode currentMode = rAlliance1;
+    }
+
     /**
      *  Setting Kinmatics and initializing variables for each wheel. 
      */
