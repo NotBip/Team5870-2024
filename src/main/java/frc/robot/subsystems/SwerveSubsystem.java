@@ -161,7 +161,7 @@ public class SwerveSubsystem extends SubsystemBase {
         double area = ta.getDouble(0.0);
 
         odometer.update(getRotation2d(), getModulePositions());
-        SmartDashboard.putNumber("Robot Heading", getHeading());
+        SmartDashboard.putNumber("Robot Heading", getRotation2d().getDegrees());
         SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
         SmartDashboard.putNumber("Magnet", navx.getFusedHeading()); 
         SmartDashboard.putNumber("LimelightX", x);

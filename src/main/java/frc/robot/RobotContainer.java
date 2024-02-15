@@ -33,7 +33,8 @@ public class RobotContainer {
 
     public final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
     public final XboxController driverController = new XboxController(0); 
-    
+    private boolean good = true; 
+    private boolean bad = good; 
     //Get X and Y axis from the joystick to control the robot
     public RobotContainer() {
         swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
@@ -63,53 +64,65 @@ public class RobotContainer {
                 AutoConstants.kMaxSpeedMetersPerSecond,
                 AutoConstants.kMaxAccelerationMetersPerSecondSquared)
                         .setKinematics(DriveConstants.kDriveKinematics);
-        ArrayList<Trajectory> trajectories = new ArrayList<Trajectory>();
-        Trajectory finalTrajectory = new Trajectory();
+        // ArrayList<Trajectory> trajectories = new ArrayList<Trajectory>();
+        // Trajectory finalTrajectory = new Trajectory();
 
 
-        switch(AutonomousMode.currentMode) {
-                case bAlliance1:
-                        break;
-                case bAlliance2:
-                        break;
-                case bAlliance3:
-                        break;
-                case rAlliance1:
-                        break;
-                case rAlliance2:
-                        break;
-                case rAlliance3:
-                        break;
-                case test:
-                        trajectories.add(TrajectoryGenerator.generateTrajectory(
-                new Pose2d(0, 0, new Rotation2d(0)),
-                List.of(
-                        new Translation2d(1.93, 0),   
-                        new Translation2d(0, -1),
-                        new Translation2d(0, 1)),
-                new Pose2d(1.93, 0, Rotation2d.fromDegrees(90)),
-                trajectoryConfig));
-                        trajectories.add(TrajectoryGenerator.generateTrajectory(
-                new Pose2d(1.93, 0, Rotation2d.fromDegrees(-180)),
+        // switch(AutonomousMode.currentMode) {
+        //         case bAlliance1:
+        //                 break;
+        //         case bAlliance2:
+        //                 break;
+        //         case bAlliance3:
+        //                 break;
+        //         case rAlliance1:
+        //                 break;
+        //         case rAlliance2:
+        //                 break;
+        //         case rAlliance3:
+        //                 break;
+        //         case test:
+                // Trajectory trajectory1 = TrajectoryGenerator.generateTrajectory(
+                // new Pose2d(0, 0, new Rotation2d(0)),
+                // List.of(
+                //         new Translation2d(1.93, 0),   
+                //         new Translation2d(1.93, -1),
+                //         new Translation2d(1.93, 0)),
+                // new Pose2d(1.93, 0, Rotation2d.fromDegrees(90)),
+                // trajectoryConfig); 
+                Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
+                        new Pose2d(0, 0, new Rotation2d(0)),
+                        List.of(
+                                new Translation2d(1.93, 0),      
+                                new Translation2d(1.93, -1)),
+                                // new Translation2d(0, -2)),
+                        new Pose2d(1.93, 0, Rotation2d.fromDegrees(-90)),
+                        trajectoryConfig);
+
+                Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(
+                new Pose2d(1.93, 0, Rotation2d.fromDegrees(0)),
                 List.of(
                         new Translation2d(3.93, 0)),
-                new Pose2d(5.86, 0, new Rotation2d(-90)), 
-                trajectoryConfig));
-                        break;
-                default:
-                        break;
-        }
+                new Pose2d(5.86, 0, new Rotation2d(0)), 
+                trajectoryConfig);
+
+
+                 Trajectory finalTrajectory = trajectory.concatenate(trajectory2); 
+        //                 break;
+        //         default:
+        //                 break;
+        // }
         
          // Combine both Trajectories make sure that the end point of first trajectory is start point of the 2nd trajectory!
-        for(Trajectory t : trajectories) {
-               finalTrajectory = finalTrajectory.concatenate(t);
-        }
+        // for(Trajectory t : trajectories) {
+        //        finalTrajectory = finalTrajectory.concatenate(t);
+        // }
 
         // 3. Define PID controllers for tracking trajectory
         PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
         PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
         ProfiledPIDController thetaController = new ProfiledPIDController(
-                AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
+                AutoConstants.kPThetaController, 1, 0, AutoConstants.kThetaControllerConstraints);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
         // 4. Construct command to follow trajectory
@@ -125,7 +138,7 @@ public class RobotContainer {
 
         // 5. Add some init and wrap-up, and return everything
         return new SequentialCommandGroup(
-                new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectories.get(0).getInitialPose())),
+                new InstantCommand(() -> swerveSubsystem.resetOdometry(finalTrajectory.getInitialPose())),
                 swerveControllerCommand,
                 new InstantCommand(() -> swerveSubsystem.stopModules()));
     }

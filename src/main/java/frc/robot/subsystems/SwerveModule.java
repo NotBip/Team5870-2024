@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
@@ -39,7 +40,7 @@ public class SwerveModule {
     PIDController turningPidController;
 
     // Initalizing ports for encoder. 
-    private final CANcoder absoluteEncoder;
+    private final CANCoder absoluteEncoder;
     CANcoderConfiguration config = new CANcoderConfiguration();
     private final boolean absoluteEncoderReversed;
     private double absoluteEncoderOffsetRad;
@@ -62,7 +63,7 @@ public class SwerveModule {
         this.modNum = modNum; 
         this.absoluteEncoderOffsetRad = absoluteEncoderOffset; 
         this.absoluteEncoderReversed = absoluteEncoderReversed; 
-        absoluteEncoder = new CANcoder(absoluteEncoderId);
+        absoluteEncoder = new CANCoder(absoluteEncoderId);
         // Set drive Motor and turning Motor type and port.
         driveMotor = new CANSparkMax(driveMotorId, MotorType.kBrushless);
         turningMotor = new CANSparkMax(turningMotorId, MotorType.kBrushless);
@@ -84,9 +85,9 @@ public class SwerveModule {
         turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI);
         // Absolute Encoder Configs
-        config.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
-        config.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
-        absoluteEncoder.getConfigurator().apply(config); 
+        // config.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
+        // config.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
+        // absoluteEncoder.getConfigurator().apply(config); 
 
         // Reset Encoders at the start. 
         resetEncoders();
@@ -129,7 +130,7 @@ public class SwerveModule {
      * @return (Double) Absolute Encoder vol in rads. 
      */
     public double getAbsoluteEncoderRad() {
-        double angle = absoluteEncoder.getAbsolutePosition().getValueAsDouble();
+        double angle = absoluteEncoder.getAbsolutePosition();
         angle *= (Math.PI/180);
         angle -= absoluteEncoderOffsetRad;
         return angle * (absoluteEncoderReversed ? -1.0 : 1.0);
