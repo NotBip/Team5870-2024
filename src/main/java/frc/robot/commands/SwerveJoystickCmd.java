@@ -19,7 +19,7 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.SwerveModule.*;
 import frc.robot.subsystems.SwerveSubsystem.*;
 
-public class SwerveJoystickCmd extends CommandBase{
+public class SwerveJoystickCmd extends Command{
 
     private final SwerveSubsystem swerveSubsystem;
     private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
