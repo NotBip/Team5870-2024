@@ -84,7 +84,7 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.schedule();
             if(tableID == 6) { 
-                m_autonomousCommand.cancel(); 
+                m_autonomousCommand.cancel();; 
             }
         }
     }

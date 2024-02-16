@@ -29,7 +29,6 @@ public class RobotContainer {
 
     public final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
     SwerveControllerCommand swerveControllerCommand; 
-
     public final Joystick driverJoytick = new Joystick(OIConstants.kDriverControllerPort);
     public final XboxController driverController = new XboxController(0); 
     
@@ -46,10 +45,8 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        new JoystickButton(driverJoytick, 9).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));      
+        new JoystickButton(driverJoytick, 7).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));      
         new JoystickButton(driverJoytick, 2).onTrue(new InstantCommand(() -> swerveSubsystem.alignAprilTag()));      
-        // if(driverController.getRawButtonPressed(2))
-        //     swerveSubsystem.zeroHeading();
     }
 
     public Command getAutonomousCommand() {
