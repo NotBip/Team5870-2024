@@ -118,7 +118,7 @@ public class SwerveModule {
 
     /**
      * Get the Turning Motor Speed. 
-     * @return (Double) Speed of the motor. 
+     * @return (Double) Speed of the motor 
      */
     public double getTurningVelocity() {
         return turningEncoder.getVelocity(); 

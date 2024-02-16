@@ -61,11 +61,19 @@ public class RobotContainer {
         Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
                 new Pose2d(0, 0, new Rotation2d(0)),
                 List.of(
-                        new Translation2d(1, 0),   
-                        new Translation2d(1, -1)),
-                        // new Translation2d(0, -2)),
-                new Pose2d(0, 0, Rotation2d.fromDegrees(-180)),
+                        // new Translation2d(1.93, 0),   
+                        // new Translation2d(5, 0)),
+                        new Translation2d(2,0)),
+                // ),
+                new Pose2d(2, -2, Rotation2d.fromDegrees(0)),
                 trajectoryConfig);
+
+                // Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(
+                // new Pose2d(1.93, 0, Rotation2d.fromDegrees(-90)),
+                // List.of(
+                //         new Translation2d(3.93, 0)),
+                // new Pose2d(5.86, 0, new Rotation2d(-90)), 
+                // trajectoryConfig);
         
         // // Generate Trajectory 2
         // Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(

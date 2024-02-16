@@ -245,11 +245,11 @@ public class SwerveSubsystem extends SubsystemBase {
                 // Rotating Towards The Goal. 
                 if ((getRotation2d().getDegrees() > 0.5 || getRotation2d().getDegrees() < -0.5) && !rotDone) { 
                     if (getRotation2d().getDegrees() > 0.5) { 
-                        chassisSpeeds = new ChassisSpeeds(0, 0, -.5); 
+                        chassisSpeeds = new ChassisSpeeds(0, 0, -1); 
                         SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
                         setModuleStates(moduleStates);
                     } else if (getRotation2d().getDegrees() < -0.5) { 
-                        chassisSpeeds = new ChassisSpeeds(0, 0, .5); 
+                        chassisSpeeds = new ChassisSpeeds(0, 0, 1); 
                         SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
                         setModuleStates(moduleStates); 
                     }
