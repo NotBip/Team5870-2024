@@ -74,10 +74,37 @@ public class RobotContainer {
 
         switch(AutonomousMode.currentMode) {
                 case bAlliance1:
+                        finalTrajectory = TrajectoryGenerator.generateTrajectory(
+                                new Pose2d(0, 0, new Rotation2d(0)),
+                                List.of(
+                                        new Translation2d(1.5, 0),      
+                                        new Translation2d(1.5, -1),
+                                        new Translation2d(1.5, 0),
+                                        new Translation2d(3.5, 0)),
+                                new Pose2d(3.51, 0, Rotation2d.fromDegrees(-90)),
+                                trajectoryConfig);
                         break;
                 case bAlliance2:
+                        finalTrajectory = TrajectoryGenerator.generateTrajectory(
+                                        new Pose2d(0, 0, new Rotation2d(0)),
+                                        List.of(
+                                                new Translation2d(1.5, 0),      
+                                                new Translation2d(1.5, -4.2),
+                                                new Translation2d(1.5, -3.2),
+                                                new Translation2d(3.5, -3.2)),
+                                        new Pose2d(3.51, -3.2, Rotation2d.fromDegrees(-90)),
+                                        trajectoryConfig);
                         break;
                 case bAlliance3:
+                        finalTrajectory = TrajectoryGenerator.generateTrajectory(
+                                        new Pose2d(0, 0, new Rotation2d(0)),
+                                        List.of(
+                                                new Translation2d(1.5, 0),      
+                                                new Translation2d(1.5, -6.7),
+                                                new Translation2d(1.5, -5.7),
+                                                new Translation2d(3.5, -5.7)),
+                                        new Pose2d(3.51, -5.7, Rotation2d.fromDegrees(-90)),
+                                        trajectoryConfig);
                         break;
                 case rAlliance1:
                         finalTrajectory = TrajectoryGenerator.generateTrajectory(
@@ -138,11 +165,11 @@ public class RobotContainer {
                 case test:
                         Trajectory trajectory1 = TrajectoryGenerator.generateTrajectory(
                                 new Pose2d(0, 0, new Rotation2d(0)),
-                        List.of(
-                                new Translation2d(1.93, 0),   
-                                new Translation2d(1.93, -1),
-                                new Translation2d(1.93, 0)),
-                        new Pose2d(1.93, 0, Rotation2d.fromDegrees(90)),
+                                List.of(
+                                        new Translation2d(1.93, 0),   
+                                        new Translation2d(1.93, -1),
+                                        new Translation2d(1.93, 0)),
+                                new Pose2d(1.93, 0, Rotation2d.fromDegrees(90)),
                         trajectoryConfig); 
                         break;
                 

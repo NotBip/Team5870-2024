@@ -224,6 +224,14 @@ public class SwerveSubsystem extends SubsystemBase {
         boolean yDone = false; 
         ChassisSpeeds chassisSpeeds; 
 
+        // determine distance to goal
+        double targetOffsetAngle_Vertical = ty.getDouble(0.0);
+        double mountAngleDegrees = 30.0;
+        double lensHeight = 33.02;
+        double goalHeight = 121.9;
+        double angleToGoalRadians = (mountAngleDegrees + targetOffsetAngle_Vertical) * (Math.PI/180);
+        double distLightToGoal = (goalHeight-lensHeight) / Math.tan(angleToGoalRadians);
+
     switch ((int) tableID) {
         case 6:
             while (true) { 
