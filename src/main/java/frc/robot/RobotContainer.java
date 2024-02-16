@@ -66,11 +66,7 @@ public class RobotContainer {
                         .setKinematics(DriveConstants.kDriveKinematics);
         // ArrayList<Trajectory> trajectories = new ArrayList<Trajectory>();
         // 3. Define PID controllers for tracking trajectory
-        PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
-        PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
-        ProfiledPIDController thetaController = new ProfiledPIDController(
-                AutoConstants.kPThetaController, 1, 0, AutoConstants.kThetaControllerConstraints);
-        thetaController.enableContinuousInput(-Math.PI, Math.PI);
+
 
         switch(AutonomousMode.currentMode) {
                 case bAlliance1:
@@ -80,22 +76,16 @@ public class RobotContainer {
                 case bAlliance3:
                         break;
                 case rAlliance1:
-                        finalTrajectory = TrajectoryGenerator.generateTrajectory(
-                                new Pose2d(0, 0, new Rotation2d(0)),
-                                List.of(
-                                        new Translation2d(1.93, 0),      
-                                        new Translation2d(1.93, 1),
-                                        new Translation2d(1.93, 0),
-                                        new Translation2d(3.93, 0)),
-                                new Pose2d(3.93, 0, Rotation2d.fromDegrees(90)),
-                                trajectoryConfig);
 
-                        // trajectoryr1f = TrajectoryGenerator.generateTrajectory(
-                        //         new Pose2d(1.93, 0, Rotation2d.fromDegrees(90)),
-                        //         List.of(
-                        //                 new Translation2d(3.93, 0)),
-                        //         new Pose2d(3.93, 0, new Rotation2d(0)), 
-                        // trajectoryConfig);
+                finalTrajectory = TrajectoryGenerator.generateTrajectory(
+                        new Pose2d(0, 0, new Rotation2d(0)),
+                        List.of(
+                                new Translation2d(1.5, 0),      
+                                new Translation2d(1.5, -.8),
+                                new Translation2d(1.5, 0),
+                                new Translation2d(3.5, 0)),
+                        new Pose2d(3.51, 0, Rotation2d.fromDegrees(-90)),
+                        trajectoryConfig);
                         break;
                 case rAlliance2:
                         finalTrajectory = TrajectoryGenerator.generateTrajectory(
@@ -105,7 +95,7 @@ public class RobotContainer {
                                         new Translation2d(1.93, 4.2),
                                         new Translation2d(1.93, 3.2),
                                         new Translation2d(3.93, 3.2)),
-                                new Pose2d(3.93, 3.2, Rotation2d.fromDegrees(90)),
+                                new Pose2d(3.93, 3.2, Rotation2d.fromDegrees(-90)),
                         trajectoryConfig);
 
                         // Trajectory trajectoryr2f = TrajectoryGenerator.generateTrajectory(
@@ -158,6 +148,11 @@ public class RobotContainer {
         // }
 
         
+        PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
+        PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
+        ProfiledPIDController thetaController = new ProfiledPIDController(
+                AutoConstants.kPThetaController, 1, 0, AutoConstants.kThetaControllerConstraints);
+        thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
         // 4. Construct command to follow trajectory
         SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
