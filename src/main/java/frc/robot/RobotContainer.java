@@ -28,6 +28,7 @@ import frc.robot.Constants.AutoConstants;
 public class RobotContainer {
 
     public final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+    SwerveControllerCommand swerveControllerCommand; 
 
     public final Joystick driverJoytick = new Joystick(OIConstants.kDriverControllerPort);
     public final XboxController driverController = new XboxController(0); 
@@ -90,7 +91,7 @@ public class RobotContainer {
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
         // 4. Construct command to follow trajectory
-        SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
+        swerveControllerCommand = new SwerveControllerCommand(
                 trajectory,
                 swerveSubsystem::getPose,
                 DriveConstants.kDriveKinematics,
@@ -105,6 +106,10 @@ public class RobotContainer {
                 new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
                 swerveControllerCommand,
                 new InstantCommand(() -> swerveSubsystem.stopModules()));
-    }    
+    } 
+    
+    public void stopAuto() { 
+        swerveControllerCommand.cancel();
+    }
 
 }
