@@ -21,6 +21,8 @@ public final class Constants {
         public static final double kPTurning = 0.5;             
     }
 
+
+
     public enum AutonomousMode {
         rAlliance1, rAlliance2, rAlliance3, bAlliance1, bAlliance2, bAlliance3, test;
         public static AutonomousMode currentMode = rAlliance1;
@@ -108,7 +110,6 @@ public final class Constants {
                         kMaxAngularAccelerationRadiansPerSecondSquared);
     }
 
-   
     /**
      * Constants for Controller
      */
@@ -122,4 +123,16 @@ public final class Constants {
 
         public static final double kDeadband = 0.1;
     }
+
+    public static final class climberConstants { 
+        public static final int leaderMotor = 0; 
+        public static final int followerMotor = 0;
+        public static final int bottomLimitSwitch = 0; 
+        public static final int topLimitSwitch = 0;  
+    }
+
+    public static final class ArmConstants { 
+        public static final int shootMotor = 0; 
+    }
+
 }

@@ -28,14 +28,14 @@ import frc.robot.Constants.AutonomousMode;
 
 public class RobotContainer {
 
-    public final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-    public final Shooter shooter = new Shooter();
-    Trajectory finalTrajectory = new Trajectory();
-
-    public final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
-    public final XboxController driverController = new XboxController(0); 
-    //Get X and Y axis from the joystick to control the robot
-    public RobotContainer() {
+        public final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+        public final Shooter shooter = new Shooter();
+        Trajectory finalTrajectory = new Trajectory();
+        public final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
+        public final XboxController driverController = new XboxController(0); 
+        
+        //Get X and Y axis from the joystick to control the robot
+        public RobotContainer() {
         swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                 swerveSubsystem,
                 () -> -driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
@@ -44,21 +44,19 @@ public class RobotContainer {
                 () -> !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
 
         configureButtonBindings(); 
-    }
+        }
 
-    private void configureButtonBindings() {
+        private void configureButtonBindings() {
         new JoystickButton(driverJoystick, 9).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));      
         new JoystickButton(driverJoystick, 2).onTrue(new InstantCommand(() -> swerveSubsystem.alignAprilTag()));
         // new JoystickButton(driverJoystick, 4).onTrue(new InstantCommand(() -> shooter.intake()));   
         // new JoystickButton(driverJoystick, 6).onTrue(new InstantCommand(() -> shooter.shoot()));  
         // new JoystickButton(driverJoystick, 7).onTrue(new InstantCommand(() -> shooter.stopMotor()));     
-        // if(driverController.getRawButtonPressed(2))
-        //     swerveSubsystem.zeroHeading();
-    }
+        }
 
 
-    public Command getAutonomousCommand() {
-        
+        public Command getAutonomousCommand() {
+
         // 1. Create trajectory settings
         TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
                 AutoConstants.kMaxSpeedMetersPerSecond,
@@ -168,13 +166,13 @@ public class RobotContainer {
         //Trajectory finalTrajectory = trajectoryr1.concatenate(trajectoryr1f); 
         //                 break;
         //      
-        
-         // Combine both Trajectories make sure that the end point of first trajectory is start point of the 2nd trajectory!
+
+                // Combine both Trajectories make sure that the end point of first trajectory is start point of the 2nd trajectory!
         // for(Trajectory t : trajectories) {
         //        finalTrajectory = finalTrajectory.concatenate(t);
         // }
 
-        
+
         PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
         PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
         ProfiledPIDController thetaController = new ProfiledPIDController(
@@ -197,6 +195,6 @@ public class RobotContainer {
                 new InstantCommand(() -> swerveSubsystem.resetOdometry(finalTrajectory.getInitialPose())),
                 swerveControllerCommand,
                 new InstantCommand(() -> swerveSubsystem.stopModules()));
-    }
+        }
 
 }
