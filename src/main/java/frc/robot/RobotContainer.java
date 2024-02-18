@@ -20,37 +20,85 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.SwerveJoystickCmd;
-import frc.robot.subsystems.Shooter;
+import frc.robot.commands.Intake.IntakeSpinBack;
+import frc.robot.commands.Intake.IntakeSpinForward;
+import frc.robot.commands.Intake.IntakeStop;
+import frc.robot.commands.Swerve.SwerveJoystickCmd;
+import frc.robot.commands.Swerve.ZeroGyro;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.AutonomousMode;
 
 public class RobotContainer {
 
-        public final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-        public final Shooter shooter = new Shooter();
+        // Initializing Robot's Subsystems
+        private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+        private final Intake intake = new Intake();
+        private final Climber climber = new Climber(); 
+
+        // Initializing Controllers and Joysticks
+        private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
+        private final XboxController driverController = new XboxController(0); 
+        private final XboxController operatorController = new XboxController(1); 
+
+        // Initializing Commands
+        // Intake
+        private final IntakeSpinBack intakeSpinBack = new IntakeSpinBack(intake); 
+        private final IntakeSpinForward intakeSpinForward = new IntakeSpinForward(intake); 
+        private final IntakeStop intakeStop = new IntakeStop(intake); 
+
+        // Swerve
+        private final ZeroGyro ZeroGyro = new ZeroGyro(swerveSubsystem); 
+
+        // Game Controllers
+        public JoystickButton xboxBtnA, xboxBtnB, xboxBtnX, xboxBtnY, xboxBtnLB, xboxBtnRB, xboxBtnStrt, xboxBtnSelect;
+
+        // Trajectory for Autonomous
         Trajectory finalTrajectory = new Trajectory();
-        public final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
-        public final XboxController driverController = new XboxController(0); 
+
         
         //Get X and Y axis from the joystick to control the robot
         public RobotContainer() {
+
+        // set default commands for each Subsystem
         swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                 swerveSubsystem,
                 () -> -driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
                 () -> -driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
                 () -> -driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
                 () -> !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
+        intake.setDefaultCommand(intakeStop);
+        // climber.setDefaultCommand(climberStop);
+        
+        // Xbox Controller Buttons
+        xboxBtnA = new JoystickButton(driverJoystick, OIConstants.KXboxButtonA);
+        xboxBtnB = new JoystickButton(driverJoystick, OIConstants.KXboxButtonB);
+        xboxBtnX = new JoystickButton(driverJoystick, OIConstants.KXboxButtonX);
+        xboxBtnY = new JoystickButton(driverJoystick, OIConstants.KXboxButtonY);
+        xboxBtnLB = new JoystickButton(driverJoystick, OIConstants.KXboxLeftBumper);
+        xboxBtnRB = new JoystickButton(driverJoystick, OIConstants.KXboxRightBumper);
+        xboxBtnSelect = new JoystickButton(driverJoystick, OIConstants.KXboxSelectButton);
+        xboxBtnStrt = new JoystickButton(driverJoystick, OIConstants.KXboxStartButton);
+        
 
         configureButtonBindings(); 
         }
 
         private void configureButtonBindings() {
-        new JoystickButton(driverJoystick, 9).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));      
-        new JoystickButton(driverJoystick, 2).onTrue(new InstantCommand(() -> swerveSubsystem.alignAprilTag()));
+        // QOL Swerve Controls
+        xboxBtnStrt.onTrue(ZeroGyro); 
+
+        // Intake Controls 
+        xboxBtnLB.whileTrue(intakeSpinBack);
+        xboxBtnRB.whileTrue(intakeSpinForward); 
+        
+        // new JoystickButton(driverJoystick, OIConstants.KXboxStartButton).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));      
+        // new JoystickButton(driverJoystick, 2).onTrue(new InstantCommand(() -> swerveSubsystem.alignAprilTag()));
         // new JoystickButton(driverJoystick, 4).onTrue(new InstantCommand(() -> shooter.intake()));   
         // new JoystickButton(driverJoystick, 6).onTrue(new InstantCommand(() -> shooter.shoot()));  
         // new JoystickButton(driverJoystick, 7).onTrue(new InstantCommand(() -> shooter.stopMotor()));     
@@ -64,8 +112,6 @@ public class RobotContainer {
                 AutoConstants.kMaxSpeedMetersPerSecond,
                 AutoConstants.kMaxAccelerationMetersPerSecondSquared)
                         .setKinematics(DriveConstants.kDriveKinematics);
-        // ArrayList<Trajectory> trajectories = new ArrayList<Trajectory>();
-        // 3. Define PID controllers for tracking trajectory
 
 
         switch(AutonomousMode.currentMode) {
@@ -79,7 +125,8 @@ public class RobotContainer {
                                         new Translation2d(3.5, 0)),
                                 new Pose2d(3.51, 0, Rotation2d.fromDegrees(-90)),
                                 trajectoryConfig);
-                        break;
+                break;
+
                 case bAlliance2:
                         finalTrajectory = TrajectoryGenerator.generateTrajectory(
                                         new Pose2d(0, 0, new Rotation2d(0)),
@@ -90,7 +137,8 @@ public class RobotContainer {
                                                 new Translation2d(3.5, -3.2)),
                                         new Pose2d(3.51, -3.2, Rotation2d.fromDegrees(-90)),
                                         trajectoryConfig);
-                        break;
+                break;
+
                 case bAlliance3:
                         finalTrajectory = TrajectoryGenerator.generateTrajectory(
                                         new Pose2d(0, 0, new Rotation2d(0)),
@@ -101,19 +149,20 @@ public class RobotContainer {
                                                 new Translation2d(3.5, -5.7)),
                                         new Pose2d(3.51, -5.7, Rotation2d.fromDegrees(-90)),
                                         trajectoryConfig);
-                        break;
-                case rAlliance1:
+                break;
 
-                finalTrajectory = TrajectoryGenerator.generateTrajectory(
-                        new Pose2d(0, 0, new Rotation2d(0)),
-                        List.of(
-                                new Translation2d(1.5, 0),      
-                                new Translation2d(1.5, -.8),
-                                new Translation2d(1.5, 0),
-                                new Translation2d(3.5, 0)),
-                        new Pose2d(3.51, 0, Rotation2d.fromDegrees(-90)),
-                        trajectoryConfig);
-                        break;
+                case rAlliance1:
+                        finalTrajectory = TrajectoryGenerator.generateTrajectory(
+                                new Pose2d(0, 0, new Rotation2d(0)),
+                                List.of(
+                                        new Translation2d(1.5, 0),      
+                                        new Translation2d(1.5, -.8),
+                                        new Translation2d(1.5, 0),
+                                        new Translation2d(3.5, 0)),
+                                new Pose2d(3.51, 0, Rotation2d.fromDegrees(-90)),
+                                trajectoryConfig);
+                break;
+
                 case rAlliance2:
                         finalTrajectory = TrajectoryGenerator.generateTrajectory(
                                 new Pose2d(0, 0, new Rotation2d(0)),
@@ -124,14 +173,8 @@ public class RobotContainer {
                                         new Translation2d(3.93, 3.2)),
                                 new Pose2d(3.93, 3.2, Rotation2d.fromDegrees(-90)),
                         trajectoryConfig);
+                break;        
 
-                        // Trajectory trajectoryr2f = TrajectoryGenerator.generateTrajectory(
-                        //         new Pose2d(1.93, 3.2, Rotation2d.fromDegrees(90)),
-                        //         List.of(
-                        //                 new Translation2d(3.93, 3.2)),
-                        //         new Pose2d(3.93, 3.2, new Rotation2d(0)), 
-                        // trajectoryConfig);
-                        break;        
                 case rAlliance3:
                         finalTrajectory = TrajectoryGenerator.generateTrajectory(
                                 new Pose2d(0, 0, new Rotation2d(0)),
@@ -142,16 +185,11 @@ public class RobotContainer {
                                         new Translation2d(3.93, 5.7)),
                                 new Pose2d(3.93, 5.7, Rotation2d.fromDegrees(90)),
                         trajectoryConfig);
+                break;
 
-                        // Trajectory trajectoryr3f = TrajectoryGenerator.generateTrajectory(
-                        //         new Pose2d(1.93, 5.7, Rotation2d.fromDegrees(90)),
-                        //         List.of(
-                        //                 new Translation2d(3.93, 5.7)),
-                        //         new Pose2d(3.93, 5.7, new Rotation2d(0)), 
-                        // trajectoryConfig);
-                        break;
                 default:
-                        break;
+                break;
+                
                 case test:
                         Trajectory trajectory1 = TrajectoryGenerator.generateTrajectory(
                                 new Pose2d(0, 0, new Rotation2d(0)),
@@ -161,20 +199,9 @@ public class RobotContainer {
                                         new Translation2d(1.93, 0)),
                                 new Pose2d(1.93, 0, Rotation2d.fromDegrees(90)),
                         trajectoryConfig); 
-                        break;
+                break;
                 
         }
-
-        //Trajectory finalTrajectory = trajectoryr1.concatenate(trajectoryr1f); 
-        //                 break;
-        //      
-
-                // Combine both Trajectories make sure that the end point of first trajectory is start point of the 2nd trajectory!
-        // for(Trajectory t : trajectories) {
-        //        finalTrajectory = finalTrajectory.concatenate(t);
-        // }
-
-
 
         PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
         PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);

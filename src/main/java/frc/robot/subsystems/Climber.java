@@ -4,10 +4,11 @@ import frc.robot.Constants.climberConstants.*;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-public class Climber {
+public class Climber extends SubsystemBase {
     private CANSparkMax leaderMotor; 
     private CANSparkMax followerMotor; 
     DigitalInput bottomLimitSwitch;
@@ -30,9 +31,8 @@ public class Climber {
     }
 
     public void moveArm(double motorSpeed) { 
-        if(!bottomLimitSwitch.get())
-            leaderMotor.set(motorSpeed);
-        else
-            leaderMotor.stopMotor(); 
+        leaderMotor.set(motorSpeed);
     }
+
+    
 }

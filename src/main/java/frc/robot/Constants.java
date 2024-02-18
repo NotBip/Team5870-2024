@@ -7,9 +7,8 @@ import edu.wpi.first.math.util.Units;
 
 public final class Constants {
 
-    /**
-     * Module for setting constants. 
-     */
+
+    // Module for Each Swerve Module.
     public static final class ModuleConstants {
         public static final double kWheelDiameterMeters = Units.inchesToMeters(3.0);
         public static final double kDriveMotorGearRatio = 1 / 6.75;
@@ -21,16 +20,20 @@ public final class Constants {
         public static final double kPTurning = 0.3;             
     }
 
+    // Module for Intake Constants
+    public static final class IntakeConstants { 
+        public static double intakeSpeed = 0.5; 
+    }
 
 
+    // May be removed later. 
     public enum AutonomousMode {
         rAlliance1, rAlliance2, rAlliance3, bAlliance1, bAlliance2, bAlliance3, test;
         public static AutonomousMode currentMode = rAlliance1;
     }
 
-    /**
-     *  Setting Kinmatics and initializing variables for each wheel. 
-     */
+
+    // Module for Swerve Drive. 
     public static final class DriveConstants {
 
         // Distance between right and left wheels
@@ -94,6 +97,8 @@ public final class Constants {
         public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
     }
 
+
+    // Module for Autonomous Mode. 
     public static final class AutoConstants {
         public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 4;
         public static final double kMaxAngularSpeedRadiansPerSecond = //
@@ -110,18 +115,30 @@ public final class Constants {
                         kMaxAngularAccelerationRadiansPerSecondSquared);
     }
 
-    /**
-     * Constants for Controller
-     */
-    public static final class OIConstants {
-        public static final int kDriverControllerPort = 0;
 
+    // Module for Controller Joystick
+    public static final class OIConstants {
+
+        // Joystick Values Used for Swerve Controlls
+        public static final int kDriverControllerPort = 0;
         public static final int kDriverYAxis = 1;
         public static final int kDriverXAxis = 0;
         public static final int kDriverRotAxis = 4;
         public static final int kDriverFieldOrientedButtonIdx = 1;
-
         public static final double kDeadband = 0.1;
+
+        // Xbox Controller Map
+        public static final int KXboxButtonA = 1; 
+        public static final int KXboxButtonB = 2;
+        public static final int KXboxButtonX = 3;  
+        public static final int KXboxButtonY = 4; 
+        public static final int KXboxLeftBumper = 5; 
+        public static final int KXboxRightBumper = 6; 
+        public static final int KXboxSelectButton = 7; 
+        public static final int KXboxStartButton = 8; 
+        public static final int KXboxLeftTrigger = 2; 
+        public static final int KXboxRightTrigger = 3; 
+        
     }
 
     public static final class climberConstants { 
