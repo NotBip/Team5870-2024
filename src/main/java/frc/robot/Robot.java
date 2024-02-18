@@ -4,13 +4,20 @@
 
 package frc.robot;
 
-import javax.swing.text.AbstractDocument.BranchElement;
-
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.DriveConstants;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.SwerveSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -22,9 +29,10 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
-    private Command m_autonomousCommand;
 
+    private Command m_autonomousCommand;
     private RobotContainer m_robotContainer;
+
 
     /**
      * This function is run when the robot is first started up and should be used
@@ -89,11 +97,33 @@ public class Robot extends TimedRobot {
     /** This function is called periodically during autonomous. */
     @Override
     public void autonomousPeriodic() {
-        double tableID = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tid").getDouble(0);
+        // boolean autoDone = false; 
+        // NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight"); 
+        // double tableID = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tid").getDouble(0); 
+        // NetworkTableEntry tx = table.getEntry("tx"); // Limelight's x-coordinate of the target
+        // NetworkTableEntry ty = table.getEntry("ty"); // Limelight's y-coordinate of the target
+        // NetworkTableEntry ta = table.getEntry("ta"); // Limelight's area of the target
+        // double x = tx.getDouble(0); 
+        // double y = ty.getDouble(0); 
+        // double area = ta.getDouble(0); 
+        // ChassisSpeeds chassisSpeeds; 
+        // SmartDashboard.putBoolean("AUTO DONE", autoDone);
 
-        if(tableID == 6) { 
-            m_autonomousCommand.cancel();; 
-        }
+
+        // if (tableID == 6 && (m_robotContainer.swerveSubsystem.getHeading() <= -89 && m_robotContainer.swerveSubsystem.getHeading() >= -91) && !autoDone) { 
+        //     m_autonomousCommand.cancel();;
+        //     autoDone = true; 
+        // }
+
+        // if(tableID == 6) { 
+        //     if (x < -2) { 
+        //         SmartDashboard.putBoolean("ASDASDASDASD", true);
+        //     }
+        //     else { 
+        //         SmartDashboard.putBoolean("ASDASDASDASD", false);
+
+        //     }
+        // }
     }
 
     @Override

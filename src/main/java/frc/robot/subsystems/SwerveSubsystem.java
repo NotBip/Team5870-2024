@@ -161,7 +161,7 @@ public class SwerveSubsystem extends SubsystemBase {
         double area = ta.getDouble(0.0);
 
         odometer.update(getRotation2d(), getModulePositions());
-        SmartDashboard.putNumber("Robot Heading", getHeading());
+        SmartDashboard.putNumber("Robot Heading", getRotation2d().getDegrees());
         SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
         SmartDashboard.putNumber("Magnet", navx.getFusedHeading()); 
         SmartDashboard.putNumber("LimelightX", x);
@@ -228,6 +228,14 @@ public class SwerveSubsystem extends SubsystemBase {
         boolean xDone = false; 
         boolean yDone = false; 
         ChassisSpeeds chassisSpeeds; 
+
+        // determine distance to goal
+        double targetOffsetAngle_Vertical = ty.getDouble(0.0);
+        double mountAngleDegrees = 30.0;
+        double lensHeight = 33.02;
+        double goalHeight = 121.9;
+        double angleToGoalRadians = (mountAngleDegrees + targetOffsetAngle_Vertical) * (Math.PI/180);
+        double distLightToGoal = (goalHeight-lensHeight) / Math.tan(angleToGoalRadians);
 
     switch ((int) tableID) {
         case 6:
