@@ -3,6 +3,9 @@ package frc.robot;
 // import java.util.ArrayList;
 import java.util.List;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathPlannerPath;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -15,6 +18,8 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -23,6 +28,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.Autos.blueAmp;
 import frc.robot.commands.Intake.IntakeSpinBack;
 import frc.robot.commands.Intake.IntakeSpinForward;
 import frc.robot.commands.Intake.IntakeStop;
@@ -35,7 +41,9 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.AutonomousMode;
 
 public class RobotContainer {
-        
+        // Autonomous Chooser
+        private final SendableChooser<Command> autoChooser;
+
         // Initializing Robot's Subsystems
         private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
         private final Intake intake = new Intake();
@@ -45,6 +53,9 @@ public class RobotContainer {
         private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
         private final XboxController driverController = new XboxController(0); 
         private final XboxController operatorController = new XboxController(1); 
+
+        // Initializing Auto Commands 
+        private final blueAmp blueAmpAuto = new blueAmp(intake, swerveSubsystem); 
 
         // Initializing Commands
         // Intake
@@ -64,6 +75,10 @@ public class RobotContainer {
         
         //Get X and Y axis from the joystick to control the robot
         public RobotContainer() {
+        
+        // Auto Chooser
+        autoChooser = AutoBuilder.buildAutoChooser(); // Default auto will be `Commands.none()`
+        SmartDashboard.putData("Auto Mode", autoChooser);
 
         // set default commands for each Subsystem
         swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
@@ -107,123 +122,124 @@ public class RobotContainer {
 
         public Command getAutonomousCommand() {
 
-        // 1. Create trajectory settings
-        TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
-                AutoConstants.kMaxSpeedMetersPerSecond,
-                AutoConstants.kMaxAccelerationMetersPerSecondSquared)
-                        .setKinematics(DriveConstants.kDriveKinematics);
+        // // 1. Create trajectory settings
+        // TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
+        //         AutoConstants.kMaxSpeedMetersPerSecond,
+        //         AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+        //                 .setKinematics(DriveConstants.kDriveKinematics);
 
 
-        switch(AutonomousMode.currentMode) {
-                case bAlliance1:
-                        finalTrajectory = TrajectoryGenerator.generateTrajectory(
-                                new Pose2d(0, 0, new Rotation2d(0)),
-                                List.of(
-                                        new Translation2d(1.5, 0),      
-                                        new Translation2d(1.5, -1),
-                                        new Translation2d(1.5, 0),
-                                        new Translation2d(3.5, 0)),
-                                new Pose2d(3.51, 0, Rotation2d.fromDegrees(-90)),
-                                trajectoryConfig);
-                break;
+        // switch(AutonomousMode.currentMode) {
+        //         case bAlliance1:
+        //                 finalTrajectory = TrajectoryGenerator.generateTrajectory(
+        //                         new Pose2d(0, 0, new Rotation2d(0)),
+        //                         List.of(
+        //                                 new Translation2d(1.5, 0),      
+        //                                 new Translation2d(1.5, -1),
+        //                                 new Translation2d(1.5, 0),
+        //                                 new Translation2d(3.5, 0)),
+        //                         new Pose2d(3.51, 0, Rotation2d.fromDegrees(-90)),
+        //                         trajectoryConfig);
+        //         break;
 
-                case bAlliance2:
-                        finalTrajectory = TrajectoryGenerator.generateTrajectory(
-                                        new Pose2d(0, 0, new Rotation2d(0)),
-                                        List.of(
-                                                new Translation2d(1.5, 0),      
-                                                new Translation2d(1.5, -4.2),
-                                                new Translation2d(1.5, -3.2),
-                                                new Translation2d(3.5, -3.2)),
-                                        new Pose2d(3.51, -3.2, Rotation2d.fromDegrees(-90)),
-                                        trajectoryConfig);
-                break;
+        //         case bAlliance2:
+        //                 finalTrajectory = TrajectoryGenerator.generateTrajectory(
+        //                                 new Pose2d(0, 0, new Rotation2d(0)),
+        //                                 List.of(
+        //                                         new Translation2d(1.5, 0),      
+        //                                         new Translation2d(1.5, -4.2),
+        //                                         new Translation2d(1.5, -3.2),
+        //                                         new Translation2d(3.5, -3.2)),
+        //                                 new Pose2d(3.51, -3.2, Rotation2d.fromDegrees(-90)),
+        //                                 trajectoryConfig);
+        //         break;
 
-                case bAlliance3:
-                        finalTrajectory = TrajectoryGenerator.generateTrajectory(
-                                        new Pose2d(0, 0, new Rotation2d(0)),
-                                        List.of(
-                                                new Translation2d(1.5, 0),      
-                                                new Translation2d(1.5, -6.7),
-                                                new Translation2d(1.5, -5.7),
-                                                new Translation2d(3.5, -5.7)),
-                                        new Pose2d(3.51, -5.7, Rotation2d.fromDegrees(-90)),
-                                        trajectoryConfig);
-                break;
+        //         case bAlliance3:
+        //                 finalTrajectory = TrajectoryGenerator.generateTrajectory(
+        //                                 new Pose2d(0, 0, new Rotation2d(0)),
+        //                                 List.of(
+        //                                         new Translation2d(1.5, 0),      
+        //                                         new Translation2d(1.5, -6.7),
+        //                                         new Translation2d(1.5, -5.7),
+        //                                         new Translation2d(3.5, -5.7)),
+        //                                 new Pose2d(3.51, -5.7, Rotation2d.fromDegrees(-90)),
+        //                                 trajectoryConfig);
+        //         break;
 
-                case rAlliance1:
-                        finalTrajectory = TrajectoryGenerator.generateTrajectory(
-                                new Pose2d(0, 0, new Rotation2d(0)),
-                                List.of(
-                                        new Translation2d(1.5, 0),      
-                                        new Translation2d(1.5, -.8),
-                                        new Translation2d(1.5, 0),
-                                        new Translation2d(3.5, 0)),
-                                new Pose2d(3.51, 0, Rotation2d.fromDegrees(-90)),
-                                trajectoryConfig);
-                break;
+        //         case rAlliance1:
+        //                 finalTrajectory = TrajectoryGenerator.generateTrajectory(
+        //                         new Pose2d(0, 0, new Rotation2d(0)),
+        //                         List.of(
+        //                                 new Translation2d(1.5, 0),      
+        //                                 new Translation2d(1.5, -.8),
+        //                                 new Translation2d(1.5, 0),
+        //                                 new Translation2d(3.5, 0)),
+        //                         new Pose2d(3.51, 0, Rotation2d.fromDegrees(-90)),
+        //                         trajectoryConfig);
+        //         break;
 
-                case rAlliance2:
-                        finalTrajectory = TrajectoryGenerator.generateTrajectory(
-                                new Pose2d(0, 0, new Rotation2d(0)),
-                                List.of(
-                                        new Translation2d(1.93, 0),   
-                                        new Translation2d(1.93, 4.2),
-                                        new Translation2d(1.93, 3.2),
-                                        new Translation2d(3.93, 3.2)),
-                                new Pose2d(3.93, 3.2, Rotation2d.fromDegrees(-90)),
-                        trajectoryConfig);
-                break;        
+        //         case rAlliance2:
+        //                 finalTrajectory = TrajectoryGenerator.generateTrajectory(
+        //                         new Pose2d(0, 0, new Rotation2d(0)),
+        //                         List.of(
+        //                                 new Translation2d(1.93, 0),   
+        //                                 new Translation2d(1.93, 4.2),
+        //                                 new Translation2d(1.93, 3.2),
+        //                                 new Translation2d(3.93, 3.2)),
+        //                         new Pose2d(3.93, 3.2, Rotation2d.fromDegrees(-90)),
+        //                 trajectoryConfig);
+        //         break;        
 
-                case rAlliance3:
-                        finalTrajectory = TrajectoryGenerator.generateTrajectory(
-                                new Pose2d(0, 0, new Rotation2d(0)),
-                                List.of(
-                                        new Translation2d(1.93, 0),   
-                                        new Translation2d(1.93, 6.7),
-                                        new Translation2d(1.93, 5.7),
-                                        new Translation2d(3.93, 5.7)),
-                                new Pose2d(3.93, 5.7, Rotation2d.fromDegrees(90)),
-                        trajectoryConfig);
-                break;
+        //         case rAlliance3:
+        //                 finalTrajectory = TrajectoryGenerator.generateTrajectory(
+        //                         new Pose2d(0, 0, new Rotation2d(0)),
+        //                         List.of(
+        //                                 new Translation2d(1.93, 0),   
+        //                                 new Translation2d(1.93, 6.7),
+        //                                 new Translation2d(1.93, 5.7),
+        //                                 new Translation2d(3.93, 5.7)),
+        //                         new Pose2d(3.93, 5.7, Rotation2d.fromDegrees(90)),
+        //                 trajectoryConfig);
+        //         break;
 
-                default:
-                break;
+        //         default:
+        //         break;
                 
-                case test:
-                        Trajectory trajectory1 = TrajectoryGenerator.generateTrajectory(
-                                new Pose2d(0, 0, new Rotation2d(0)),
-                                List.of(
-                                        new Translation2d(1.93, 0),   
-                                        new Translation2d(1.93, -1),
-                                        new Translation2d(1.93, 0)),
-                                new Pose2d(1.93, 0, Rotation2d.fromDegrees(90)),
-                        trajectoryConfig); 
-                break;
+        //         case test:
+        //                 Trajectory trajectory1 = TrajectoryGenerator.generateTrajectory(
+        //                         new Pose2d(0, 0, new Rotation2d(0)),
+        //                         List.of(
+        //                                 new Translation2d(1.93, 0),   
+        //                                 new Translation2d(1.93, -1),
+        //                                 new Translation2d(1.93, 0)),
+        //                         new Pose2d(1.93, 0, Rotation2d.fromDegrees(90)),
+        //                 trajectoryConfig); 
+        //         break;
                 
-        }
+        // }
 
-        PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
-        PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
-        ProfiledPIDController thetaController = new ProfiledPIDController(
-                AutoConstants.kPThetaController, 1, 0, AutoConstants.kThetaControllerConstraints);
-        thetaController.enableContinuousInput(-Math.PI, Math.PI);
+        // PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
+        // PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
+        // ProfiledPIDController thetaController = new ProfiledPIDController(
+        //         AutoConstants.kPThetaController, 1, 0, AutoConstants.kThetaControllerConstraints);
+        // thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-        // 4. Construct command to follow trajectory
-        SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-                finalTrajectory,
-                swerveSubsystem::getPose,
-                DriveConstants.kDriveKinematics,
-                xController,
-                yController,
-                thetaController,
-                swerveSubsystem::setModuleStates,
-                swerveSubsystem);
+        // // 4. Construct command to follow trajectory
+        // SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
+        //         finalTrajectory,
+        //         swerveSubsystem::getPose,
+        //         DriveConstants.kDriveKinematics,
+        //         xController,
+        //         yController,
+        //         thetaController,
+        //         swerveSubsystem::setModuleStates,
+        //         swerveSubsystem);
 
-        // 5. Add some init and wrap-up, and return everything
-        return new SequentialCommandGroup(
-                new InstantCommand(() -> swerveSubsystem.resetOdometry(finalTrajectory.getInitialPose())),
-                swerveControllerCommand,
-                new InstantCommand(() -> swerveSubsystem.stopModules()));
+        // // 5. Add some init and wrap-up, and return everything
+        // return new SequentialCommandGroup(
+        //         new InstantCommand(() -> swerveSubsystem.resetOdometry(finalTrajectory.getInitialPose())),
+        //         swerveControllerCommand,
+        //         new InstantCommand(() -> swerveSubsystem.stopModules()));
+                return blueAmpAuto.blueAmpAutoCommand(); 
         }
 }

@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.hal.simulation.EncoderDataJNI;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -10,57 +12,26 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.proto.Kinematics;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 
 
 
 public class SwerveSubsystem extends SubsystemBase {
     
-    // public final SwerveModule frontLeft = new SwerveModule(
-    //     DriveConstants.kFrontLeftDriveMotorPort,
-    //     DriveConstants.kFrontLeftTurningMotorPort,
-    //     DriveConstants.kFrontLeftDriveEncoderReversed,
-    //     DriveConstants.kFrontLeftTurningEncoderReversed,
-    //     DriveConstants.kFrontLeftDriveAbsoluteEncoderPort,
-    //     DriveConstants.kFrontLeftDriveAbsoluteEncoderOffsetRad,
-    //     DriveConstants.kFrontLeftDriveAbsoluteEncoderReversed);
-
-    // public final SwerveModule frontRight = new SwerveModule(
-    //     DriveConstants.kFrontRightDriveMotorPort,
-    //     DriveConstants.kFrontRightTurningMotorPort,
-    //     DriveConstants.kFrontRightDriveEncoderReversed,
-    //     DriveConstants.kFrontRightTurningEncoderReversed,
-    //     DriveConstants.kFrontRightDriveAbsoluteEncoderPort,
-    //     DriveConstants.kFrontRightDriveAbsoluteEncoderOffsetRad,
-    //     DriveConstants.kFrontRightDriveAbsoluteEncoderReversed);
-
-    // public final SwerveModule backLeft = new SwerveModule(
-    //     DriveConstants.kBackLeftDriveMotorPort,
-    //     DriveConstants.kBackLeftTurningMotorPort,
-    //     DriveConstants.kBackLeftDriveEncoderReversed,
-    //     DriveConstants.kBackLeftTurningEncoderReversed,
-    //     DriveConstants.kBackLeftDriveAbsoluteEncoderPort,
-    //     DriveConstants.kBackLeftDriveAbsoluteEncoderOffsetRad,
-    //     DriveConstants.kBackLeftDriveAbsoluteEncoderReversed);
-
-    // public final SwerveModule backRight = new SwerveModule(
-    //     DriveConstants.kBackRightDriveMotorPort,
-    //     DriveConstants.kBackRightTurningMotorPort,
-    //     DriveConstants.kBackRightDriveEncoderReversed,
-    //     DriveConstants.kBackRightTurningEncoderReversed,
-    //     DriveConstants.kBackRightDriveAbsoluteEncoderPort,
-    //     DriveConstants.kBackRightDriveAbsoluteEncoderOffsetRad,
-    //     DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
-    
+    private Field2d field = new Field2d(); 
     private AHRS navx = new AHRS(SPI.Port.kMXP);
     public SwerveModule[] SwerveMods;
     private SwerveDriveOdometry odometer; 
@@ -114,6 +85,24 @@ public class SwerveSubsystem extends SubsystemBase {
 
         odometer = new SwerveDriveOdometry(Constants.DriveConstants.kDriveKinematics, new Rotation2d(0), getModulePositions());
 
+        AutoBuilder.configureHolonomic(
+            this::getPose, 
+            this::resetOdometry, 
+            this::getSpeeds, 
+            this::driveRobotRelative, 
+            AutoConstants.pathFollowerConfig, 
+            () -> { 
+                var alliance = DriverStation.getAlliance(); 
+                if(alliance.isPresent()) { 
+                    return alliance.get() == DriverStation.Alliance.Red; 
+                }
+                return false;
+            }, this);
+
+        PathPlannerLogging.setLogActivePathCallback((poses) -> field.getObject("path").setPoses(poses));
+        SmartDashboard.putData("Field", field);
+
+
     }
 
     /**
@@ -160,21 +149,31 @@ public class SwerveSubsystem extends SubsystemBase {
         double y = ty.getDouble(0.0);
         double area = ta.getDouble(0.0);
 
-        odometer.update(getRotation2d(), getModulePositions());
-        SmartDashboard.putNumber("Robot Heading", getRotation2d().getDegrees());
-        SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
-        SmartDashboard.putNumber("Magnet", navx.getFusedHeading()); 
-        SmartDashboard.putNumber("LimelightX", x);
-        SmartDashboard.putNumber("LimelightY", y);
-        SmartDashboard.putNumber("LimelightArea", area);
-        SmartDashboard.putNumber("Rotation 2d", getRotation2d().getDegrees()); 
-        Encoder(); 
+        // odometer.update(getRotation2d(), getModulePositions());
+        // SmartDashboard.putNumber("Robot Heading", getRotation2d().getDegrees());
+        // SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
+        // SmartDashboard.putNumber("Magnet", navx.getFusedHeading()); 
+        // SmartDashboard.putNumber("LimelightX", x);
+        // SmartDashboard.putNumber("LimelightY", y);
+        // SmartDashboard.putNumber("LimelightArea", area);
+        // SmartDashboard.putNumber("Rotation 2d", getRotation2d().getDegrees()); 
+        // Encoder(); 
+        field.setRobotPose(getPose());
     }
 
     public SwerveModulePosition[] getModulePositions(){
         SwerveModulePosition[] positions = new SwerveModulePosition[4];
         for(SwerveModule mod : SwerveMods){
              positions[mod.modNum] = mod.getPositions();
+        }
+        return positions;
+    }
+
+    
+    public SwerveModuleState[] getModuleStates(){
+        SwerveModuleState[] positions = new SwerveModuleState[4];
+        for(SwerveModule mod : SwerveMods){
+             positions[mod.modNum] = mod.getState();
         }
         return positions;
     }
@@ -207,6 +206,19 @@ public class SwerveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Back Left", SwerveMods[2].getAbsoluteEncoderRad());
         SmartDashboard.putNumber("Back Right", SwerveMods[3].getAbsoluteEncoderRad());
     }
+
+    public ChassisSpeeds getSpeeds() { 
+        return DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates()); 
+    }
+
+    public void driveRobotRelative(ChassisSpeeds robotRelativeSpeeds) { 
+        ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(robotRelativeSpeeds, 0.02); 
+
+        SwerveModuleState[] targetStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(targetSpeeds);
+        setModuleStates(targetStates); 
+    }
+
+
 
     public void alignAprilTag() { 
         NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
