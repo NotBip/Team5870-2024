@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
-import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.revrobotics.CANSparkMax;
@@ -119,7 +118,7 @@ public class SwerveModule {
 
     /**
      * Get the Turning Motor Speed. 
-     * @return (Double) Speed of the motor. 
+     * @return (Double) Speed of the motor 
      */
     public double getTurningVelocity() {
         return turningEncoder.getVelocity(); 
