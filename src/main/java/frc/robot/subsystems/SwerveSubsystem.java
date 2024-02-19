@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.commands.Autos.blueAmp;
 
 
 
@@ -99,8 +100,7 @@ public class SwerveSubsystem extends SubsystemBase {
                 return false;
             }, this);
 
-        PathPlannerLogging.setLogActivePathCallback((poses) -> field.getObject("path").setPoses(poses));
-        SmartDashboard.putData("Field", field);
+
 
 
     }

@@ -4,18 +4,21 @@
 
 package frc.robot;
 
+import java.sql.Driver;
+
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.subsystems.Climber;
+// import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -68,6 +71,9 @@ public class Robot extends TimedRobot {
         // robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
+        SmartDashboard.putNumber("ALLIANCE NUMBER", DriverStation.getLocation().getAsInt());
+        SmartDashboard.putString("ALLIANCE COLOR", DriverStation.getAlliance().get().toString());
+        
     }
 
     /** This function is called once each time the robot enters Disabled mode. */

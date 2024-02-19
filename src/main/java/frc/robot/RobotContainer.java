@@ -4,7 +4,11 @@ package frc.robot;
 import java.util.List;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.GoalEndState;
+import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -16,11 +20,15 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -34,7 +42,7 @@ import frc.robot.commands.Intake.IntakeSpinForward;
 import frc.robot.commands.Intake.IntakeStop;
 import frc.robot.commands.Swerve.SwerveJoystickCmd;
 import frc.robot.commands.Swerve.ZeroGyro;
-import frc.robot.subsystems.Climber;
+// import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.Constants.AutoConstants;
@@ -43,11 +51,12 @@ import frc.robot.Constants.AutonomousMode;
 public class RobotContainer {
         // Autonomous Chooser
         private final SendableChooser<Command> autoChooser;
-
+        Field2d field = new Field2d(); 
+        
         // Initializing Robot's Subsystems
         private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
         private final Intake intake = new Intake();
-        private final Climber climber = new Climber(); 
+        // private final Climber climber = new Climber(); 
 
         // Initializing Controllers and Joysticks
         private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
@@ -100,7 +109,6 @@ public class RobotContainer {
         xboxBtnSelect = new JoystickButton(driverJoystick, OIConstants.KXboxSelectButton);
         xboxBtnStrt = new JoystickButton(driverJoystick, OIConstants.KXboxStartButton);
         
-
         configureButtonBindings(); 
         }
 
@@ -117,7 +125,11 @@ public class RobotContainer {
         // new JoystickButton(driverJoystick, 4).onTrue(new InstantCommand(() -> shooter.intake()));   
         // new JoystickButton(driverJoystick, 6).onTrue(new InstantCommand(() -> shooter.shoot()));  
         // new JoystickButton(driverJoystick, 7).onTrue(new InstantCommand(() -> shooter.stopMotor()));     
-        }
+        PathPlannerLogging.setLogActivePathCallback((poses) -> field.getObject("path").setPoses(poses));
+        SmartDashboard.putData("Field", field);
+        SmartDashboard.putData("Example Auto", new PathPlannerAuto("New Auto"));
+
+}
 
 
         public Command getAutonomousCommand() {
