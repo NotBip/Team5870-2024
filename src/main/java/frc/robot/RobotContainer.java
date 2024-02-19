@@ -44,6 +44,7 @@ import frc.robot.commands.Swerve.SwerveJoystickCmd;
 import frc.robot.commands.Swerve.ZeroGyro;
 // import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.SwerveSim;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.AutonomousMode;
@@ -54,7 +55,7 @@ public class RobotContainer {
         Field2d field = new Field2d(); 
         
         // Initializing Robot's Subsystems
-        private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+        private final SwerveSim swerveSubsystem = new SwerveSim();
         private final Intake intake = new Intake();
         // private final Climber climber = new Climber(); 
 
@@ -73,7 +74,7 @@ public class RobotContainer {
         private final IntakeStop intakeStop = new IntakeStop(intake); 
 
         // Swerve
-        private final ZeroGyro ZeroGyro = new ZeroGyro(swerveSubsystem); 
+        // private final ZeroGyro ZeroGyro = new ZeroGyro(swerveSubsystem); 
 
         // Game Controllers
         public JoystickButton xboxBtnA, xboxBtnB, xboxBtnX, xboxBtnY, xboxBtnLB, xboxBtnRB, xboxBtnStrt, xboxBtnSelect;
@@ -90,12 +91,12 @@ public class RobotContainer {
         SmartDashboard.putData("Auto Mode", autoChooser);
 
         // set default commands for each Subsystem
-        swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
-                swerveSubsystem,
-                () -> -driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
-                () -> -driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
-                () -> -driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
-                () -> !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
+        // swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
+        //         swerveSubsystem,
+        //         () -> -driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
+        //         () -> -driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
+        //         () -> -driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
+        //         () -> !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
         intake.setDefaultCommand(intakeStop);
         // climber.setDefaultCommand(climberStop);
         
@@ -114,22 +115,45 @@ public class RobotContainer {
 
         private void configureButtonBindings() {
         // QOL Swerve Controls
-        xboxBtnStrt.onTrue(ZeroGyro); 
+        // xboxBtnStrt.onTrue(ZeroGyro); 
 
         // Intake Controls 
         xboxBtnLB.whileTrue(intakeSpinBack);
         xboxBtnRB.whileTrue(intakeSpinForward); 
-        
+        SmartDashboard.putData("Path to Heaven", new PathPlannerAuto("Trial no 1000"));
+
         // new JoystickButton(driverJoystick, OIConstants.KXboxStartButton).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));      
         // new JoystickButton(driverJoystick, 2).onTrue(new InstantCommand(() -> swerveSubsystem.alignAprilTag()));
         // new JoystickButton(driverJoystick, 4).onTrue(new InstantCommand(() -> shooter.intake()));   
         // new JoystickButton(driverJoystick, 6).onTrue(new InstantCommand(() -> shooter.shoot()));  
         // new JoystickButton(driverJoystick, 7).onTrue(new InstantCommand(() -> shooter.stopMotor()));     
-        PathPlannerLogging.setLogActivePathCallback((poses) -> field.getObject("path").setPoses(poses));
-        SmartDashboard.putData("Field", field);
-        SmartDashboard.putData("Example Auto", new PathPlannerAuto("New Auto"));
 
-}
+        // SmartDashboard.putData("Example Auto", new PathPlannerAuto("New Auto"));
+        // SmartDashboard.putData("On-the-fly path", Commands.runOnce(() -> {
+        //         Pose2d currentPose = swerveSubsystem.getPose();
+                
+        //         // The rotation component in these poses represents the direction of travel
+        //         Pose2d startPos = new Pose2d(currentPose.getTranslation(), new Rotation2d());
+        //         Pose2d endPos = new Pose2d(currentPose.getTranslation().plus(new Translation2d(2.0, 0.0)), new Rotation2d());
+          
+        //         List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(startPos, endPos);
+        //         PathPlannerPath path = new PathPlannerPath(
+        //           bezierPoints, 
+        //           new PathConstraints(
+        //             4.0, 4.0, 
+        //             Units.degreesToRadians(360), Units.degreesToRadians(540)
+        //           ),  
+        //           new GoalEndState(0.0, currentPose.getRotation())
+        //         );
+          
+        //         // Prevent this path from being flipped on the red alliance, since the given positions are already correct
+        //         path.preventFlipping = true;
+          
+        //         AutoBuilder.followPath(path).schedule();
+        //       }));
+    }
+  
+
 
 
         public Command getAutonomousCommand() {

@@ -3,11 +3,16 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/SmartDashboard/Auto Mode": "String Chooser",
+      "/SmartDashboard/Example Auto": "Command",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/On-the-fly path": "Command"
     },
     "windows": {
       "/SmartDashboard/Field": {
+        "Robot": {
+          "length": 0.7400000095367432,
+          "width": 0.7400000095367432
+        },
         "bottom": 1476,
         "height": 8.210550308227539,
         "left": 150,

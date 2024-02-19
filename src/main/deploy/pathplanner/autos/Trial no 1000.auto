@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.5309019562569305,
-      "y": 2.951822146939959
+      "x": 0.65,
+      "y": 7.15
     },
     "rotation": 0
   },
@@ -14,7 +14,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "New Path"
+            "pathName": "blueAmp"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "blueAmptoMid"
           }
         }
       ]
