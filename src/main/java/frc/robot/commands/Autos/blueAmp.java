@@ -40,13 +40,11 @@ public class blueAmp extends Command {
     public Command blueAmpAutoCommand() { 
         PathPlannerPath path = PathPlannerPath.fromPathFile("blueAmp"); 
         PathPlannerPath path2 = PathPlannerPath.fromPathFile("blueAmptoMid");
-        PathPlannerPath testPath = PathPlannerPath.fromPathFile("New Path"); 
-     
+        // PathPlannerPath testPath = PathPlannerPath.fromPathFile("New Path"); 
         return new SequentialCommandGroup(
             AutoBuilder.followPath(path),
-            new InstantCommand(() -> intakeSpinForward.execute()).repeatedly(),
-            new WaitCommand(2), 
-            AutoBuilder.followPath(path2)
+            intakeSpinForward.withTimeout(2),
+            intakeStop.alongWith(AutoBuilder.followPath(path2)) 
         ); 
     }
 
