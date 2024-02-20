@@ -5,7 +5,8 @@
       "/SmartDashboard/Auto Mode": "String Chooser",
       "/SmartDashboard/Example Auto": "Command",
       "/SmartDashboard/Field": "Field2d",
-      "/SmartDashboard/On-the-fly path": "Command"
+      "/SmartDashboard/On-the-fly path": "Command",
+      "/SmartDashboard/Path to Heaven": "Command"
     },
     "windows": {
       "/SmartDashboard/Field": {
@@ -22,6 +23,28 @@
         "window": {
           "visible": true
         }
+      }
+    }
+  },
+  "NetworkTables": {
+    "transitory": {
+      "Shuffleboard": {
+        ".recording": {
+          "open": true
+        },
+        "open": true
+      },
+      "SmartDashboard": {
+        "Auto Mode": {
+          "open": true
+        },
+        "Field": {
+          "open": true
+        },
+        "Path to Heaven": {
+          "open": true
+        },
+        "open": true
       }
     }
   },

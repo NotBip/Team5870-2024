@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import java.security.PublicKey;
 import java.sql.Driver;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -73,7 +74,6 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().run();
         SmartDashboard.putNumber("ALLIANCE NUMBER", DriverStation.getLocation().getAsInt());
         SmartDashboard.putString("ALLIANCE COLOR", DriverStation.getAlliance().get().toString());
-        
     }
 
     /** This function is called once each time the robot enters Disabled mode. */

@@ -20,6 +20,7 @@ public class IntakeSpinForward extends Command {
     @Override
     public void execute() {
     intake.moveSpin(intakeSpeed);
+    System.out.println("asd");
     }
 
     // Called once the command ends or is interrupted.

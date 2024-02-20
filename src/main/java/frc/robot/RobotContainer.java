@@ -56,7 +56,7 @@ public class RobotContainer {
         
         // Initializing Robot's Subsystems
         private final SwerveSim swerveSubsystem = new SwerveSim();
-        private final Intake intake = new Intake();
+        public final Intake intake = new Intake();
         // private final Climber climber = new Climber(); 
 
         // Initializing Controllers and Joysticks

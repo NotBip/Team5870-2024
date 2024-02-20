@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.commands.Intake.IntakeSpinForward;
+import frc.robot.commands.Intake.IntakeStop;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.SwerveSim;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -24,12 +25,14 @@ public class blueAmp extends Command {
     
     Intake intake; 
     IntakeSpinForward intakeSpinForward; 
+    IntakeStop intakeStop; 
     SwerveSim swerveSubsystem; 
 
     public blueAmp(Intake intake, SwerveSim swerveSubsystem) { 
         this.intake = intake;
         this.swerveSubsystem = swerveSubsystem; 
         intakeSpinForward = new IntakeSpinForward(intake);
+        intakeStop = new IntakeStop(intake);
         addRequirements(intake);
     }
 
@@ -39,9 +42,8 @@ public class blueAmp extends Command {
         // PathPlannerPath testPath = PathPlannerPath.fromPathFile("New Path"); 
         return new SequentialCommandGroup(
             AutoBuilder.followPath(path),
-            new InstantCommand(() -> intakeSpinForward.execute()),
-            new WaitCommand(2), 
-            AutoBuilder.followPath(path2)
+            intakeSpinForward.withTimeout(2),
+            intakeStop.alongWith(AutoBuilder.followPath(path2)) 
         ); 
     }
 
