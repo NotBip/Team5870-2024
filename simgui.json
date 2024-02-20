@@ -3,6 +3,7 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/SmartDashboard/Auto Mode": "String Chooser",
+      "/SmartDashboard/Example Auto": "Command",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/On-the-fly path": "Command"
     },
