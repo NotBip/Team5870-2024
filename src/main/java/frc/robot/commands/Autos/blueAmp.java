@@ -1,5 +1,6 @@
 package frc.robot.commands.Autos;
 
+import java.io.IOException;
 import java.nio.file.Path;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -40,11 +41,15 @@ public class blueAmp extends Command {
         PathPlannerPath path = PathPlannerPath.fromPathFile("blueAmp"); 
         PathPlannerPath path2 = PathPlannerPath.fromPathFile("blueAmptoMid");
         // PathPlannerPath testPath = PathPlannerPath.fromPathFile("New Path"); 
+        try { 
         return new SequentialCommandGroup(
             AutoBuilder.followPath(path),
             intakeSpinForward.withTimeout(2),
             intakeStop.alongWith(AutoBuilder.followPath(path2)) 
         ); 
+        } catch (Exception e) { 
+            return null; 
+        }
     }
 
     

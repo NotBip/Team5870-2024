@@ -72,8 +72,8 @@ public class Robot extends TimedRobot {
         // robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
-        SmartDashboard.putNumber("ALLIANCE NUMBER", DriverStation.getLocation().getAsInt());
-        SmartDashboard.putString("ALLIANCE COLOR", DriverStation.getAlliance().get().toString());
+        // SmartDashboard.putNumber("ALLIANCE NUMBER", DriverStation.getLocation().getAsInt());
+        // SmartDashboard.putString("ALLIANCE COLOR", DriverStation.getAlliance().get().toString());
     }
 
     /** This function is called once each time the robot enters Disabled mode. */
