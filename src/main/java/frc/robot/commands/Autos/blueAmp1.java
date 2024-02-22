@@ -22,14 +22,14 @@ import frc.robot.commands.Intake.IntakeStop;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.SwerveSubsystem;
 
-public class blueAmp extends Command {
+public class blueAmp1 extends Command {
     
     Intake intake; 
     IntakeSpinForward intakeSpinForward; 
     IntakeStop intakeStop; 
     SwerveSubsystem swerveSubsystem; 
 
-    public blueAmp(Intake intake, SwerveSubsystem swerveSubsystem) { 
+    public blueAmp1(Intake intake, SwerveSubsystem swerveSubsystem) { 
         this.intake = intake;
         this.swerveSubsystem = swerveSubsystem; 
         intakeSpinForward = new IntakeSpinForward(intake);
@@ -37,9 +37,9 @@ public class blueAmp extends Command {
         addRequirements(intake);
     }
 
-    public Command blueAmpAutoCommand() { 
-        PathPlannerPath path = PathPlannerPath.fromPathFile("blueAmp"); 
-        PathPlannerPath path2 = PathPlannerPath.fromPathFile("blueAmptoMid");
+    public Command blueAmp1AutoCommand() { 
+        PathPlannerPath path = PathPlannerPath.fromPathFile("BA1"); 
+        PathPlannerPath path2 = PathPlannerPath.fromPathFile("AM");
         // PathPlannerPath testPath = PathPlannerPath.fromPathFile("New Path"); 
         return new SequentialCommandGroup(
             AutoBuilder.followPath(path),

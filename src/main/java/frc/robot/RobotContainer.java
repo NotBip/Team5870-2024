@@ -36,7 +36,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.Autos.blueAmp;
+import frc.robot.commands.Autos.blueAmp1;
 import frc.robot.commands.Intake.IntakeSpinBack;
 import frc.robot.commands.Intake.IntakeSpinForward;
 import frc.robot.commands.Intake.IntakeStop;
@@ -64,7 +64,7 @@ public class RobotContainer {
         private final XboxController operatorController = new XboxController(1); 
 
         // Initializing Auto Commands 
-        private final blueAmp blueAmpAuto = new blueAmp(intake, swerveSubsystem); 
+        private final blueAmp1 blueAmpAuto = new blueAmp1(intake, swerveSubsystem); 
 
         // Initializing Commands
         // Intake
@@ -125,9 +125,9 @@ public class RobotContainer {
         // new JoystickButton(driverJoystick, 4).onTrue(new InstantCommand(() -> shooter.intake()));   
         // new JoystickButton(driverJoystick, 6).onTrue(new InstantCommand(() -> shooter.shoot()));  
         // new JoystickButton(driverJoystick, 7).onTrue(new InstantCommand(() -> shooter.stopMotor()));     
-        PathPlannerLogging.setLogActivePathCallback((poses) -> field.getObject("path").setPoses(poses));
-        SmartDashboard.putData("Field", field);
-        SmartDashboard.putData("Example Auto", new PathPlannerAuto("New Auto"));
+        // PathPlannerLogging.setLogActivePathCallback((poses) -> field.getObject("path").setPoses(poses));
+        // SmartDashboard.putData("Field", field);
+        // SmartDashboard.putData("Example Auto", new PathPlannerAuto("New Auto"));
 
 }
 
@@ -252,6 +252,6 @@ public class RobotContainer {
         //         new InstantCommand(() -> swerveSubsystem.resetOdometry(finalTrajectory.getInitialPose())),
         //         swerveControllerCommand,
         //         new InstantCommand(() -> swerveSubsystem.stopModules()));
-                return blueAmpAuto.blueAmpAutoCommand(); 
+                return blueAmpAuto.blueAmp1AutoCommand(); 
         }
 }
