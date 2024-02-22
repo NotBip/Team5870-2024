@@ -56,7 +56,8 @@ public class SwerveModule {
      * @param absoluteEncoderOffset absolute Encoder offset
      * @param absoluteEncoderReversed   Boolean if Absolute Encoder is Reversed. 
      */
-    public SwerveModule(int modNum, int driveMotorId, int turningMotorId, boolean driveMotorReversed, boolean turningMotorReversed, int absoluteEncoderId, double absoluteEncoderOffset, boolean absoluteEncoderReversed){
+    public SwerveModule(int modNum, int driveMotorId, int turningMotorId, boolean driveMotorReversed, boolean turningMotorReversed, 
+    int absoluteEncoderId, double absoluteEncoderOffset, boolean absoluteEncoderReversed){
 
         // Set Absolute Encoder Port. 
         this.modNum = modNum; 

@@ -50,7 +50,7 @@ import frc.robot.Constants.AutonomousMode;
 
 public class RobotContainer {
         // Autonomous Chooser
-        private final SendableChooser<Command> autoChooser;
+        // private final SendableChooser<Command> autoChooser;
         Field2d field = new Field2d(); 
         
         // Initializing Robot's Subsystems
@@ -60,8 +60,8 @@ public class RobotContainer {
 
         // Initializing Controllers and Joysticks
         private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
-        private final XboxController driverController = new XboxController(0); 
-        private final XboxController operatorController = new XboxController(1); 
+        private final XboxController driverController = new XboxController(1); 
+        private final XboxController operatorController = new XboxController(2); 
 
         // Initializing Auto Commands 
         private final blueAmp1 blueAmpAuto = new blueAmp1(intake, swerveSubsystem); 
@@ -86,8 +86,8 @@ public class RobotContainer {
         public RobotContainer() {
         
         // Auto Chooser
-        autoChooser = AutoBuilder.buildAutoChooser(); // Default auto will be `Commands.none()`
-        SmartDashboard.putData("Auto Mode", autoChooser);
+        // autoChooser = AutoBuilder.buildAutoChooser(); // Default auto will be `Commands.none()`
+        // SmartDashboard.putData("Auto Mode", autoChooser);
 
         // set default commands for each Subsystem
         swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(

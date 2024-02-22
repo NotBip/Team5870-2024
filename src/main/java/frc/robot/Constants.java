@@ -131,7 +131,7 @@ public final class Constants {
     // Module for Controller Joystick
     public static final class OIConstants {
 
-        // Joystick Values Used for Swerve Controlls
+        // Joystick Values Used for Swerve Controls
         public static final int kDriverControllerPort = 0;
         public static final int kDriverYAxis = 1;
         public static final int kDriverXAxis = 0;
@@ -161,7 +161,7 @@ public final class Constants {
     }
 
     public static final class ArmConstants { 
-        public static final int shootMotor = 0; 
-    }
+        public static final int shootMotor =0; 
+    } 
 
 }
