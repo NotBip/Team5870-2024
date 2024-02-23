@@ -27,6 +27,7 @@ public final class Constants {
     // Module for Intake Constants
     public static final class IntakeConstants { 
         public static double intakeSpeed = 0.5; 
+        public static int armMotor = 10; 
     }
 
 
@@ -148,20 +149,15 @@ public final class Constants {
         public static final int KXboxRightBumper = 6; 
         public static final int KXboxSelectButton = 7; 
         public static final int KXboxStartButton = 8; 
-        public static final int KXboxLeftTrigger = 2; 
-        public static final int KXboxRightTrigger = 3; 
+        public static final int KXboxLeftTrigger = 9;
+        public static final int KXboxRightTrigger = 10; 
         
     }
 
     public static final class climberConstants { 
-        public static final int leaderMotor = 0; 
-        public static final int followerMotor = 0;
+        public static final int leaderMotor = 11; 
+        public static final int followerMotor = 12;
         public static final int bottomLimitSwitch = 0; 
         public static final int topLimitSwitch = 0;  
     }
-
-    public static final class ArmConstants { 
-        public static final int shootMotor =0; 
-    } 
-
 }

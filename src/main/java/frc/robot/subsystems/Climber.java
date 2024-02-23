@@ -19,8 +19,8 @@ public class Climber extends SubsystemBase {
         // Initializing motors and limit switches
         leaderMotor = new CANSparkMax(climberConstants.leaderMotor, MotorType.kBrushless);
         followerMotor = new CANSparkMax(climberConstants.followerMotor, MotorType.kBrushless);
-        bottomLimitSwitch = new DigitalInput(climberConstants.bottomLimitSwitch); 
-        topLimitSwitch = new DigitalInput(climberConstants.topLimitSwitch); 
+        // bottomLimitSwitch = new DigitalInput(climberConstants.bottomLimitSwitch); 
+        // topLimitSwitch = new DigitalInput(climberConstants.topLimitSwitch); 
 
         // Resetting motors
         leaderMotor.restoreFactoryDefaults();

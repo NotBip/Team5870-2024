@@ -1,5 +1,6 @@
 package frc.robot.commands.Intake;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Intake;
 
@@ -21,6 +22,7 @@ public class IntakeStop extends Command {
     @Override
     public void execute() {
         intake.moveSpin(0);
+        SmartDashboard.putNumber("INTAKE MOVING", 0);        
     }
 
 

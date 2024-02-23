@@ -24,6 +24,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Relay.Direction;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -37,11 +38,15 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.Autos.blueAmp1;
+import frc.robot.commands.Climber.ClimberDown;
+import frc.robot.commands.Climber.ClimberStop;
+import frc.robot.commands.Climber.ClimberUp;
 import frc.robot.commands.Intake.IntakeSpinBack;
 import frc.robot.commands.Intake.IntakeSpinForward;
 import frc.robot.commands.Intake.IntakeStop;
 import frc.robot.commands.Swerve.SwerveJoystickCmd;
 import frc.robot.commands.Swerve.ZeroGyro;
+import frc.robot.subsystems.Climber;
 // import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -56,11 +61,11 @@ public class RobotContainer {
         // Initializing Robot's Subsystems
         private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
         private final Intake intake = new Intake();
-        // private final Climber climber = new Climber(); 
+        private final Climber climber = new Climber(); 
 
         // Initializing Controllers and Joysticks
         private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
-        // private final XboxController driverController = new XboxController(0); 
+        private final XboxController driverController = new XboxController(0); 
         // private final XboxController operatorController = new XboxController(2); 
 
         // Initializing Auto Commands 
@@ -70,7 +75,13 @@ public class RobotContainer {
         // Intake
         private final IntakeSpinBack intakeSpinBack = new IntakeSpinBack(intake); 
         private final IntakeSpinForward intakeSpinForward = new IntakeSpinForward(intake); 
-        private final IntakeStop intakeStop = new IntakeStop(intake); 
+        private final IntakeStop intakeStop = new IntakeStop(intake);
+        
+        // Climber
+        private final ClimberDown climberDown = new ClimberDown(climber); 
+        private final ClimberUp climberUp = new ClimberUp(climber); 
+        private final ClimberStop climberStop = new ClimberStop(climber); 
+
 
         // Swerve
         private final ZeroGyro ZeroGyro = new ZeroGyro(swerveSubsystem); 
@@ -97,6 +108,7 @@ public class RobotContainer {
                 () -> -driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
                 () -> !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
         intake.setDefaultCommand(intakeStop);
+        climber.setDefaultCommand(climberStop);
         // climber.setDefaultCommand(climberStop);
         
         // Xbox Controller Buttons
@@ -114,11 +126,11 @@ public class RobotContainer {
 
         private void configureButtonBindings() {
         // QOL Swerve Controls
-        xboxBtnStrt.onTrue(ZeroGyro); 
-
+        xboxBtnStrt.onTrue(ZeroGyro);
         // Intake Controls 
-        xboxBtnLB.whileTrue(intakeSpinBack);
-        xboxBtnRB.whileTrue(intakeSpinForward); 
+        xboxBtnLB.whileTrue(climberDown);
+        xboxBtnRB.whileTrue(climberUp);
+                
         
         // new JoystickButton(driverJoystick, OIConstants.KXboxStartButton).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));      
         // new JoystickButton(driverJoystick, 2).onTrue(new InstantCommand(() -> swerveSubsystem.alignAprilTag()));
