@@ -41,6 +41,7 @@ import frc.robot.commands.Autos.blueAmp1;
 import frc.robot.commands.Climber.ClimberDown;
 import frc.robot.commands.Climber.ClimberStop;
 import frc.robot.commands.Climber.ClimberUp;
+import frc.robot.commands.Intake.IntakeFullPower;
 import frc.robot.commands.Intake.IntakeSpinBack;
 import frc.robot.commands.Intake.IntakeSpinForward;
 import frc.robot.commands.Intake.IntakeStop;
@@ -59,7 +60,7 @@ public class RobotContainer {
         Field2d field = new Field2d(); 
         
         // Initializing Robot's Subsystems
-        private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+        public final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
         private final Intake intake = new Intake();
         private final Climber climber = new Climber(); 
 
@@ -76,6 +77,7 @@ public class RobotContainer {
         private final IntakeSpinBack intakeSpinBack = new IntakeSpinBack(intake); 
         private final IntakeSpinForward intakeSpinForward = new IntakeSpinForward(intake); 
         private final IntakeStop intakeStop = new IntakeStop(intake);
+        private final IntakeFullPower intakeFullPower = new IntakeFullPower(intake); 
         
         // Climber
         private final ClimberDown climberDown = new ClimberDown(climber); 
@@ -103,8 +105,8 @@ public class RobotContainer {
         // set default commands for each Subsystem
         swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                 swerveSubsystem,
-                () -> -driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
-                () -> -driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
+                () -> driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
+                () -> driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
                 () -> -driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
                 () -> !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
         intake.setDefaultCommand(intakeStop);
@@ -128,8 +130,9 @@ public class RobotContainer {
         // QOL Swerve Controls
         xboxBtnStrt.onTrue(ZeroGyro);
         // Intake Controls 
-        xboxBtnLB.whileTrue(climberDown);
-        xboxBtnRB.whileTrue(climberUp);
+        xboxBtnA.whileTrue(intakeFullPower); 
+        xboxBtnLB.whileTrue(intakeSpinBack.withTimeout(.1));
+        xboxBtnRB.whileTrue(intakeSpinForward);
                 
         
         // new JoystickButton(driverJoystick, OIConstants.KXboxStartButton).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));      
