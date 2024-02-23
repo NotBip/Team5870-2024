@@ -60,8 +60,8 @@ public class RobotContainer {
 
         // Initializing Controllers and Joysticks
         private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
-        private final XboxController driverController = new XboxController(1); 
-        private final XboxController operatorController = new XboxController(2); 
+        // private final XboxController driverController = new XboxController(0); 
+        // private final XboxController operatorController = new XboxController(2); 
 
         // Initializing Auto Commands 
         private final blueAmp1 blueAmpAuto = new blueAmp1(intake, swerveSubsystem); 
