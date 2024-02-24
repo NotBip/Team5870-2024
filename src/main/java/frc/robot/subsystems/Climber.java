@@ -8,6 +8,7 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -18,7 +19,7 @@ public class Climber extends SubsystemBase {
     DigitalInput bottomLimitSwitch;
     DigitalInput topLimitSwitch;
     private SparkPIDController m_pidController;
-    private SparkAbsoluteEncoder absoluteEncoder; 
+    private RelativeEncoder m_Encoder; 
     public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
 
 
@@ -27,23 +28,18 @@ public class Climber extends SubsystemBase {
         // Initializing motors and limit switches
         leaderMotor = new CANSparkMax(climberConstants.leaderMotor, MotorType.kBrushless);
         followerMotor = new CANSparkMax(climberConstants.followerMotor, MotorType.kBrushless);
-        // bottomLimitSwitch = new DigitalInput(climberConstants.bottomLimitSwitch); 
-        // topLimitSwitch = new DigitalInput(climberConstants.topLimitSwitch); 
 
         // Resetting motors
         leaderMotor.restoreFactoryDefaults();
         followerMotor.restoreFactoryDefaults();
 
         // Follower motor follows Leader Motor
-        followerMotor.follow(leaderMotor);
-        absoluteEncoder = leaderMotor.getAbsoluteEncoder(); 
-        absoluteEncoder.getPosition(); 
-        m_pidController = leaderMotor.getPIDController();
-        // m_encoder = leaderMotor.getEncoder();
+        followerMotor.follow(leaderMotor, true);        m_pidController = leaderMotor.getPIDController();
+        m_Encoder = leaderMotor.getEncoder();
                 
         kP = 0.1; 
         kI = 0;
-        kD = 0; 
+        kD = 0;  
         kIz = 0; 
         kFF = 0; 
         kMaxOutput = .5; 
@@ -72,6 +68,7 @@ public class Climber extends SubsystemBase {
     }
 
     public void moveArm(double motorSpeed) { 
+        // followerMotor.set(-motorSpeed);
         leaderMotor.set(motorSpeed);
     }
 
@@ -83,6 +80,14 @@ public class Climber extends SubsystemBase {
     public void hold() { 
         leaderMotor.setIdleMode(IdleMode.kBrake); 
         followerMotor.setIdleMode(IdleMode.kBrake); 
+    }
+
+    public void get() { 
+        SmartDashboard.putNumber("LEADER", m_Encoder.getPosition()); 
+        }
+
+    public void resetEncoders() { 
+        m_Encoder.setPosition(0); 
     }
 
     

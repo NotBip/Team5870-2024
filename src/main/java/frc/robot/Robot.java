@@ -74,6 +74,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("ALLIANCE NUMBER", DriverStation.getLocation().getAsInt());
         SmartDashboard.putString("ALLIANCE COLOR", DriverStation.getAlliance().get().toString());
         m_robotContainer.swerveSubsystem.Encoder();
+        m_robotContainer.climber.get();
         
     }
 

@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Compressor;
 
 public final class Constants {
 
@@ -30,6 +31,7 @@ public final class Constants {
         public static int armMotor = 9; 
     }
 
+    // public final static Compressor c = new Compressor(0, null)
 
     // May be removed later. 
     public enum AutonomousMode {
@@ -156,8 +158,8 @@ public final class Constants {
     }
 
     public static final class climberConstants { 
-        public static final int leaderMotor = 11; 
-        public static final int followerMotor = 12;
+        public static final int leaderMotor = 14; 
+        public static final int followerMotor = 13;
         public static final int bottomLimitSwitch = 0; 
         public static final int topLimitSwitch = 0;  
     }

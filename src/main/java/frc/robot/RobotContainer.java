@@ -63,7 +63,7 @@ public class RobotContainer {
         // Initializing Robot's Subsystems
         public final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
         private final Intake intake = new Intake();
-        private final Climber climber = new Climber(); 
+        public final Climber climber = new Climber(); 
 
         // Initializing Controllers and Joysticks
         private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
@@ -131,9 +131,11 @@ public class RobotContainer {
         // QOL Swerve Controls
         xboxBtnStrt.onTrue(ZeroGyro);
         // Intake Controls 
-        xboxBtnA.whileTrue(intakeFullPower); 
-        xboxBtnLB.whileTrue(intakeSpinBack.withTimeout(.1));
-        xboxBtnRB.whileTrue(intakeSpinForward);
+        // xboxBtnA.whileTrue(intakeFullPower); 
+        // xboxBtnLB.whileTrue(intakeSpinBack.withTimeout(.1));
+        // xboxBtnRB.whileTrue(intakeSpinForward);
+        xboxBtnLB.whileTrue(climberUp);
+        xboxBtnRB.whileTrue(climberDown);
         
                 
         // new JoystickButton(driverJoystick, OIConstants.KXboxStartButton).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));      
