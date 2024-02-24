@@ -4,10 +4,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Climber;
 
-public class ClimberStop extends Command {
+public class ClimberManualPosition extends Command {
     private Climber climber; 
 
-    public ClimberStop(Climber climber) { 
+    public ClimberManualPosition(Climber climber) { 
         this.climber = climber; 
         addRequirements(climber);
     }
@@ -20,13 +20,15 @@ public class ClimberStop extends Command {
      // Called every time the scheduler runs while the command is scheduled.
      @Override
      public void execute() {
-         climber.hold();
-        }
+        climber.moveArm(-.2); 
+     }
  
  
      // Called once the command ends or is interrupted.
      @Override
-     public void end(boolean interrupted) {}
+     public void end(boolean interrupted) {
+         climber.moveArm(0);
+     }
  
      
      // Returns true when the command should end.

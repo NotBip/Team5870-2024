@@ -3,7 +3,9 @@ import frc.robot.Constants.climberConstants;
 import frc.robot.Constants.climberConstants.*;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -16,7 +18,7 @@ public class Climber extends SubsystemBase {
     DigitalInput bottomLimitSwitch;
     DigitalInput topLimitSwitch;
     private SparkPIDController m_pidController;
-    private RelativeEncoder m_encoder;
+    private SparkAbsoluteEncoder absoluteEncoder; 
     public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
 
 
@@ -34,9 +36,10 @@ public class Climber extends SubsystemBase {
 
         // Follower motor follows Leader Motor
         followerMotor.follow(leaderMotor);
-
+        absoluteEncoder = leaderMotor.getAbsoluteEncoder(); 
+        absoluteEncoder.getPosition(); 
         m_pidController = leaderMotor.getPIDController();
-        m_encoder = leaderMotor.getEncoder();
+        // m_encoder = leaderMotor.getEncoder();
                 
         kP = 0.1; 
         kI = 0;
@@ -74,6 +77,12 @@ public class Climber extends SubsystemBase {
 
     public void setPosition(double rotations) { 
         m_pidController.setReference(rotations, CANSparkMax.ControlType.kPosition);
+        leaderMotor.getAbsoluteEncoder(); 
+    }
+
+    public void hold() { 
+        leaderMotor.setIdleMode(IdleMode.kBrake); 
+        followerMotor.setIdleMode(IdleMode.kBrake); 
     }
 
     
