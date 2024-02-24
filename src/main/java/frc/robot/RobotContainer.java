@@ -109,7 +109,7 @@ public class RobotContainer {
                 () -> driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
                 () -> driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
                 () -> -driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
-                () -> !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
+                () -> !driverJoystick.getRawButton(2)));
         intake.setDefaultCommand(intakeStop);
         climber.setDefaultCommand(climberStop);
         // climber.setDefaultCommand(climberStop);
@@ -130,12 +130,16 @@ public class RobotContainer {
         private void configureButtonBindings() {
         // QOL Swerve Controls
         xboxBtnStrt.onTrue(ZeroGyro);
+
         // Intake Controls 
-        // xboxBtnA.whileTrue(intakeFullPower); 
+        // xboxBtnX.whileTrue(intakeFullPower); 
         // xboxBtnLB.whileTrue(intakeSpinBack.withTimeout(.1));
         // xboxBtnRB.whileTrue(intakeSpinForward);
-        xboxBtnLB.whileTrue(climberUp);
-        xboxBtnRB.whileTrue(climberDown);
+        xboxBtnLB.whileTrue(climberUp); 
+        xboxBtnRB.whileTrue(climberDown); 
+
+        // xboxBtnLB.whileTrue(climberUp);
+        // xboxBtnRB.whileTrue(climberDown);
         
                 
         // new JoystickButton(driverJoystick, OIConstants.KXboxStartButton).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));      
