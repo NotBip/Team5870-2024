@@ -120,7 +120,10 @@ public class RobotContainer {
         // Intake Controls 
         xboxBtnLB.whileTrue(intakeSpinBack);
         xboxBtnRB.whileTrue(intakeSpinForward); 
-        SmartDashboard.putData("Path to Heaven", new PathPlannerAuto("Trial no 1000"));
+        SmartDashboard.putData("Path to Heaven1", new PathPlannerAuto("Trial 1"));
+        SmartDashboard.putData("Path to Heaven2", new PathPlannerAuto("Trial 2"));
+        SmartDashboard.putData("Path to Heaven3", new PathPlannerAuto("Trial 3"));
+
 
         // new JoystickButton(driverJoystick, OIConstants.KXboxStartButton).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));      
         // new JoystickButton(driverJoystick, 2).onTrue(new InstantCommand(() -> swerveSubsystem.alignAprilTag()));

@@ -6,7 +6,10 @@
       "/SmartDashboard/Example Auto": "Command",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/On-the-fly path": "Command",
-      "/SmartDashboard/Path to Heaven": "Command"
+      "/SmartDashboard/Path to Heaven": "Command",
+      "/SmartDashboard/Path to Heaven1": "Command",
+      "/SmartDashboard/Path to Heaven2": "Command",
+      "/SmartDashboard/Path to Heaven3": "Command"
     },
     "windows": {
       "/SmartDashboard/Field": {
