@@ -34,7 +34,8 @@ public class Climber extends SubsystemBase {
         followerMotor.restoreFactoryDefaults();
 
         // Follower motor follows Leader Motor
-        followerMotor.follow(leaderMotor, true);        m_pidController = leaderMotor.getPIDController();
+        followerMotor.follow(leaderMotor, true);        
+        m_pidController = leaderMotor.getPIDController();
         m_Encoder = leaderMotor.getEncoder();
                 
         kP = 0.1; 
@@ -68,7 +69,6 @@ public class Climber extends SubsystemBase {
     }
 
     public void moveArm(double motorSpeed) { 
-        // followerMotor.set(-motorSpeed);
         leaderMotor.set(motorSpeed);
     }
 
