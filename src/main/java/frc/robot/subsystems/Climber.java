@@ -74,7 +74,7 @@ public class Climber extends SubsystemBase {
 
     public void setPosition(double rotations) { 
         m_pidController.setReference(rotations, CANSparkMax.ControlType.kPosition);
-        leaderMotor.getAbsoluteEncoder(); 
+        // leaderMotor.getAbsoluteEncoder(); 
     }
 
     public void hold() { 
