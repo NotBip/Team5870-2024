@@ -9,6 +9,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 public final class Constants {
 
@@ -31,7 +32,8 @@ public final class Constants {
         public static int armMotor = 9; 
     }
 
-    // public final static Compressor c = new Compressor(0, null)
+
+
 
     // May be removed later. 
     public enum AutonomousMode {
