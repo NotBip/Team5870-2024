@@ -20,14 +20,14 @@ public class ClimberManualPosition extends Command {
      // Called every time the scheduler runs while the command is scheduled.
      @Override
      public void execute() {
-        climber.moveArm(-.2); 
+        climber.setPosition(); 
      }
  
  
      // Called once the command ends or is interrupted.
      @Override
      public void end(boolean interrupted) {
-         climber.moveArm(0);
+         climber.hold();
      }
  
      
