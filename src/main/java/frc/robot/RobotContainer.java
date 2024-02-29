@@ -161,7 +161,7 @@ public class RobotContainer {
         xboxBtnStrt.onTrue(ZeroGyro);
 
         // Intake Controls
-        xboxBtnLB.whileTrue(intakeSpinBack.withTimeout(0.5)); 
+        xboxBtnLB.whileTrue(intakeSpinBack.withTimeout(0.2)); 
         xboxBtnRB.whileTrue(intakeFullPower); 
 
         // Climber Controls
@@ -179,14 +179,6 @@ public class RobotContainer {
         new POVButton(driverJoystick, 90).onTrue(fullExtend); 
         new POVButton(driverJoystick, 270).onTrue(fullDetract); 
         
-        // new JoystickButton(driverJoystick, OIConstants.KXboxStartButton).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));      
-        // new JoystickButton(driverJoystick, 2).onTrue(new InstantCommand(() -> swerveSubsystem.alignAprilTag()));
-        // new JoystickButton(driverJoystick, 4).onTrue(new InstantCommand(() -> shooter.intake()));   
-        // new JoystickButton(driverJoystick, 6).onTrue(new InstantCommand(() -> shooter.shoot()));  
-        // new JoystickButton(driverJoystick, 7).onTrue(new InstantCommand(() -> shooter.stopMotor()));     
-        // PathPlannerLogging.setLogActivePathCallback((poses) -> field.getObject("path").setPoses(poses));
-        // SmartDashboard.putData("Field", field);
-        // SmartDashboard.putData("Example Auto", new PathPlannerAuto("New Auto"));
 
 }
 
