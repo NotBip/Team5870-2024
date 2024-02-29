@@ -23,6 +23,8 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PneumaticHub;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button; 
 import edu.wpi.first.wpilibj.Relay.Direction;
@@ -53,11 +55,14 @@ import frc.robot.commands.Intake.IntakeFullPower;
 import frc.robot.commands.Intake.IntakeSpinBack;
 import frc.robot.commands.Intake.IntakeSpinForward;
 import frc.robot.commands.Intake.IntakeStop;
+import frc.robot.commands.Pneumatics.FullDetract;
+import frc.robot.commands.Pneumatics.FullExtend;
 import frc.robot.commands.Swerve.SwerveJoystickCmd;
 import frc.robot.commands.Swerve.ZeroGyro;
 import frc.robot.subsystems.Climber;
 // import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Pneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.AutonomousMode;
@@ -70,9 +75,10 @@ public class RobotContainer {
         Field2d field = new Field2d(); 
         
         // Initializing Robot's Subsystems
-        public final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+        private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
         private final Intake intake = new Intake();
-        public final Climber climber = new Climber(); 
+        private final Climber climber = new Climber(); 
+        private final Pneumatics pneumatics = new Pneumatics(); 
 
         // Initializing Controllers and Joysticks
         private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
@@ -98,6 +104,10 @@ public class RobotContainer {
         private final ClimberUp climberUp = new ClimberUp(climber); 
         private final ClimberStop climberStop = new ClimberStop(climber); 
         private final ClimberManualPosition climberManualPosition = new ClimberManualPosition(climber); 
+
+        // Pneumatics
+        private final FullExtend fullExtend = new FullExtend(pneumatics); 
+        private final FullDetract fullDetract = new FullDetract(pneumatics); 
 
 
         // Swerve
@@ -155,14 +165,18 @@ public class RobotContainer {
 
         // Climber Controls
         xboxBtnA.onTrue(climberManualPosition); 
-        new POVButton(driverJoystick, 0).whileTrue(climberUp); 
-        new POVButton(driverJoystick, 180).whileTrue(climberDown); 
-        // new Trigger(()-> driverController.getRightTriggerAxis() > 0.3).whileTrue(
-        //         new ClimberUpControllable(climber, () -> driverController.getRightTriggerAxis())
-        // ); 
-        // new Trigger(() -> driverController.getLeftTriggerAxis() > 0.3).whileTrue(
-        //         new ClimberDownControllable(climber, () -> driverController.getLeftTriggerAxis())
-        // ); 
+        new POVButton(driverJoystick, 0).onTrue(climberUp); 
+        new POVButton(driverJoystick, 180).onTrue(climberDown); 
+        new Trigger(()-> driverController.getRightTriggerAxis() > 0.3).whileTrue(
+                new ClimberUpControllable(climber, () -> driverController.getRightTriggerAxis())
+        ); 
+        new Trigger(() -> driverController.getLeftTriggerAxis() > 0.3).whileTrue(
+                new ClimberDownControllable(climber, () -> driverController.getLeftTriggerAxis())
+        ); 
+
+        // Pneumatics Controls 
+        new POVButton(driverJoystick, 90).onTrue(fullExtend); 
+        new POVButton(driverJoystick, 270).onTrue(fullDetract); 
         
         // new JoystickButton(driverJoystick, OIConstants.KXboxStartButton).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));      
         // new JoystickButton(driverJoystick, 2).onTrue(new InstantCommand(() -> swerveSubsystem.alignAprilTag()));
