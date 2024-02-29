@@ -40,10 +40,14 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.Autos.blueAmp1;
+import frc.robot.commands.Autos.blueAmp2;
+import frc.robot.commands.Autos.blueAmp3;
 import frc.robot.commands.Climber.ClimberDown;
+import frc.robot.commands.Climber.ClimberDownControllable;
 import frc.robot.commands.Climber.ClimberManualPosition;
 import frc.robot.commands.Climber.ClimberStop;
 import frc.robot.commands.Climber.ClimberUp;
+import frc.robot.commands.Climber.ClimberUpControllable;
 import frc.robot.commands.Intake.IntakeFullPower;
 import frc.robot.commands.Intake.IntakeSpinBack;
 import frc.robot.commands.Intake.IntakeSpinForward;
@@ -59,7 +63,9 @@ import frc.robot.Constants.AutonomousMode;
 
 public class RobotContainer {
         // Autonomous Chooser
-        // private final SendableChooser<Command> autoChooser;
+        SendableChooser<Command> autoChooser;
+
+        // Field Generator
         Field2d field = new Field2d(); 
         
         // Initializing Robot's Subsystems
@@ -73,7 +79,10 @@ public class RobotContainer {
         // private final XboxController operatorController = new XboxController(2); 
 
         // Initializing Auto Commands 
-        private final blueAmp1 blueAmpAuto = new blueAmp1(intake, swerveSubsystem); 
+        private final blueAmp1 blueAmpAuto1 = new blueAmp1(intake, swerveSubsystem); 
+        private final blueAmp2 blueAmpAuto2 = new blueAmp2(intake, swerveSubsystem); 
+        private final blueAmp3 blueAmpAuto3 = new blueAmp3(intake, swerveSubsystem); 
+
 
         // Initializing Commands
         // Intake
@@ -102,9 +111,12 @@ public class RobotContainer {
         //Get X and Y axis from the joystick to control the robot
         public RobotContainer() {
         
-        // Auto Chooser
-        // autoChooser = AutoBuilder.buildAutoChooser(); // Default auto will be `Commands.none()`
-        // SmartDashboard.putData("Auto Mode", autoChooser);
+        // Adding options to Auto Chooser
+        autoChooser.setDefaultOption("Template Auton", null);; // Default auto will be `Commands.none()`
+        autoChooser.addOption("BA1", blueAmpAuto1.blueAmp1AutoCommand());
+        autoChooser.addOption("BA2", blueAmpAuto2.blueAmp2AutoCommand());
+        autoChooser.addOption("BA2", blueAmpAuto3.blueAmp3AutoCommand());
+
 
         // set default commands for each Subsystem
         swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
@@ -133,11 +145,21 @@ public class RobotContainer {
         private void configureButtonBindings() {
         // QOL Swerve Controls
         xboxBtnStrt.onTrue(ZeroGyro);
+
+        // Intake Controls
         xboxBtnLB.whileTrue(intakeSpinBack.withTimeout(0.5)); 
         xboxBtnRB.whileTrue(intakeFullPower); 
+
+        // Climber Controls
         xboxBtnA.onTrue(climberManualPosition); 
         new POVButton(driverJoystick, 0).onTrue(climberUp); 
         new POVButton(driverJoystick, 180).onTrue(climberDown); 
+        new Trigger(()-> driverController.getRightTriggerAxis() > 0.1).whileTrue(
+                new ClimberUpControllable(climber, () -> driverController.getRightTriggerAxis())
+        ); 
+        new Trigger(() -> driverController.getLeftTriggerAxis() > 0.1).whileTrue(
+                new ClimberDownControllable(climber, () -> driverController.getLeftTriggerAxis())
+        ); 
         
         // new JoystickButton(driverJoystick, OIConstants.KXboxStartButton).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));      
         // new JoystickButton(driverJoystick, 2).onTrue(new InstantCommand(() -> swerveSubsystem.alignAprilTag()));
@@ -152,6 +174,6 @@ public class RobotContainer {
 
 
         public Command getAutonomousCommand() {
-                return blueAmpAuto.blueAmp1AutoCommand(); 
+                return autoChooser.getSelected(); 
         }
 }
