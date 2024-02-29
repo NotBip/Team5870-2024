@@ -26,7 +26,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.XboxController.Button; 
+import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.Relay.Direction;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -127,8 +128,8 @@ public class RobotContainer {
         autoChooser.setDefaultOption("Template Auton", driveStraight.DriveStraightWhileTurning()); // Default auto will be `Commands.none()`
         autoChooser.addOption("BA1", blueAmpAuto1.blueAmp1AutoCommand());
         autoChooser.addOption("BA2", blueAmpAuto2.blueAmp2AutoCommand());
-        autoChooser.addOption("BA2", blueAmpAuto3.blueAmp3AutoCommand());
-        SmartDashboard.putData(autoChooser);
+        autoChooser.addOption("BA3", blueAmpAuto3.blueAmp3AutoCommand());
+        Shuffleboard.getTab("Autonomous").add("Select Auto", autoChooser).withSize(2, 1);
 
 
         // set default commands for each Subsystem
