@@ -39,6 +39,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.Autos.DriveStraight;
 import frc.robot.commands.Autos.blueAmp1;
 import frc.robot.commands.Autos.blueAmp2;
 import frc.robot.commands.Autos.blueAmp3;
@@ -63,7 +64,7 @@ import frc.robot.Constants.AutonomousMode;
 
 public class RobotContainer {
         // Autonomous Chooser
-        SendableChooser<Command> autoChooser;
+        SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
         // Field Generator
         Field2d field = new Field2d(); 
@@ -82,6 +83,7 @@ public class RobotContainer {
         private final blueAmp1 blueAmpAuto1 = new blueAmp1(intake, swerveSubsystem); 
         private final blueAmp2 blueAmpAuto2 = new blueAmp2(intake, swerveSubsystem); 
         private final blueAmp3 blueAmpAuto3 = new blueAmp3(intake, swerveSubsystem); 
+        private final DriveStraight driveStraight = new DriveStraight(intake, swerveSubsystem);
 
 
         // Initializing Commands
@@ -112,10 +114,11 @@ public class RobotContainer {
         public RobotContainer() {
         
         // Adding options to Auto Chooser
-        autoChooser.setDefaultOption("Template Auton", null);; // Default auto will be `Commands.none()`
+        autoChooser.setDefaultOption("Template Auton", driveStraight.DriveStraightWhileTurning()); // Default auto will be `Commands.none()`
         autoChooser.addOption("BA1", blueAmpAuto1.blueAmp1AutoCommand());
         autoChooser.addOption("BA2", blueAmpAuto2.blueAmp2AutoCommand());
         autoChooser.addOption("BA2", blueAmpAuto3.blueAmp3AutoCommand());
+        SmartDashboard.putData(autoChooser);
 
 
         // set default commands for each Subsystem
@@ -152,14 +155,14 @@ public class RobotContainer {
 
         // Climber Controls
         xboxBtnA.onTrue(climberManualPosition); 
-        new POVButton(driverJoystick, 0).onTrue(climberUp); 
-        new POVButton(driverJoystick, 180).onTrue(climberDown); 
-        new Trigger(()-> driverController.getRightTriggerAxis() > 0.1).whileTrue(
-                new ClimberUpControllable(climber, () -> driverController.getRightTriggerAxis())
-        ); 
-        new Trigger(() -> driverController.getLeftTriggerAxis() > 0.1).whileTrue(
-                new ClimberDownControllable(climber, () -> driverController.getLeftTriggerAxis())
-        ); 
+        new POVButton(driverJoystick, 0).whileTrue(climberUp); 
+        new POVButton(driverJoystick, 180).whileTrue(climberDown); 
+        // new Trigger(()-> driverController.getRightTriggerAxis() > 0.3).whileTrue(
+        //         new ClimberUpControllable(climber, () -> driverController.getRightTriggerAxis())
+        // ); 
+        // new Trigger(() -> driverController.getLeftTriggerAxis() > 0.3).whileTrue(
+        //         new ClimberDownControllable(climber, () -> driverController.getLeftTriggerAxis())
+        // ); 
         
         // new JoystickButton(driverJoystick, OIConstants.KXboxStartButton).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));      
         // new JoystickButton(driverJoystick, 2).onTrue(new InstantCommand(() -> swerveSubsystem.alignAprilTag()));

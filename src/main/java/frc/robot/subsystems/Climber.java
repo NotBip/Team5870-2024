@@ -76,6 +76,7 @@ public class Climber extends SubsystemBase {
         double rotations = SmartDashboard.getNumber("Set Position", 0);
         double max = SmartDashboard.getNumber("Max Output", 0);
         double min = SmartDashboard.getNumber("Min Output", 0);
+        get(); 
 
         
         if((p != kP)) { m_pidController.setP(p); kP = p; }
@@ -114,7 +115,7 @@ public class Climber extends SubsystemBase {
     }
 
     public void get() { 
-        SmartDashboard.putNumber("LEADER", m_Encoder.getPosition()); 
+        SmartDashboard.putNumber("Leader Motor Speed", leaderMotor.get()); 
     }
 
     public void resetEncoders() { 
