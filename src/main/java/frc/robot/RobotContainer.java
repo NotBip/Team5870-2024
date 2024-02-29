@@ -123,6 +123,7 @@ public class RobotContainer {
         SmartDashboard.putData("Path to Heaven1", new PathPlannerAuto("Trial 1"));
         SmartDashboard.putData("Path to Heaven2", new PathPlannerAuto("Trial 2"));
         SmartDashboard.putData("Path to Heaven3", new PathPlannerAuto("Trial 3"));
+        SmartDashboard.putData("Test Path", new PathPlannerAuto("Test"));
         SmartDashboard.putData("Trap", new PathPlannerAuto("Trap"));
 
 
