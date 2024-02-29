@@ -35,11 +35,13 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.Autos.blueAmp1;
 import frc.robot.commands.Climber.ClimberDown;
+import frc.robot.commands.Climber.ClimberManualPosition;
 import frc.robot.commands.Climber.ClimberStop;
 import frc.robot.commands.Climber.ClimberUp;
 import frc.robot.commands.Intake.IntakeFullPower;
@@ -84,6 +86,7 @@ public class RobotContainer {
         private final ClimberDown climberDown = new ClimberDown(climber); 
         private final ClimberUp climberUp = new ClimberUp(climber); 
         private final ClimberStop climberStop = new ClimberStop(climber); 
+        private final ClimberManualPosition climberManualPosition = new ClimberManualPosition(climber); 
 
 
         // Swerve
@@ -130,18 +133,12 @@ public class RobotContainer {
         private void configureButtonBindings() {
         // QOL Swerve Controls
         xboxBtnStrt.onTrue(ZeroGyro);
-
-        // Intake Controls 
-        // xboxBtnX.whileTrue(intakeFullPower); 
-        // xboxBtnLB.whileTrue(intakeSpinBack.withTimeout(.1));
-        // xboxBtnRB.whileTrue(intakeSpinForward);
-        xboxBtnLB.whileTrue(climberUp); 
-        xboxBtnRB.whileTrue(climberDown); 
-
-        // xboxBtnLB.whileTrue(climberUp);
-        // xboxBtnRB.whileTrue(climberDown);
+        xboxBtnLB.whileTrue(intakeSpinBack.withTimeout(0.5)); 
+        xboxBtnRB.whileTrue(intakeFullPower); 
+        xboxBtnA.onTrue(climberManualPosition); 
+        new POVButton(driverJoystick, 0).onTrue(climberUp); 
+        new POVButton(driverJoystick, 180).onTrue(climberDown); 
         
-                
         // new JoystickButton(driverJoystick, OIConstants.KXboxStartButton).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));      
         // new JoystickButton(driverJoystick, 2).onTrue(new InstantCommand(() -> swerveSubsystem.alignAprilTag()));
         // new JoystickButton(driverJoystick, 4).onTrue(new InstantCommand(() -> shooter.intake()));   
