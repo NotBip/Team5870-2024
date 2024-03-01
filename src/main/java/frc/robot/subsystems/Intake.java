@@ -14,7 +14,7 @@ public class Intake extends SubsystemBase{
     
     public void moveSpin(double speed) {
         shootMotor.set(speed);
-        SmartDashboard.putNumber("Intake SPeed", speed); 
+        SmartDashboard.putNumber("Intake Speed", speed); 
     }
 
 }

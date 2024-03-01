@@ -20,8 +20,8 @@ public class ClimberStop extends Command {
      // Called every time the scheduler runs while the command is scheduled.
      @Override
      public void execute() {
-         climber.hold();
-        }
+        climber.hold();
+    }
  
  
      // Called once the command ends or is interrupted.

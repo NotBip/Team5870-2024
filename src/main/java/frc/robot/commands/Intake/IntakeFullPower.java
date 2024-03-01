@@ -3,7 +3,6 @@ package frc.robot.commands.Intake;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Intake;
-import static frc.robot.Constants.IntakeConstants.*;
 
 public class IntakeFullPower extends Command {
     private Intake intake; 
@@ -20,8 +19,8 @@ public class IntakeFullPower extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-    intake.moveSpin(-1);
-    SmartDashboard.putNumber("INTAKE MOVING", 1); 
+        intake.moveSpin(-1);
+        SmartDashboard.putNumber("INTAKE MOVING", 1); 
     }
 
     // Called once the command ends or is interrupted.
@@ -33,7 +32,7 @@ public class IntakeFullPower extends Command {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-    return false;
+        return false;
     }
 
 
