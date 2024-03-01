@@ -161,11 +161,11 @@ public class RobotContainer {
         xboxBtnStrt.onTrue(ZeroGyro);
 
         // Intake Controls
-        xboxBtnLB.whileTrue(intakeSpinBack); 
+        // xboxBtnLB.whileTrue(intakeSpinBack); 
         xboxBtnRB.whileTrue(intakeSpinForward); 
 
         // Climber Controls
-        xboxBtnA.onTrue(climberManualPosition); 
+        // xboxBtnA.onTrue(climberManualPosition); 
         new Trigger(()-> driverController.getRightTriggerAxis() > 0.3).whileTrue(climberUp); 
         new Trigger(() -> driverController.getLeftTriggerAxis() > 0.3).whileTrue(climberDown); 
 
