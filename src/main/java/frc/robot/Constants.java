@@ -134,7 +134,7 @@ public final class Constants {
             new PIDConstants(.3, 0, 0), // Translation constants 
             new PIDConstants(3.0, 0, 0), // Rotation constants 
             4.5, 
-            0.53881536726424, // Drive base radius (distance from center to furthest module) 
+            1.0748023074, // Drive base radius (distance from center to furthest module) 
             new ReplanningConfig()
             );
     }
