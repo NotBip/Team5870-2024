@@ -3,6 +3,7 @@ package frc.robot.commands.Autos;
 import java.nio.file.Path;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.path.PathPlannerTrajectory;
 
@@ -42,7 +43,8 @@ public class DriveStraight extends Command {
         PathPlannerPath path = PathPlannerPath.fromPathFile("DriveStraight"); 
         // PathPlannerPath testPath = PathPlannerPath.fromPathFile("New Path"); 
         return new SequentialCommandGroup(
-            AutoBuilder.followPath(path).alongWith(intakeSpinBack.withTimeout(2))  
+            // AutoBuilder.followPath(path).alongWith(intakeSpinBack.withTimeout(2)), 
+            AutoBuilder.pathfindThenFollowPath(path, new PathConstraints(0, 0, 0, 0))   
         ); 
     }
 
