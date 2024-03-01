@@ -122,19 +122,17 @@ public class RobotContainer {
         xboxBtnStrt.onTrue(ZeroGyro);
 
         // Intake Controls
-        xboxBtnLB.whileTrue(intakeSpinBack.withTimeout(0.2)); 
-        xboxBtnRB.whileTrue(intakeFullPower); 
+        xboxBtnLB.whileTrue(intakeSpinBack); 
+        xboxBtnRB.whileTrue(intakeSpinForward); 
 
         // Climber Controls
         xboxBtnA.onTrue(climberManualPosition); 
-        new POVButton(driverJoystick, 0).onTrue(climberUp); 
-        new POVButton(driverJoystick, 180).onTrue(climberDown); 
-        // new Trigger(()-> driverController.getRightTriggerAxis() > 0.3).whileTrue(
-        //         new ClimberUpControllable(climber, () -> driverController.getRightTriggerAxis())
-        // ); 
-        // //new Trigger(() -> driverController.getLeftTriggerAxis() > 0.3).whileTrue(
-        //        // new ClimberDownControllable(climber, () -> driverController.getLeftTriggerAxis())
-        // ); 
+        new Trigger(()-> driverController.getRightTriggerAxis() > 0.3).whileTrue(climberUp); 
+        new Trigger(() -> driverController.getLeftTriggerAxis() > 0.3).whileTrue(climberDown); 
+
+        
+        new POVButton(driverJoystick, 0).whileTrue(climberUp); 
+        new POVButton(driverJoystick, 180).whileTrue(climberDown); 
 
         // Pneumatics Controls 
         new POVButton(driverJoystick, 90).onTrue(fullExtend); 

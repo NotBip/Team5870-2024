@@ -109,6 +109,7 @@ public class Climber extends SubsystemBase {
     }
 
     public void hold() { 
+        leaderMotor.set(0);
         leaderMotor.setIdleMode(IdleMode.kBrake); 
         followerMotor.setIdleMode(IdleMode.kBrake); 
     }
