@@ -138,7 +138,7 @@ public class RobotContainer {
                 () -> driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
                 () -> driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
                 () -> -driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
-                () -> !driverJoystick.getRawButton(2)));
+                () -> !driverJoystick.getRawButton(3)));
         intake.setDefaultCommand(intakeStop);
         climber.setDefaultCommand(climberStop);
         // climber.setDefaultCommand(climberStop);
@@ -166,14 +166,8 @@ public class RobotContainer {
 
         // Climber Controls
         xboxBtnA.onTrue(climberManualPosition); 
-        new POVButton(driverJoystick, 0).onTrue(climberUp); 
-        new POVButton(driverJoystick, 180).onTrue(climberDown); 
-        new Trigger(()-> driverController.getRightTriggerAxis() > 0.3).whileTrue(
-                new ClimberUpControllable(climber, () -> driverController.getRightTriggerAxis())
-        ); 
-        new Trigger(() -> driverController.getLeftTriggerAxis() > 0.3).whileTrue(
-                new ClimberDownControllable(climber, () -> driverController.getLeftTriggerAxis())
-        ); 
+        new Trigger(()-> driverController.getRightTriggerAxis() > 0.3).onTrue(climberUp); 
+        new Trigger(() -> driverController.getLeftTriggerAxis() > 0.3).onTrue(climberDown); 
 
         // Pneumatics Controls 
         new POVButton(driverJoystick, 90).onTrue(fullExtend); 
