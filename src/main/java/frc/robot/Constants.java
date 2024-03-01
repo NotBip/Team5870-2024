@@ -29,13 +29,13 @@ public final class Constants {
     // Module for Intake Constants
     public static final class IntakeConstants { 
         public static double intakeSpeed = 0.5; 
-        public static int armMotor = 9; 
+        public static int armMotor = 0; 
     }
 
     public static final class PneumaticsConstants { 
-        public static int solenoidExtend1ID = 1; 
+        public static int solenoidExtend1ID = 0; 
         public static int solenoidExtend2ID = 2; 
-        public static int solenoidDetract1ID = 3; 
+        public static int solenoidDetract1ID = 1; 
         public static int solenoidDetract2ID = 4; 
         public static int compressorID = 0; 
     }
