@@ -1,9 +1,8 @@
 package frc.robot.subsystems;
+
 import frc.robot.Constants.climberConstants;
-import frc.robot.Constants.climberConstants.*;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.IdleMode;
 
