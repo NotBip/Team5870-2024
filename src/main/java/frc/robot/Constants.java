@@ -29,7 +29,7 @@ public final class Constants {
     // Module for Intake Constants
     public static final class IntakeConstants { 
         public static double intakeSpeed = 0.5; 
-        public static int armMotor = 9; 
+        public static int armMotor = 0; 
     }
 
     public static final class PneumaticsConstants { 
