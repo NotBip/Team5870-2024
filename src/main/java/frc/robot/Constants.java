@@ -3,11 +3,18 @@ package frc.robot;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
 public final class Constants {
 
@@ -58,11 +65,11 @@ public final class Constants {
         
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
             // front left
-            new Translation2d(kWheelBase / 2, kTrackWidth / 2),
+            new Translation2d(kWheelBase / 2, kTrackWidth / 2), 
             // front right
-            new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
+            new Translation2d(kWheelBase / 2, -kTrackWidth / 2), 
             // back left
-            new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
+            new Translation2d(-kWheelBase / 2, kTrackWidth / 2), 
             // back right
             new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
 
@@ -125,7 +132,7 @@ public final class Constants {
 
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints = //
                 new TrapezoidProfile.Constraints(
-                        kMaxAngularSpeedRadiansPerSecond,
+                        kMaxAngularSpeedRadiansPerSecond, 
                         kMaxAngularAccelerationRadiansPerSecondSquared);
 
         public static final HolonomicPathFollowerConfig pathFollowerConfig = new HolonomicPathFollowerConfig(
@@ -168,5 +175,21 @@ public final class Constants {
         public static final int followerMotor = 13;
         public static final int bottomLimitSwitch = 0; 
         public static final int topLimitSwitch = 0;  
+    } 
+
+
+    // ARCADE DRIVE DRIVE DRIVE
+
+    public static final int[] LEFT_GROUP = {8, 2}; 
+    public static final int[] RIGHT_GROUP = {4, 6}; 
+    
+    public static final class MotorGroups 
+    { 
+        public static final MotorControllerGroup leftMotorGroup = new MotorControllerGroup(new MotorController[]{new CANSparkMax(LEFT_GROUP[0], MotorType.kBrushless), new CANSparkMax(LEFT_GROUP[1], MotorType.kBrushless)});
+        public static final MotorControllerGroup rightMotorGroup = new MotorControllerGroup(new MotorController[]{new CANSparkMax(RIGHT_GROUP[0], MotorType.kBrushless), new CANSparkMax(RIGHT_GROUP[1], MotorType.kBrushless)});
+        public static final ADXRS450_Gyro k_gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS2);
+        public static final DifferentialDriveKinematics kDifferentialDriveKinematics = new DifferentialDriveKinematics(Units.inchesToMeters(30)); 
+        public static final double kMaxSpeedMetersPerSecond = 3; 
+        public static final double kMaxAccelerationMetersPerSecondSquared = 3;
     }
 }
