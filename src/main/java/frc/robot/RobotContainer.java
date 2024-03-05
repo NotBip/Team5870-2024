@@ -127,7 +127,7 @@ public class RobotContainer {
         drBtnStrt.onTrue(ZeroGyro);
 
         // Intake Controls
-        opBtnLB.whileTrue(intakeSpinBack); 
+        opBtnLB.whileTrue(intakeSpinBack.withTimeout(.2)); 
         opBtnRB.whileTrue(intakeFullPower); 
 
         // Climber Controls
