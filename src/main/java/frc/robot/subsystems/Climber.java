@@ -91,16 +91,11 @@ public class Climber extends SubsystemBase {
         }
     }
 
-    // public void resetClimber() { 
-    //     m_Encoder.setPosition(0); 
-    // }
-
     public void moveArm() { 
         leaderMotor.set(kMotorSpeed);
     }
 
-    public void moveArmControlleble(double speed)
-    { 
+    public void moveArmControlleble(double speed) { 
         leaderMotor.set(speed);
     }
 
