@@ -193,7 +193,7 @@ public class SwerveSubsystem extends SubsystemBase {
         SwerveMods[3].setDesiredState(desiredStates[3], "Back Right");
     }
 
-    public void Encoder() { 
+    public void getAbsoluteEncoder() { 
         SmartDashboard.putNumber("Front Left", SwerveMods[0].getAbsoluteEncoderRad());
         SmartDashboard.putNumber("Front RIght", SwerveMods[1].getAbsoluteEncoderRad());
         SmartDashboard.putNumber("Back Left", SwerveMods[2].getAbsoluteEncoderRad());
