@@ -1,14 +1,16 @@
 package frc.robot.commands.Intake;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Intake;
 
 public class RightIntakeJoystick extends Command {
     private Intake intake; 
-    private double ySpdFunction; 
+    Supplier<Double> ySpdFunction; 
 
-    public RightIntakeJoystick(double ySpdFunction, Intake intake) { 
+    public RightIntakeJoystick(Supplier<Double> ySpdFunction, Intake intake) { 
         this.intake = intake; // setting intake to intake. 
         this.ySpdFunction = ySpdFunction; // the y soeed functuion
         addRequirements(intake); // addRequirements(intake)semicolon
@@ -22,7 +24,7 @@ public class RightIntakeJoystick extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        intake.moveSpin(-ySpdFunction);
+        intake.moveSpinIndividualMotorAtPort8(-ySpdFunction.get());
     }
 
 

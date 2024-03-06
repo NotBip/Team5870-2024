@@ -34,7 +34,8 @@ public final class Constants {
     // Module for Intake Constants
     public static final class IntakeConstants { 
         public static double intakeSpeed = 0.5; 
-        public static int armMotor = 0; 
+        public static int armMotor1 = 9; 
+        public static int armMotor2 = 8; 
     }
 
     public static final class PneumaticsConstants { 
@@ -140,7 +141,7 @@ public final class Constants {
     public static final class OIConstants {
 
         // Joystick Values Used for Swerve Controls
-        public static final int kDriverControllerPort = 1;
+        public static final int kDriverControllerPort = 0;
         public static final int kOperatorControllerPort = 1; 
         public static final int kDriverYAxis = 1;
         public static final int kDriverXAxis = 0;

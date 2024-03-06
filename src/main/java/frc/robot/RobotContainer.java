@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.Autos.DriveStraight;
+// import frc.robot.commands.Autos.DriveStraight;
 import frc.robot.commands.Autos.blueAmp1;
 import frc.robot.commands.Autos.blueAmp2;
 import frc.robot.commands.Autos.blueAmp3;
@@ -52,7 +52,7 @@ public class RobotContainer {
         private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
         private final XboxController driverController = new XboxController(OIConstants.kDriverControllerPort); 
         private final Joystick operatorJoystick = new Joystick(OIConstants.kOperatorControllerPort); 
-        private final XboxController operatorController = new XboxController(OIConstants.kDriverControllerPort); 
+        private final XboxController operatorController = new XboxController(OIConstants.kOperatorControllerPort); 
 
         // private final XboxController operatorController = new XboxController(2); 
 
@@ -60,7 +60,7 @@ public class RobotContainer {
         private final blueAmp1 blueAmpAuto1 = new blueAmp1(intake, swerveSubsystem); 
         private final blueAmp2 blueAmpAuto2 = new blueAmp2(intake, swerveSubsystem); 
         private final blueAmp3 blueAmpAuto3 = new blueAmp3(intake, swerveSubsystem); 
-        private final DriveStraight driveStraight = new DriveStraight(intake, swerveSubsystem);
+        // private final DriveStraight driveStraight = new DriveStraight(intake, swerveSubsystem);
 
 
         // Initializing Commands
@@ -94,11 +94,11 @@ public class RobotContainer {
         public RobotContainer() {
         
         // Adding options to Auto Chooser
-        autoChooser.setDefaultOption("Template Auton", driveStraight.DriveStraightWhileTurning()); // Default auto will be `Commands.none()`
-        autoChooser.addOption("BA1", blueAmpAuto1.blueAmp1AutoCommand());
-        autoChooser.addOption("BA2", blueAmpAuto2.blueAmp2AutoCommand());
-        autoChooser.addOption("BA3", blueAmpAuto3.blueAmp3AutoCommand());
-        Shuffleboard.getTab("Autonomous").add("Select Auto", autoChooser).withSize(2, 1);
+        // autoChooser.setDefaultOption("Template Auton", driveStraight.DriveStraightWhileTurning()); // Default auto will be `Commands.none()`
+        // autoChooser.addOption("BA1", blueAmpAuto1.blueAmp1AutoCommand());
+        // autoChooser.addOption("BA2", blueAmpAuto2.blueAmp2AutoCommand());
+        // autoChooser.addOption("BA3", blueAmpAuto3.blueAmp3AutoCommand());
+        // Shuffleboard.getTab("Autonomous").add("Select Auto", autoChooser).withSize(2, 1);
 
 
         // set default commands for each Subsystem
@@ -121,6 +121,15 @@ public class RobotContainer {
         drBtnRB = new JoystickButton(driverJoystick, OIConstants.KXboxRightBumper);
         drBtnSelect = new JoystickButton(driverJoystick, OIConstants.KXboxSelectButton);
         drBtnStrt = new JoystickButton(driverJoystick, OIConstants.KXboxStartButton);
+
+        opBtnA = new JoystickButton(operatorJoystick, OIConstants.KXboxButtonA);
+        opBtnB = new JoystickButton(operatorJoystick, OIConstants.KXboxButtonB);
+        opBtnX = new JoystickButton(operatorJoystick, OIConstants.KXboxButtonX);
+        opBtnY = new JoystickButton(operatorJoystick, OIConstants.KXboxButtonY);
+        opBtnLB = new JoystickButton(operatorJoystick, OIConstants.KXboxLeftBumper);
+        opBtnRB = new JoystickButton(operatorJoystick, OIConstants.KXboxRightBumper);
+        opBtnSelect = new JoystickButton(operatorJoystick, OIConstants.KXboxSelectButton);
+        opBtnStrt = new JoystickButton(operatorJoystick, OIConstants.KXboxStartButton);
         
         configureButtonBindings(); 
         }
@@ -138,9 +147,9 @@ public class RobotContainer {
         new Trigger(()-> operatorController.getRightTriggerAxis() > 0.3).whileTrue(climberUp); 
         new Trigger(() -> operatorController.getLeftTriggerAxis() > 0.3).whileTrue(climberDown); 
         new Trigger(() -> Math.abs(operatorJoystick.getRawAxis(1)) > 0.2).whileTrue(
-                new LeftIntakeJoystick(operatorJoystick.getRawAxis(1), intake));
+                new LeftIntakeJoystick(() -> operatorJoystick.getRawAxis(1), intake));
         new Trigger(() -> Math.abs(operatorJoystick.getRawAxis(5)) > 0.2).whileTrue(
-                new RightIntakeJoystick(operatorJoystick.getRawAxis(5), intake)); 
+                new RightIntakeJoystick(() -> operatorJoystick.getRawAxis(5), intake)); 
 
         // Pneumatics Controls 
         new POVButton(operatorJoystick, 0).onTrue(fullExtend); 
