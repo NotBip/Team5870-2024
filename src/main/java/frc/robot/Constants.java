@@ -45,15 +45,6 @@ public final class Constants {
         public static int compressorID = 0; 
     }
 
-
-    // May be removed later. 
-    public enum AutonomousMode {
-        rAlliance1, rAlliance2, rAlliance3, bAlliance1, bAlliance2, bAlliance3, test;
-        public static AutonomousMode currentMode = rAlliance1;
-    }
-
-
-
     // Module for Swerve Drive. 
     public static final class DriveConstants {
 
@@ -149,7 +140,7 @@ public final class Constants {
     public static final class OIConstants {
 
         // Joystick Values Used for Swerve Controls
-        public static final int kDriverControllerPort = 0;
+        public static final int kDriverControllerPort = 1;
         public static final int kOperatorControllerPort = 1; 
         public static final int kDriverYAxis = 1;
         public static final int kDriverXAxis = 0;

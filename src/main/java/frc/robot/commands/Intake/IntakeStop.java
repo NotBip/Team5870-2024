@@ -22,7 +22,6 @@ public class IntakeStop extends Command {
     @Override
     public void execute() {
         intake.moveSpin(0);
-        SmartDashboard.putNumber("INTAKE MOVING", 0);        
     }
 
 

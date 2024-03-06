@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -23,6 +24,8 @@ import frc.robot.commands.Intake.IntakeFullPower;
 import frc.robot.commands.Intake.IntakeSpinBack;
 import frc.robot.commands.Intake.IntakeSpinForward;
 import frc.robot.commands.Intake.IntakeStop;
+import frc.robot.commands.Intake.LeftIntakeJoystick;
+import frc.robot.commands.Intake.RightIntakeJoystick;
 import frc.robot.commands.Pneumatics.FullDetract;
 import frc.robot.commands.Pneumatics.FullExtend;
 import frc.robot.commands.Swerve.SwerveJoystickCmd;
@@ -134,6 +137,10 @@ public class RobotContainer {
         // xboxBtnA.onTrue(climberManualPosition); 
         new Trigger(()-> operatorController.getRightTriggerAxis() > 0.3).whileTrue(climberUp); 
         new Trigger(() -> operatorController.getLeftTriggerAxis() > 0.3).whileTrue(climberDown); 
+        new Trigger(() -> Math.abs(operatorJoystick.getRawAxis(1)) > 0.2).whileTrue(
+                new LeftIntakeJoystick(operatorJoystick.getRawAxis(1), intake));
+        new Trigger(() -> Math.abs(operatorJoystick.getRawAxis(5)) > 0.2).whileTrue(
+                new RightIntakeJoystick(operatorJoystick.getRawAxis(5), intake)); 
 
         // Pneumatics Controls 
         new POVButton(operatorJoystick, 0).onTrue(fullExtend); 

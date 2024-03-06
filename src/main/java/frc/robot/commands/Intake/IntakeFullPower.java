@@ -20,7 +20,6 @@ public class IntakeFullPower extends Command {
     @Override
     public void execute() {
         intake.moveSpin(-1);
-        SmartDashboard.putNumber("INTAKE MOVING", 1); 
     }
 
     // Called once the command ends or is interrupted.

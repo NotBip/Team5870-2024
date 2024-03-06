@@ -24,7 +24,6 @@ public class IntakeSpinBack extends Command {
     @Override
     public void execute() {
         intake.moveSpin(-intakeSpeed);
-        SmartDashboard.putNumber("INTAKE MOVING", -intakeSpeed); 
     }
 
 
