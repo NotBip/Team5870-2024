@@ -31,6 +31,4 @@ public class FullDetract extends Command {
     return false;
     }
 
-
-
 }

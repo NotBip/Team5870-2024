@@ -31,6 +31,4 @@ public class FullExtend extends Command {
     return false;
     }
 
-
-
 }
