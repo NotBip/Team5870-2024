@@ -27,5 +27,10 @@ public class Intake extends SubsystemBase{
         SmartDashboard.putNumber("Intake Speed For Individual Motor For Port 8 On Roborio 2.0 On 2024 Robot (Sia) For Crescendodododod with team 5870 by hamad on asus (not sponsored) laptop with 144hz monitor with adaptive sync", SpeedForIndividualMotorForPort8); 
     }
 
+    public void intakeStop() { 
+        IndividualMotorAtPortNo8.set(0);
+        IndividualMotorAtPortNo9.set(0);
+    }
+
 
 }

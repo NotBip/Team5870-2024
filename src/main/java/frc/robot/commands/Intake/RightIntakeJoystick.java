@@ -13,7 +13,7 @@ public class RightIntakeJoystick extends Command {
     public RightIntakeJoystick(Supplier<Double> ySpdFunction, Intake intake) { 
         this.intake = intake; // setting intake to intake. 
         this.ySpdFunction = ySpdFunction; // the y soeed functuion
-        addRequirements(intake); // addRequirements(intake)semicolon
+        // addRequirements(intake); // addRequirements(intake)semicolon
     }
     
     // Called when the command is initially scheduled.
@@ -25,12 +25,16 @@ public class RightIntakeJoystick extends Command {
     @Override
     public void execute() {
         intake.moveSpinIndividualMotorAtPort8(-ySpdFunction.get());
+        intake.moveSpinIndividualMotorAtPort9(-ySpdFunction.get());
     }
 
 
     // Called once the command ends or is interrupted.
     @Override
-    public void end(boolean interrupted) {}
+    public void end(boolean interrupted) {
+        intake.intakeStop();
+
+    }
 
 
     // Returns true when the command should end.

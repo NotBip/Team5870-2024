@@ -146,10 +146,10 @@ public class RobotContainer {
         // xboxBtnA.onTrue(climberManualPosition); 
         new Trigger(()-> operatorController.getRightTriggerAxis() > 0.3).whileTrue(climberUp); 
         new Trigger(() -> operatorController.getLeftTriggerAxis() > 0.3).whileTrue(climberDown); 
-        // new Trigger(() -> Math.abs(operatorJoystick.getRawAxis(1)) > 0.2).whileTrue(
-        //         new LeftIntakeJoystick(() -> operatorJoystick.getRawAxis(1), intake));
-        // new Trigger(() -> Math.abs(operatorJoystick.getRawAxis(5)) > 0.2).whileTrue(
-        //         new RightIntakeJoystick(() -> operatorJoystick.getRawAxis(5), intake)); 
+        new Trigger(() -> Math.abs(operatorJoystick.getRawAxis(1)) > 0.3).whileTrue(
+                new LeftIntakeJoystick(() -> operatorJoystick.getRawAxis(1), intake));
+        new Trigger(() -> Math.abs(operatorJoystick.getRawAxis(5)) > 0.3).whileTrue(
+                new RightIntakeJoystick(() -> operatorJoystick.getRawAxis(5), intake)); 
 
         // Pneumatics Controls 
         new POVButton(operatorJoystick, 0).onTrue(fullExtend); 
