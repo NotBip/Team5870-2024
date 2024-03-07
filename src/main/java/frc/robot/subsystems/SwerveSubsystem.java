@@ -91,11 +91,8 @@ public class SwerveSubsystem extends SubsystemBase {
                     return alliance.get() == DriverStation.Alliance.Red; 
                 }
                 return false;
-            }, this);
-
-
-
-
+            }, this
+        );
     }
 
     /**
@@ -166,13 +163,13 @@ public class SwerveSubsystem extends SubsystemBase {
     public SwerveModuleState[] getModuleStates(){
         SwerveModuleState[] positions = new SwerveModuleState[4];
         for(SwerveModule mod : SwerveMods){
-             positions[mod.modNum] = mod.getState();
+             positions[mod.modNum] = /* ha */ mod.getState();
         }
         return positions;
     }
 
     /**
-     * Stop al wheels/modules when called. 
+     * Stop all wheels/modules when called. 
      */
     public void stopModules() {
         SwerveMods[0].stop();
@@ -211,8 +208,6 @@ public class SwerveSubsystem extends SubsystemBase {
         setModuleStates(targetStates); 
     }
 
-
-
     public void alignAprilTag() { 
         NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
         double tableID = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tid").getDouble(0); 
@@ -242,131 +237,129 @@ public class SwerveSubsystem extends SubsystemBase {
         double angleToGoalRadians = (mountAngleDegrees + targetOffsetAngle_Vertical) * (Math.PI/180);
         double distLightToGoal = (goalHeight-lensHeight) / Math.tan(angleToGoalRadians);
 
-    switch ((int) tableID) {
-        case 6:
-            while (true) { 
-                SmartDashboard.putBoolean("ID DETECTED", true); 
-                SmartDashboard.putBoolean("xDone", xDone);
-                SmartDashboard.putBoolean("yDone", yDone);
-                SmartDashboard.putBoolean("rotDone", rotDone);
+        switch ((int) tableID) {
+            case 6:
+                while (true) { 
+                    SmartDashboard.putBoolean("ID DETECTED", true); 
+                    SmartDashboard.putBoolean("xDone", xDone);
+                    SmartDashboard.putBoolean("yDone", yDone);
+                    SmartDashboard.putBoolean("rotDone", rotDone);
 
-                double y = ty.getDouble(0.0);
-                double x = tx.getDouble(0.0);
-                double area = ta.getDouble(0.0); 
+                    double y = ty.getDouble(0.0);
+                    double x = tx.getDouble(0.0);
+                    double area = ta.getDouble(0.0); 
 
-                System.out.println(prevX);
-                // Rotating Towards The Goal. 
-                if ((getRotation2d().getDegrees() > 0.5 || getRotation2d().getDegrees() < -0.5) && !rotDone) { 
-                    if (getRotation2d().getDegrees() > 0.5) { 
-                        chassisSpeeds = new ChassisSpeeds(0, 0, -1); 
-                        SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-                        setModuleStates(moduleStates);
-                    } else if (getRotation2d().getDegrees() < -0.5) { 
-                        chassisSpeeds = new ChassisSpeeds(0, 0, 1); 
-                        SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-                        setModuleStates(moduleStates); 
+                    System.out.println(prevX);
+                    // Rotating Towards The Goal. 
+                    if ((getRotation2d().getDegrees() > 0.5 || getRotation2d().getDegrees() < -0.5) && !rotDone) { 
+                        if (getRotation2d().getDegrees() > 0.5) { 
+                            chassisSpeeds = new ChassisSpeeds(0, 0, getRotation2d().getDegrees()*-1); 
+                            SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+                            setModuleStates(moduleStates);
+                        } else if (getRotation2d().getDegrees() < -0.5) { 
+                            chassisSpeeds = new ChassisSpeeds(0, 0, getRotation2d().getDegrees()*-1); 
+                            SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+                            setModuleStates(moduleStates); 
+                        }
+                    } else if (getRotation2d().getDegrees() < 0.5 && getRotation2d().getDegrees() > -0.5 && !rotDone || x == 0 ) { 
+                        stopModules();
+                        rotDone = true; 
+                        break; 
                     }
-                } else if (getRotation2d().getDegrees() < 0.5 && getRotation2d().getDegrees() > -0.5 && !rotDone || x == 0 ) { 
-                    stopModules();
-                    rotDone = true; 
-                    break; 
+
+
+                    // // Aligning X-Axis To The Goal
+                    // if ((prevX > 0.5 || prevX < -0.5 || x == 0) && !xDone && rotDone && !yDone) {
+                    //     if (x > 0.5 && !xDone) { 
+                    //         chassisSpeeds = new ChassisSpeeds(0, -.5, 0); 
+                    //         SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+                    //         setModuleStates(moduleStates);
+                    //     } 
+                    //      else if (x < -0.5 && !xDone) { 
+                    //         chassisSpeeds = new ChassisSpeeds(0, .5, 0); 
+                    //         SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+                    //         setModuleStates(moduleStates);
+                    //     }
+                    // } else if (x < 0.5 && x > -0.5 && !xDone && x != 0 && rotDone && !yDone) { 
+                    //     xDone = true; 
+                    //     stopModules();
+                    //     break;
+                    // }
+
+                    // // Aligning Y-Axis To The Goal And Exiting
+                    // if (y < 15 && xDone && rotDone && !yDone) { 
+                    //     chassisSpeeds = new ChassisSpeeds(.5, 0, 0); 
+                    //     SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+                    //     setModuleStates(moduleStates);
+                    // } else if (y >= 15 && xDone && rotDone && !yDone) { 
+                    //     yDone = true; 
+                    //     stopModules();
+                    //     break; 
+                    // }
+
+        // ==============================================================================================
+                //     SmartDashboard.putBoolean("Y why", yDone); 
+                //     if (area < 1000000 && area > 0.0) { 
+        
+                //         if (y > 14 && !yDone) { 
+                //             if(getRotation2d().getDegrees() > 0.5) { 
+                //                 chassisSpeeds = new ChassisSpeeds(0, 0, .5); 
+                //                 SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+                //                 setModuleStates(moduleStates);
+                //             }
+                //             else if (getRotation2d().getDegrees() < -0.5) { 
+                //                 chassisSpeeds = new ChassisSpeeds(0, 0, -.5); 
+                //                 SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+                //                 setModuleStates(moduleStates);
+                //             }
+                //             else if (getRotation2d().getDegrees() > -.5 && getRotation2d().getDegrees() < .5) { 
+                //                 stopModules();
+                //                 prevarea = area; 
+                //                 yDone = true;  
+                //             }
+                //         } else {
+                        
+                //         if (x > -0.5 && x < .5 && yDone) { 
+                //             stopModules();  
+                //             break; 
+                //         }
+
+                //         if (y < 14 && !yDone) { 
+                //             chassisSpeeds = new ChassisSpeeds(.5, 0, 0); 
+                //             SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+                //             setModuleStates(moduleStates);
+
+                //         } else if (x > .5) { 
+                //             if (area >= 0.85) { 
+                //                 stopModules();
+                //                 break; 
+                //             }
+                //             chassisSpeeds = new ChassisSpeeds(0, -.5, 0); 
+                //             SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+                //             setModuleStates(moduleStates);
+
+                //         } else if (x < -.5) { 
+                //             if (area >= 0.85) { 
+                //                 stopModules();
+                //                 break; 
+                //             }
+
+                //             chassisSpeeds = new ChassisSpeeds(0, .5, 0); 
+                //             SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+                //             setModuleStates(moduleStates);
+                //         }
+                //     }
+                //     } else { 
+                //         stopModules();
+                //         break; 
+                //     }   
                 }
 
-
-                // // Aligning X-Axis To The Goal
-                // if ((prevX > 0.5 || prevX < -0.5 || x == 0) && !xDone && rotDone && !yDone) {
-                //     if (x > 0.5 && !xDone) { 
-                //         chassisSpeeds = new ChassisSpeeds(0, -.5, 0); 
-                //         SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-                //         setModuleStates(moduleStates);
-                //     } 
-                //      else if (x < -0.5 && !xDone) { 
-                //         chassisSpeeds = new ChassisSpeeds(0, .5, 0); 
-                //         SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-                //         setModuleStates(moduleStates);
-                //     }
-                // } else if (x < 0.5 && x > -0.5 && !xDone && x != 0 && rotDone && !yDone) { 
-                //     xDone = true; 
-                //     stopModules();
-                //     break;
-                // }
-
-                // // Aligning Y-Axis To The Goal And Exiting
-                // if (y < 15 && xDone && rotDone && !yDone) { 
-                //     chassisSpeeds = new ChassisSpeeds(.5, 0, 0); 
-                //     SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-                //     setModuleStates(moduleStates);
-                // } else if (y >= 15 && xDone && rotDone && !yDone) { 
-                //     yDone = true; 
-                //     stopModules();
-                //     break; 
-                // }
-
-// ==============================================================================================
-            //     SmartDashboard.putBoolean("Y why", yDone); 
-            //     if (area < 1000000 && area > 0.0) { 
-    
-            //         if (y > 14 && !yDone) { 
-            //             if(getRotation2d().getDegrees() > 0.5) { 
-            //                 chassisSpeeds = new ChassisSpeeds(0, 0, .5); 
-            //                 SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-            //                 setModuleStates(moduleStates);
-            //             }
-            //             else if (getRotation2d().getDegrees() < -0.5) { 
-            //                 chassisSpeeds = new ChassisSpeeds(0, 0, -.5); 
-            //                 SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-            //                 setModuleStates(moduleStates);
-            //             }
-            //             else if (getRotation2d().getDegrees() > -.5 && getRotation2d().getDegrees() < .5) { 
-            //                 stopModules();
-            //                 prevarea = area; 
-            //                 yDone = true;  
-            //             }
-            //         } else {
+            // break;
+            
+            default: 
+                System.out.println("ASdasda");
                     
-            //         if (x > -0.5 && x < .5 && yDone) { 
-            //             stopModules();  
-            //             break; 
-            //         }
-
-            //         if (y < 14 && !yDone) { 
-            //             chassisSpeeds = new ChassisSpeeds(.5, 0, 0); 
-            //             SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-            //             setModuleStates(moduleStates);
-
-            //         } else if (x > .5) { 
-            //             if (area >= 0.85) { 
-            //                 stopModules();
-            //                 break; 
-            //             }
-            //             chassisSpeeds = new ChassisSpeeds(0, -.5, 0); 
-            //             SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-            //             setModuleStates(moduleStates);
-
-            //         } else if (x < -.5) { 
-            //             if (area >= 0.85) { 
-            //                 stopModules();
-            //                 break; 
-            //             }
-
-            //             chassisSpeeds = new ChassisSpeeds(0, .5, 0); 
-            //             SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-            //             setModuleStates(moduleStates);
-            //         }
-            //     }
-            //     } else { 
-            //         stopModules();
-            //         break; 
-            //     }   
-              }
-
-        // break;
-        
-        default: 
-            System.out.println("ASdasda");
-                
         }
     }
- 
 }
- 

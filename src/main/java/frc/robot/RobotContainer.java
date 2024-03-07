@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+// import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -30,6 +30,8 @@ import frc.robot.commands.Pneumatics.FullDetract;
 import frc.robot.commands.Pneumatics.FullExtend;
 import frc.robot.commands.Swerve.SwerveJoystickCmd;
 import frc.robot.commands.Swerve.ZeroGyro;
+import frc.robot.commands.Limelight.Reposition;
+
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Pneumatics;
@@ -83,6 +85,9 @@ public class RobotContainer {
         // Swerve
         private final ZeroGyro ZeroGyro = new ZeroGyro(swerveSubsystem); 
 
+        // Limelight
+        private final Reposition reposition = new Reposition(swerveSubsystem);
+
         // Game Controllers
         public JoystickButton drBtnA, drBtnB, drBtnX, drBtnY, drBtnLB, drBtnRB, drBtnStrt, drBtnSelect;
         public JoystickButton opBtnA, opBtnB, opBtnX, opBtnY, opBtnLB, opBtnRB, opBtnStrt, opBtnSelect; 
@@ -92,46 +97,45 @@ public class RobotContainer {
         
         //Get X and Y axis from the joystick to control the robot
         public RobotContainer() {
-        
-        // Adding options to Auto Chooser
-        autoChooser.setDefaultOption("Template Auton", driveStraight.DriveStraightWhileTurning()); // Default auto will be `Commands.none()`
-        autoChooser.addOption("BA1", blueAmpAuto1.blueAmp1AutoCommand());
-        autoChooser.addOption("BA2", blueAmpAuto2.blueAmp2AutoCommand());
-        autoChooser.addOption("BA3", blueAmpAuto3.blueAmp3AutoCommand());
-        Shuffleboard.getTab("Autonomous").add("Select Auto", autoChooser).withSize(2, 1);
+                // Adding options to Auto Chooser
+                autoChooser.setDefaultOption("Template Auton", driveStraight.DriveStraightWhileTurning()); // Default auto will be `Commands.none()`
+                autoChooser.addOption("BA1", blueAmpAuto1.blueAmp1AutoCommand());
+                autoChooser.addOption("BA2", blueAmpAuto2.blueAmp2AutoCommand());
+                autoChooser.addOption("BA3", blueAmpAuto3.blueAmp3AutoCommand());
+                Shuffleboard.getTab("Autonomous").add("Select Auto", autoChooser).withSize(2, 1);
 
 
-        // set default commands for each Subsystem
-        swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
-                swerveSubsystem,
-                () -> driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
-                () -> driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
-                () -> -driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
-                () -> !driverJoystick.getRawButton(6)));
-        intake.setDefaultCommand(intakeStop);
-        climber.setDefaultCommand(climberStop);
-        
-        // Xbox Driver Controller Buttons
-        drBtnA = new JoystickButton(driverJoystick, OIConstants.KXboxButtonA);
-        drBtnB = new JoystickButton(driverJoystick, OIConstants.KXboxButtonB);
-        drBtnX = new JoystickButton(driverJoystick, OIConstants.KXboxButtonX);
-        drBtnY = new JoystickButton(driverJoystick, OIConstants.KXboxButtonY);
-        drBtnLB = new JoystickButton(driverJoystick, OIConstants.KXboxLeftBumper);
-        drBtnRB = new JoystickButton(driverJoystick, OIConstants.KXboxRightBumper);
-        drBtnSelect = new JoystickButton(driverJoystick, OIConstants.KXboxSelectButton);
-        drBtnStrt = new JoystickButton(driverJoystick, OIConstants.KXboxStartButton);
+                // set default commands for each Subsystem
+                swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
+                        swerveSubsystem,
+                        () -> driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
+                        () -> driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
+                        () -> -driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
+                        () -> !driverJoystick.getRawButton(6)));
+                intake.setDefaultCommand(intakeStop);
+                climber.setDefaultCommand(climberStop);
+                
+                // Xbox Driver Controller Buttons
+                drBtnA = new JoystickButton(driverJoystick, OIConstants.KXboxButtonA);
+                drBtnB = new JoystickButton(driverJoystick, OIConstants.KXboxButtonB);
+                drBtnX = new JoystickButton(driverJoystick, OIConstants.KXboxButtonX);
+                drBtnY = new JoystickButton(driverJoystick, OIConstants.KXboxButtonY);
+                drBtnLB = new JoystickButton(driverJoystick, OIConstants.KXboxLeftBumper);
+                drBtnRB = new JoystickButton(driverJoystick, OIConstants.KXboxRightBumper);
+                drBtnSelect = new JoystickButton(driverJoystick, OIConstants.KXboxSelectButton);
+                drBtnStrt = new JoystickButton(driverJoystick, OIConstants.KXboxStartButton);
 
-        // Xbox Operator Controller Buttons. 
-        opBtnA = new JoystickButton(operatorJoystick, OIConstants.KXboxButtonA);
-        opBtnB = new JoystickButton(operatorJoystick, OIConstants.KXboxButtonB);
-        opBtnX = new JoystickButton(operatorJoystick, OIConstants.KXboxButtonX);
-        opBtnY = new JoystickButton(operatorJoystick, OIConstants.KXboxButtonY);
-        opBtnLB = new JoystickButton(operatorJoystick, OIConstants.KXboxLeftBumper);
-        opBtnRB = new JoystickButton(operatorJoystick, OIConstants.KXboxRightBumper);
-        opBtnSelect = new JoystickButton(operatorJoystick, OIConstants.KXboxSelectButton);
-        opBtnStrt = new JoystickButton(operatorJoystick, OIConstants.KXboxStartButton);
-        
-        configureButtonBindings(); 
+                // Xbox Operator Controller Buttons. 
+                opBtnA = new JoystickButton(operatorJoystick, OIConstants.KXboxButtonA);
+                opBtnB = new JoystickButton(operatorJoystick, OIConstants.KXboxButtonB);
+                opBtnX = new JoystickButton(operatorJoystick, OIConstants.KXboxButtonX);
+                opBtnY = new JoystickButton(operatorJoystick, OIConstants.KXboxButtonY);
+                opBtnLB = new JoystickButton(operatorJoystick, OIConstants.KXboxLeftBumper);
+                opBtnRB = new JoystickButton(operatorJoystick, OIConstants.KXboxRightBumper);
+                opBtnSelect = new JoystickButton(operatorJoystick, OIConstants.KXboxSelectButton);
+                opBtnStrt = new JoystickButton(operatorJoystick, OIConstants.KXboxStartButton);
+                
+                configureButtonBindings(); 
         }
 
         private void configureButtonBindings() {
@@ -148,15 +152,16 @@ public class RobotContainer {
                 new LeftIntakeJoystick(() -> operatorJoystick.getRawAxis(1), intake));
         new Trigger(() -> Math.abs(operatorJoystick.getRawAxis(5)) > 0.3).whileTrue(
                 new RightIntakeJoystick(() -> operatorJoystick.getRawAxis(5), intake));
-         
 
 
         // Pneumatics Controls 
         new POVButton(operatorJoystick, 0).onTrue(fullExtend); 
         new POVButton(operatorJoystick, 180).onTrue(fullDetract); 
         
+        // Limelight controls
+        opBtnX.whileTrue(reposition);
 
-}
+        }
 
 
         public Command getAutonomousCommand() {
