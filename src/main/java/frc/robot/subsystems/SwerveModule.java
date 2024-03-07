@@ -33,7 +33,7 @@ public class SwerveModule {
 
     // Initalizing ports for encoder. 
     private final CANCoder absoluteEncoder;
-    CANcoderConfiguration config = new CANcoderConfiguration();
+    // CANcoderConfiguration config = new CANcoderConfiguration();
     private final boolean absoluteEncoderReversed;
     private double absoluteEncoderOffsetRad;
     public double offset = 0; 
