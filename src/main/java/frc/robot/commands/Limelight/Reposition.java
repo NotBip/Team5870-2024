@@ -10,7 +10,7 @@ public class Reposition extends Command {
 
     public Reposition(SwerveSubsystem swerveSubsystem) {
         this.swerveSubsystem = swerveSubsystem;
-        addRequirements(swerveSubsystem);
+        // addRequirements(swerveSubsystem);
     }
 
     // Called when the command is initially scheduled.
