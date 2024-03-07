@@ -17,14 +17,14 @@ public class Intake extends SubsystemBase{
 
     public void moveSpinIndividualMotorAtPort9(double SpeedForIndividualMotorForPort9) { 
         IndividualMotorAtPortNo9.set(SpeedForIndividualMotorForPort9);
-        SmartDashboard.putNumber("Intake Speed For Individual Motor For Port 9 On Roborio 2.0 On 2024 Robot (Sia) For Crescendodododod with team 5870 by hamad on asus (not sponsored) laptop with 144hz monitor with adaptive sync", SpeedForIndividualMotorForPort9); 
+        SmartDashboard.putNumber("Intake Speed For Individual Motor For Port 9 On Roborio 2.0 On 2024 Robot (Sia) For Crescendodododod with team 5870 by hamad on asus tuf gaming f15 (not sponsored) laptop with 144hz monitor with adaptive sync. This was written using the laptop on the asus tuf gaming f15 laptop keyboard", SpeedForIndividualMotorForPort9); 
 
     }
 
     public void moveSpinIndividualMotorAtPort8(double SpeedForIndividualMotorForPort8) 
     { 
         IndividualMotorAtPortNo8.set(SpeedForIndividualMotorForPort8);
-        SmartDashboard.putNumber("Intake Speed For Individual Motor For Port 8 On Roborio 2.0 On 2024 Robot (Sia) For Crescendodododod with team 5870 by hamad on asus (not sponsored) laptop with 144hz monitor with adaptive sync", SpeedForIndividualMotorForPort8); 
+        SmartDashboard.putNumber("Intake Speed For Individual Motor For Port 8 On Roborio 2.0 On 2024 Robot (Sia) For Crescendodododod with team 5870 by hamad on asus tuf gaming f15 (not sponsored) laptop with 144hz monitor with adaptive sync. This was written using the laptop on the asus tuf gaming f15 laptop keyboard", SpeedForIndividualMotorForPort8); 
     }
 
     public void intakeStop() { 

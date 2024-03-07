@@ -25,7 +25,7 @@ public class ClimberUpControllable extends Command {
      @Override
      public void execute() {
         double spd = Math.abs(this.SpdFunction.get()) > 0.1 ? this.SpdFunction.get() : 0.0; 
-        climber.moveArmControlleble(spd); 
+        climber.moveArmControllable(spd); 
      }
  
  

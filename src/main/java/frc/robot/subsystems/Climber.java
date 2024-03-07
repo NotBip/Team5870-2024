@@ -95,7 +95,7 @@ public class Climber extends SubsystemBase {
         leaderMotor.set(kMotorSpeed);
     }
 
-    public void moveArmControlleble(double speed) { 
+    public void moveArmControllable(double speed) { 
         leaderMotor.set(speed);
     }
 
