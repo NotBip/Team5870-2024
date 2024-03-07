@@ -110,7 +110,6 @@ public class RobotContainer {
                 () -> !driverJoystick.getRawButton(3)));
         intake.setDefaultCommand(intakeStop);
         climber.setDefaultCommand(climberStop);
-        // climber.setDefaultCommand(climberStop);
         
         // Xbox Controller Buttons
         drBtnA = new JoystickButton(driverJoystick, OIConstants.KXboxButtonA);
@@ -136,20 +135,22 @@ public class RobotContainer {
 
         private void configureButtonBindings() {
         // QOL Swerve Controls
-        drBtnStrt.onTrue(ZeroGyro);
+        drBtnRB.onTrue(ZeroGyro);
 
         // Intake Controls
         opBtnLB.whileTrue(intakeSpinBack.withTimeout(.2)); 
         opBtnRB.whileTrue(intakeFullPower); 
 
         // Climber Controls
-        // xboxBtnA.onTrue(climberManualPosition); 
+        opBtnA.onTrue(climberManualPosition); 
         new Trigger(()-> operatorController.getRightTriggerAxis() > 0.3).whileTrue(climberUp); 
         new Trigger(() -> operatorController.getLeftTriggerAxis() > 0.3).whileTrue(climberDown); 
         new Trigger(() -> Math.abs(operatorJoystick.getRawAxis(1)) > 0.3).whileTrue(
                 new LeftIntakeJoystick(() -> operatorJoystick.getRawAxis(1), intake));
         new Trigger(() -> Math.abs(operatorJoystick.getRawAxis(5)) > 0.3).whileTrue(
-                new RightIntakeJoystick(() -> operatorJoystick.getRawAxis(5), intake)); 
+                new RightIntakeJoystick(() -> operatorJoystick.getRawAxis(5), intake));
+         
+
 
         // Pneumatics Controls 
         new POVButton(operatorJoystick, 0).onTrue(fullExtend); 
