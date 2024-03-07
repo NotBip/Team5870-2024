@@ -107,11 +107,11 @@ public class RobotContainer {
                 () -> driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
                 () -> driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
                 () -> -driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
-                () -> !driverJoystick.getRawButton(3)));
+                () -> !driverJoystick.getRawButton(6)));
         intake.setDefaultCommand(intakeStop);
         climber.setDefaultCommand(climberStop);
         
-        // Xbox Controller Buttons
+        // Xbox Driver Controller Buttons
         drBtnA = new JoystickButton(driverJoystick, OIConstants.KXboxButtonA);
         drBtnB = new JoystickButton(driverJoystick, OIConstants.KXboxButtonB);
         drBtnX = new JoystickButton(driverJoystick, OIConstants.KXboxButtonX);
@@ -121,6 +121,7 @@ public class RobotContainer {
         drBtnSelect = new JoystickButton(driverJoystick, OIConstants.KXboxSelectButton);
         drBtnStrt = new JoystickButton(driverJoystick, OIConstants.KXboxStartButton);
 
+        // Xbox Operator Controller Buttons. 
         opBtnA = new JoystickButton(operatorJoystick, OIConstants.KXboxButtonA);
         opBtnB = new JoystickButton(operatorJoystick, OIConstants.KXboxButtonB);
         opBtnX = new JoystickButton(operatorJoystick, OIConstants.KXboxButtonX);
@@ -135,16 +136,14 @@ public class RobotContainer {
 
         private void configureButtonBindings() {
         // QOL Swerve Controls
-        drBtnRB.onTrue(ZeroGyro);
-
-        // Intake Controls
-        opBtnLB.whileTrue(intakeSpinBack.withTimeout(.2)); 
-        opBtnRB.whileTrue(intakeFullPower); 
+        drBtnStrt.onTrue(ZeroGyro);
 
         // Climber Controls
         opBtnA.onTrue(climberManualPosition); 
         new Trigger(()-> operatorController.getRightTriggerAxis() > 0.3).whileTrue(climberUp); 
         new Trigger(() -> operatorController.getLeftTriggerAxis() > 0.3).whileTrue(climberDown); 
+
+        // Intake Controls
         new Trigger(() -> Math.abs(operatorJoystick.getRawAxis(1)) > 0.3).whileTrue(
                 new LeftIntakeJoystick(() -> operatorJoystick.getRawAxis(1), intake));
         new Trigger(() -> Math.abs(operatorJoystick.getRawAxis(5)) > 0.3).whileTrue(
