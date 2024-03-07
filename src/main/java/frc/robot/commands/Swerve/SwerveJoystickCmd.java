@@ -1,24 +1,16 @@
-package frc.robot.commands;
+package frc.robot.commands.Swerve;
 
 import java.util.function.Supplier;
-
-import javax.lang.model.element.ModuleElement;
-
-import frc.robot.subsystems.SwerveModule;
 import frc.robot.subsystems.SwerveSubsystem;
-
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
-import frc.robot.subsystems.SwerveModule.*;
-import frc.robot.subsystems.SwerveSubsystem.*;
 
-public class SwerveJoystickCmd extends CommandBase {
+public class SwerveJoystickCmd extends Command{
 
     private final SwerveSubsystem swerveSubsystem;
     private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
@@ -26,8 +18,8 @@ public class SwerveJoystickCmd extends CommandBase {
     private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
     
     public SwerveJoystickCmd(SwerveSubsystem swerveSubsystem,
-            Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, Supplier<Double> turningSpdFunction,
-            Supplier<Boolean> fieldOrientedFunction) {
+        Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, Supplier<Double> turningSpdFunction,
+        Supplier<Boolean> fieldOrientedFunction) {
         this.swerveSubsystem = swerveSubsystem;
         this.xSpdFunction = xSpdFunction;
         this.ySpdFunction = ySpdFunction;
@@ -58,12 +50,8 @@ public class SwerveJoystickCmd extends CommandBase {
         // 3. Make the driving smoother
         xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
         ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-     
-        if(turningSpeed != 0.0)
-            turningSpeed = Math.PI/2; 
-        else 
-            turningSpeed = 0; 
-
+        turningSpeed = turningLimiter.calculate(turningSpeed) * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
+                
         // 4. Construct desired chassis speeds
         ChassisSpeeds chassisSpeeds;
         if (fieldOrientedFunction.get()) {
@@ -71,19 +59,12 @@ public class SwerveJoystickCmd extends CommandBase {
             chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
                     xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());
        } else {
-    //         // Relative to robot
-
+            // Relative to robot
             chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
         }
-        SmartDashboard.putNumber("TURNING SPEED", turningSpeed);
         // 5. Convert chassis speeds to individual module states
         SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-        SmartDashboard.putBoolean("FIELD ORIENT", fieldOrientedFunction.get()); 
         // 6. Output each module states to wheels
-        SmartDashboard.putNumber("Turning Speed", turningSpeed); 
-        SmartDashboard.putNumber("x Speed", xSpeed); 
-        SmartDashboard.putNumber("y Speed", ySpeed); 
-        SmartDashboard.putNumber("Rotation", swerveSubsystem.getRotation2d().getRadians());
         swerveSubsystem.setModuleStates(moduleStates);
     }
 
@@ -96,4 +77,5 @@ public class SwerveJoystickCmd extends CommandBase {
     public boolean isFinished() {
         return false;
     }
+    
 }

@@ -1,29 +1,26 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
-import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
-import frc.robot.Robot;
-import frc.robot.RobotContainer;
 import frc.robot.Constants.ModuleConstants;
 //import swervelib.encoders.CANCoderSwerve;
 // import frc.robot.commands.SwerveJoystickCmd;
 
 public class SwerveModule {
     // Initalize the Motors. 
+    public int modNum; 
     private final CANSparkMax driveMotor; 
     private final CANSparkMax turningMotor; 
 
@@ -36,12 +33,13 @@ public class SwerveModule {
 
     // Initalizing ports for encoder. 
     private final CANCoder absoluteEncoder;
+    // CANcoderConfiguration config = new CANcoderConfiguration();
     private final boolean absoluteEncoderReversed;
     private double absoluteEncoderOffsetRad;
     public double offset = 0; 
 
 
-    /**
+    /**g
      * Constructor for each Swerve Module. 
      * @param driveMotorId  Port for drive Motor 
      * @param turningMotorId    Port for Turning Motor.
@@ -51,9 +49,11 @@ public class SwerveModule {
      * @param absoluteEncoderOffset absolute Encoder offset
      * @param absoluteEncoderReversed   Boolean if Absolute Encoder is Reversed. 
      */
-    public SwerveModule(int driveMotorId, int turningMotorId, boolean driveMotorReversed, boolean turningMotorReversed, int absoluteEncoderId, double absoluteEncoderOffset, boolean absoluteEncoderReversed){
+    public SwerveModule(int modNum, int driveMotorId, int turningMotorId, boolean driveMotorReversed, boolean turningMotorReversed, 
+    int absoluteEncoderId, double absoluteEncoderOffset, boolean absoluteEncoderReversed){
 
         // Set Absolute Encoder Port. 
+        this.modNum = modNum; 
         this.absoluteEncoderOffsetRad = absoluteEncoderOffset; 
         this.absoluteEncoderReversed = absoluteEncoderReversed; 
         absoluteEncoder = new CANCoder(absoluteEncoderId);
@@ -67,16 +67,20 @@ public class SwerveModule {
         // Get encoder values for both drive and turning motors. 
         driveEncoder = driveMotor.getEncoder(); 
         turningEncoder = turningMotor.getEncoder();
+        
 
         // Convert Encoder values. 
         driveEncoder.setPositionConversionFactor(ModuleConstants.kDriveEncoderRot2Meter);
         driveEncoder.setVelocityConversionFactor(ModuleConstants.kDriveEncoderRPM2MeterPerSec);
         turningEncoder.setPositionConversionFactor(ModuleConstants.kTurningEncoderRot2Rad);
         turningEncoder.setVelocityConversionFactor(ModuleConstants.kTurningEncoderRPM2RadPerSec);
-
         // Initialzing PID Controller. 
         turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI);
+        // Absolute Encoder Configs
+        // config.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
+        // config.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
+        // absoluteEncoder.getConfigurator().apply(config); 
 
         // Reset Encoders at the start. 
         resetEncoders();
@@ -108,7 +112,7 @@ public class SwerveModule {
 
     /**
      * Get the Turning Motor Speed. 
-     * @return (Double) Speed of the motor. 
+     * @return (Double) Speed of the motor 
      */
     public double getTurningVelocity() {
         return turningEncoder.getVelocity(); 
@@ -121,7 +125,6 @@ public class SwerveModule {
     public double getAbsoluteEncoderRad() {
         double angle = absoluteEncoder.getAbsolutePosition();
         angle *= (Math.PI/180);
-        // angle += offset; 
         angle -= absoluteEncoderOffsetRad;
         return angle * (absoluteEncoderReversed ? -1.0 : 1.0);
     }
@@ -148,19 +151,20 @@ public class SwerveModule {
      * @param state
      */
     public void setDesiredState(SwerveModuleState state, String wheel) {
-        // SmartDashboard.putNumber("Gyro", )
         if (Math.abs(state.speedMetersPerSecond) < 0.001) {
             stop();
             return;
         }
-        //System.out.println("asd");
-
         state = SwerveModuleState.optimize(state, getState().angle);
         driveMotor.set(state.speedMetersPerSecond / Constants.DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
-        // SmartDashboard.putNumber("GET TURNING POSITONS", getState().angle.getRadians()); 
-        // SmartDashboard.putNumber(wheel + " Moving speed", driveMotor.get()); 
-        // SmartDashboard.putNumber(wheel + " Turning speed", turningEncoder.getPosition()); 
+        SmartDashboard.putNumber("POSITION SET TO", state.angle.getRadians());
+    }
+
+    public SwerveModulePosition getPositions(){ 
+        return new SwerveModulePosition(
+            driveEncoder.getPosition(), 
+            getState().angle);
     }
 
 
