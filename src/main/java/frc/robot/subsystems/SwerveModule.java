@@ -33,7 +33,6 @@ public class SwerveModule {
 
     // Initalizing ports for encoder. 
     private final CANCoder absoluteEncoder;
-    // CANcoderConfiguration config = new CANcoderConfiguration();
     private final boolean absoluteEncoderReversed;
     private double absoluteEncoderOffsetRad;
     public double offset = 0; 
@@ -57,9 +56,11 @@ public class SwerveModule {
         this.absoluteEncoderOffsetRad = absoluteEncoderOffset; 
         this.absoluteEncoderReversed = absoluteEncoderReversed; 
         absoluteEncoder = new CANCoder(absoluteEncoderId);
+
         // Set drive Motor and turning Motor type and port.
         driveMotor = new CANSparkMax(driveMotorId, MotorType.kBrushless);
         turningMotor = new CANSparkMax(turningMotorId, MotorType.kBrushless);
+
         // Set Motors inverted if true. 
         driveMotor.setInverted(driveMotorReversed);
         turningMotor.setInverted(turningMotorReversed);
@@ -74,54 +75,30 @@ public class SwerveModule {
         driveEncoder.setVelocityConversionFactor(ModuleConstants.kDriveEncoderRPM2MeterPerSec);
         turningEncoder.setPositionConversionFactor(ModuleConstants.kTurningEncoderRot2Rad);
         turningEncoder.setVelocityConversionFactor(ModuleConstants.kTurningEncoderRPM2RadPerSec);
+
         // Initialzing PID Controller. 
         turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI);
-        // Absolute Encoder Configs
-        // config.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
-        // config.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
-        // absoluteEncoder.getConfigurator().apply(config); 
 
         // Reset Encoders at the start. 
         resetEncoders();
     }
 
-    /**
-     * Get Current Drive motor Position. 
-     * @return (Double) Position for the motor. 
-     *
-    public double getDrivePosition() {
-        return driveEncoder.getPosition(); 
-    }
-
-    /**
-     * Get the Current Turning motor Position. 
-     * @return (Double) Position for the turning Motor. 
-     */
+   
     public double getTurningPosition() {
         return turningEncoder.getPosition();
     }
 
-    /**
-     * Get the Speed for the Drive Motor. 
-     * @return (Double) Speed of the Motor. 
-     */
     public double getDriveVelocity() {
         return driveEncoder.getVelocity();
     }
 
-    /**
-     * Get the Turning Motor Speed. 
-     * @return (Double) Speed of the motor 
-     */
+   
     public double getTurningVelocity() {
         return turningEncoder.getVelocity(); 
     }
 
-    /**
-     * get AbsoluteEncoder's Value in radians. 
-     * @return (Double) Absolute Encoder vol in rads. 
-     */
+   
     public double getAbsoluteEncoderRad() {
         double angle = absoluteEncoder.getAbsolutePosition();
         angle *= (Math.PI/180);
@@ -130,26 +107,17 @@ public class SwerveModule {
     }
 
 
-    /**
-     * Reset the Encoders. 
-     */
+   
     public void resetEncoders() {
         driveEncoder.setPosition(0);
         turningEncoder.setPosition(getAbsoluteEncoderRad());
     }
     
-    /**
-     * Gets the current state (speed and Position) of a wheel. 
-     * @return State of the wheel. 
-     */
+  
     public SwerveModuleState getState() {
         return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPosition()));
     }
 
-    /**
-     * Sets the desired State of the Robots (Angles and Speed). 
-     * @param state
-     */
     public void setDesiredState(SwerveModuleState state, String wheel) {
         if (Math.abs(state.speedMetersPerSecond) < 0.001) {
             stop();
@@ -167,10 +135,6 @@ public class SwerveModule {
             getState().angle);
     }
 
-
-    /** 
-     * Stops the Drive Motor and Turning Motor. 
-     */
     public void stop() {
         driveMotor.set(0);
         turningMotor.set(0);

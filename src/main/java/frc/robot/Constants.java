@@ -169,20 +169,4 @@ public final class Constants {
         public static final int bottomLimitSwitch = 0; 
         public static final int topLimitSwitch = 0;  
     } 
-
-
-    // // ARCADE DRIVE DRIVE DRIVE
-
-    // public static final int[] LEFT_GROUP = {8, 2}; 
-    // public static final int[] RIGHT_GROUP = {4, 6}; 
-    
-    // public static final class MotorGroups 
-    // { 
-    //     public static final MotorControllerGroup leftMotorGroup = new MotorControllerGroup(new MotorController[]{new CANSparkMax(LEFT_GROUP[0], MotorType.kBrushless), new CANSparkMax(LEFT_GROUP[1], MotorType.kBrushless)});
-    //     public static final MotorControllerGroup rightMotorGroup = new MotorControllerGroup(new MotorController[]{new CANSparkMax(RIGHT_GROUP[0], MotorType.kBrushless), new CANSparkMax(RIGHT_GROUP[1], MotorType.kBrushless)});
-    //     public static final ADXRS450_Gyro k_gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS2);
-    //     public static final DifferentialDriveKinematics kDifferentialDriveKinematics = new DifferentialDriveKinematics(Units.inchesToMeters(30)); 
-    //     public static final double kMaxSpeedMetersPerSecond = 3; 
-    //     public static final double kMaxAccelerationMetersPerSecondSquared = 3;
-    // }
 }

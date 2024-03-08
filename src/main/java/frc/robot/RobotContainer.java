@@ -54,8 +54,6 @@ public class RobotContainer {
         private final Joystick operatorJoystick = new Joystick(OIConstants.kOperatorControllerPort); 
         private final XboxController operatorController = new XboxController(OIConstants.kOperatorControllerPort); 
 
-        // private final XboxController operatorController = new XboxController(2); 
-
         // Initializing Auto Commands 
         private final blueAmp1 blueAmpAuto1 = new blueAmp1(intake, swerveSubsystem); 
         private final blueAmp2 blueAmpAuto2 = new blueAmp2(intake, swerveSubsystem); 
@@ -147,8 +145,6 @@ public class RobotContainer {
                 new LeftIntakeJoystick(() -> operatorJoystick.getRawAxis(1), intake));
         new Trigger(() -> Math.abs(operatorJoystick.getRawAxis(5)) > 0.3).whileTrue(
                 new RightIntakeJoystick(() -> operatorJoystick.getRawAxis(5), intake));
-         
-
 
         // Pneumatics Controls 
         new POVButton(operatorJoystick, 0).onTrue(fullExtend); 
