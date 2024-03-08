@@ -24,8 +24,8 @@ public class RightIntakeJoystick extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        intake.moveSpinIndividualMotorAtPort8(-ySpdFunction.get());
-        intake.moveSpinIndividualMotorAtPort9(-ySpdFunction.get());
+        intake.IntakeMotorBack(-ySpdFunction.get());
+        intake.IntakeMotorFront(-ySpdFunction.get());
     }
 
 
