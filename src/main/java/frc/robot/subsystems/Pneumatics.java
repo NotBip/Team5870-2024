@@ -16,12 +16,12 @@ public class Pneumatics extends SubsystemBase{
     private Solenoid solenoidDetract2; 
 
     public Pneumatics() { 
-        c = new Compressor(PneumaticsConstants.compressorID, PneumaticsModuleType.CTREPCM); 
+        c = new Compressor(0, PneumaticsModuleType.CTREPCM); 
         solenoidExtend1 = new Solenoid(PneumaticsModuleType.CTREPCM, PneumaticsConstants.solenoidExtend1ID); 
         solenoidExtend2 = new Solenoid(PneumaticsModuleType.CTREPCM, PneumaticsConstants.solenoidExtend2ID); 
         solenoidDetract1 = new Solenoid(PneumaticsModuleType.CTREPCM, PneumaticsConstants.solenoidDetract1ID); 
         solenoidDetract2 = new Solenoid(PneumaticsModuleType.CTREPCM, PneumaticsConstants.solenoidDetract2ID); 
-    
+     
         startCompressor();
     }
 

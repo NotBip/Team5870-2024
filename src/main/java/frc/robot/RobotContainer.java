@@ -46,7 +46,7 @@ public class RobotContainer {
         private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
         private final Intake intake = new Intake();
         private final Climber climber = new Climber(); 
-        private final Pneumatics pneumatics = new Pneumatics(); 
+        public final Pneumatics pneumatics = new Pneumatics(); 
 
         // Initializing Controllers and Joysticks
         private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);

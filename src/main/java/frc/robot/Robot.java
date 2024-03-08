@@ -44,6 +44,7 @@ public class Robot extends TimedRobot {
         // and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();
+        m_robotContainer.pneumatics.startCompressor();
     }
 
     /**
@@ -53,7 +54,7 @@ public class Robot extends TimedRobot {
      * test.
      *
      * <p>
-     * This runs after the mode specific periodic functions, but before LiveWindow
+     * This runs after the mode specific periodic fu`nctions, but before LiveWindow
      * and
      * SmartDashboard integrated updating.
      */
