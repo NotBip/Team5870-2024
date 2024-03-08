@@ -3,12 +3,16 @@ package frc.robot.commands.Climber;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Climber;
+import java.util.function.Supplier;
+
 
 public class ClimberManualPosition extends Command {
     private Climber climber; 
+    private double setRotation; 
 
-    public ClimberManualPosition(Climber climber) { 
+    public ClimberManualPosition(Climber climber, double setRotation) { 
         this.climber = climber; 
+        this.setRotation = setRotation; 
         addRequirements(climber);
     }
 
@@ -20,7 +24,7 @@ public class ClimberManualPosition extends Command {
      // Called every time the scheduler runs while the command is scheduled.
      @Override
      public void execute() {
-        climber.setPosition(); 
+        climber.setPosition(setRotation); 
      }
  
  

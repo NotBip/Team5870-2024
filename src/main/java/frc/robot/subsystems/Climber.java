@@ -99,8 +99,8 @@ public class Climber extends SubsystemBase {
         leaderMotor.set(speed);
     }
 
-    public void setPosition() { 
-        m_pidController.setReference(kRotations, CANSparkMax.ControlType.kPosition);
+    public void setPosition(double setRotation) { 
+        m_pidController.setReference(setRotation, CANSparkMax.ControlType.kPosition);
     }
 
     public void hold() { 

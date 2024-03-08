@@ -74,7 +74,6 @@ public class RobotContainer {
         private final ClimberDown climberDown = new ClimberDown(climber); 
         private final ClimberUp climberUp = new ClimberUp(climber); 
         private final ClimberStop climberStop = new ClimberStop(climber); 
-        private final ClimberManualPosition climberManualPosition = new ClimberManualPosition(climber); 
 
         // Pneumatics
         private final FullExtend fullExtend = new FullExtend(pneumatics); 
@@ -139,9 +138,9 @@ public class RobotContainer {
         drBtnStrt.onTrue(ZeroGyro);
 
         // Climber Controls
-        opBtnA.onTrue(climberManualPosition); 
         new Trigger(()-> operatorController.getRightTriggerAxis() > 0.3).whileTrue(climberUp); 
         new Trigger(() -> operatorController.getLeftTriggerAxis() > 0.3).whileTrue(climberDown); 
+        opBtnA.whileTrue(new ClimberManualPosition(climber, 0));
 
         // Intake Controls
         new Trigger(() -> Math.abs(operatorJoystick.getRawAxis(1)) > 0.3).whileTrue(
