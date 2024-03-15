@@ -28,10 +28,13 @@ import frc.robot.commands.Intake.LeftIntakeJoystick;
 import frc.robot.commands.Intake.RightIntakeJoystick;
 import frc.robot.commands.Pneumatics.FullDetract;
 import frc.robot.commands.Pneumatics.FullExtend;
+import frc.robot.commands.Swerve.AutoAlign;
+import frc.robot.commands.Swerve.Reposition;
 import frc.robot.commands.Swerve.SwerveJoystickCmd;
 import frc.robot.commands.Swerve.ZeroGyro;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.PhotonLL;
 import frc.robot.subsystems.Pneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -46,7 +49,8 @@ public class RobotContainer {
         private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
         private final Intake intake = new Intake();
         private final Climber climber = new Climber(); 
-        public final Pneumatics pneumatics = new Pneumatics(); 
+        private final Pneumatics pneumatics = new Pneumatics(); 
+        private final PhotonLL limelight = new PhotonLL(); 
 
         // Initializing Controllers and Joysticks
         private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
@@ -79,6 +83,8 @@ public class RobotContainer {
 
         // Swerve
         private final ZeroGyro ZeroGyro = new ZeroGyro(swerveSubsystem); 
+        private final AutoAlign autoAlign = new AutoAlign(swerveSubsystem, limelight); // Currently in testing. 
+        private final Reposition reposition = new Reposition(swerveSubsystem); // Currently in testing. 
 
         // Game Controllers
         public JoystickButton drBtnA, drBtnB, drBtnX, drBtnY, drBtnLB, drBtnRB, drBtnStrt, drBtnSelect;
@@ -134,6 +140,7 @@ public class RobotContainer {
         private void configureButtonBindings() {
         // QOL Swerve Controls
         drBtnStrt.onTrue(ZeroGyro);
+        drBtnY.whileTrue(autoAlign); // Currently Testing this auto align feature so yeahhh.    
 
         // Climber Controls
         new Trigger(()-> operatorController.getRightTriggerAxis() > 0.3).whileTrue(climberUp); 

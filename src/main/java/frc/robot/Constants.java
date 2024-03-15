@@ -120,7 +120,7 @@ public final class Constants {
         public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 4;
         public static final double kPXController = .3;
         public static final double kPYController = .3;
-        public static final double kPThetaController = 3;
+        public static final double kPThetaController = .3;
 
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints = //
                 new TrapezoidProfile.Constraints(
@@ -129,7 +129,7 @@ public final class Constants {
 
         public static final HolonomicPathFollowerConfig pathFollowerConfig = new HolonomicPathFollowerConfig(
             new PIDConstants(.3, 0, 0), // Translation constants 
-            new PIDConstants(3.0, 0, 0), // Rotation constants 
+            new PIDConstants(.3, 0, 0), // Rotation constants 
             4.5, 
             1.0748023074, // Drive base radius (distance from center to furthest module) 
             new ReplanningConfig()

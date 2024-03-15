@@ -52,7 +52,7 @@ public class SwerveJoystickCmd extends Command{
         ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
         turningSpeed = turningLimiter.calculate(turningSpeed) * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
                 
-        // 4. Construct desired chassis speeds
+    //     // 4. Construct desired chassis speeds
         ChassisSpeeds chassisSpeeds;
         if (fieldOrientedFunction.get()) {
             // Relative to field
@@ -62,6 +62,11 @@ public class SwerveJoystickCmd extends Command{
             // Relative to robot
             chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
         }
+
+        // ChassisSpeeds chassisSpeeds = fieldOrientedFunction.get() ? 
+        // ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d()) 
+        // : new ChassisSpeeds(xSpeed, ySpeed, turningSpeed); 
+        
         // 5. Convert chassis speeds to individual module states
         SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
         // 6. Output each module states to wheels

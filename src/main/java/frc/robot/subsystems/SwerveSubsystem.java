@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.io.IOException;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 
@@ -172,6 +174,71 @@ public class SwerveSubsystem extends SubsystemBase {
 
         SwerveModuleState[] targetStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(targetSpeeds);
         setModuleStates(targetStates); 
+    }
+
+    public void alignAprilTag() { 
+        NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+        double tableID = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tid").getDouble(0); 
+        table.getEntry("pipeline").setNumber(tableID);
+        NetworkTableEntry tx = table.getEntry("tx"); // Limelight's x-coordinate of the target
+        NetworkTableEntry ty = table.getEntry("ty"); // Limelight's y-coordinate of the target
+        NetworkTableEntry ta = table.getEntry("ta"); // Limelight's area of the target
+        NetworkTableEntry tv = table.getEntry("tv");
+        double prevarea = ta.getDouble(0); 
+        double prevX = tx.getDouble(0); 
+        double prevY = ty.getDouble(0); 
+        // if(tableID == 6) 
+        // SmartDashboard.putBoolean("ID DETECTED", true); 
+        // else 
+        // SmartDashboard.putBoolean("ID DETECTED", false); 
+        
+        boolean rotDone = false; 
+        boolean xDone = false; 
+        boolean yDone = false; 
+        ChassisSpeeds chassisSpeeds; 
+
+        // determine distance to goal
+        double targetOffsetAngle_Vertical = ty.getDouble(0.0);
+        double mountAngleDegrees = 30.0;
+        double lensHeight = 33.02;
+        double goalHeight = 121.9;
+        double angleToGoalRadians = (mountAngleDegrees + targetOffsetAngle_Vertical) * (Math.PI/180);
+        double distLightToGoal = (goalHeight-lensHeight) / Math.tan(angleToGoalRadians);
+
+        switch ((int) tableID) {
+            case 6:
+                while (true) { 
+                    SmartDashboard.putBoolean("ID DETECTED", true); 
+                    SmartDashboard.putBoolean("xDone", xDone);
+                    SmartDashboard.putBoolean("yDone", yDone);
+                    SmartDashboard.putBoolean("rotDone", rotDone);
+
+                    double y = ty.getDouble(0.0);
+                    double x = tx.getDouble(0.0);
+                    double area = ta.getDouble(0.0); 
+
+                    System.out.println(prevX);
+                    // Rotating Towards The Goal. 
+                    if ((getRotation2d().getDegrees() > 0.5 || getRotation2d().getDegrees() < -0.5) && !rotDone) { 
+                        if (getRotation2d().getDegrees() > 0.5) { 
+                            chassisSpeeds = new ChassisSpeeds(0, 0, getRotation2d().getDegrees()*-1); 
+                            SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+                            setModuleStates(moduleStates);
+                        } else if (getRotation2d().getDegrees() < -0.5) { 
+                            chassisSpeeds = new ChassisSpeeds(0, 0, getRotation2d().getDegrees()*-1); 
+                            SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+                            setModuleStates(moduleStates); 
+                        }
+                    } else if (getRotation2d().getDegrees() < 0.5 && getRotation2d().getDegrees() > -0.5 && !rotDone || x == 0 ) { 
+                        stopModules();
+                        rotDone = true; 
+                        break; 
+                    }
+                }   
+            default: 
+                System.out.println("ASdasda");
+                    
+        }
     }
 
 } // end Class
