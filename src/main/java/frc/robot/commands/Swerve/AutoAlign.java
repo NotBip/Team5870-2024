@@ -8,7 +8,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.PhotonLL;
 
 public class AutoAlign extends Command {
@@ -81,9 +80,9 @@ public class AutoAlign extends Command {
         }
  
         // 3. Make the driving smoother
-        velForward = xLimiter.calculate(velForward) * 3;
-        velStrafe = yLimiter.calculate(velStrafe) * 3;
-        velRot = gyroLimiter.calculate(velRot) * 5;
+        velForward = xLimiter.calculate(velForward) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+        velStrafe = yLimiter.calculate(velStrafe) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+        velRot = gyroLimiter.calculate(velRot) * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
  
         // 4. Construct desired chassis speeds
         ChassisSpeeds chassisSpeeds;
