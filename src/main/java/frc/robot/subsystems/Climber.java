@@ -35,7 +35,7 @@ public class Climber extends SubsystemBase {
         m_pidController = leaderMotor.getPIDController();
         m_Encoder = leaderMotor.getEncoder();
                 
-        kP = 0.1; 
+        kP = 0.05; 
         kD = 0;  
         kIz = 0; 
         kFF = 0; 
@@ -57,17 +57,18 @@ public class Climber extends SubsystemBase {
 
     @Override
     public void periodic() { 
-        double p = SmartDashboard.getNumber("P Gain", 0);
-        double d = SmartDashboard.getNumber("D Gain", 0);
+        // double p = SmartDashboard.getNumber("P Gain", 0);
+        // double d = SmartDashboard.getNumber("D Gain", 0);
         double motorSpeed = SmartDashboard.getNumber("Motor Speed", 0.20); 
         double rotations = SmartDashboard.getNumber("Set Position", 0);
         double max = SmartDashboard.getNumber("Max Output", 0);
         double min = SmartDashboard.getNumber("Min Output", 0);
+        SmartDashboard.putNumber("Climber Position", m_Encoder.getPosition()); 
         get(); 
 
         
-        if((p != kP)) { m_pidController.setP(p); kP = p; }
-        if((d != kD)) { m_pidController.setD(d); kD = d; }
+        // if((p != kP)) { m_pidController.setP(p); kP = p; }
+        // if((d != kD)) { m_pidController.setD(d); kD = d; }
         if((motorSpeed != kMotorSpeed)) { kMotorSpeed = motorSpeed; }
         if((rotations != kRotations)) { kRotations = rotations; } 
         if((max != kMaxOutput) || (min != kMinOutput)) { 

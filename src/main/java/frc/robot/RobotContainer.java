@@ -97,7 +97,7 @@ public class RobotContainer {
         public RobotContainer() {
         
         // Adding options to Auto Chooser
-        autoChooser.setDefaultOption("Template Auton", driveStraight.DriveStraightWhileTurning()); // Default auto will be `Commands.none()`
+        // autoChooser.setDefaultOption("Template Auton", driveStraight.DriveStraightWhileTurning()); // Default auto will be `Commands.none()`
         autoChooser.addOption("BA1", blueAmpAuto1.blueAmp1AutoCommand());
         autoChooser.addOption("BA2", blueAmpAuto2.blueAmp2AutoCommand());
         autoChooser.addOption("BA3", blueAmpAuto3.blueAmp3AutoCommand());
@@ -145,7 +145,7 @@ public class RobotContainer {
         // Climber Controls
         new Trigger(()-> operatorController.getRightTriggerAxis() > 0.3).whileTrue(climberUp); 
         new Trigger(() -> operatorController.getLeftTriggerAxis() > 0.3).whileTrue(climberDown); 
-        opBtnA.whileTrue(new ClimberManualPosition(climber, 0));
+        opBtnA.whileTrue(new ClimberManualPosition(climber, -26.7));
 
         // Intake Controls
         new Trigger(() -> Math.abs(operatorJoystick.getRawAxis(1)) > 0.3).whileTrue(
@@ -162,6 +162,6 @@ public class RobotContainer {
 
 
         public Command getAutonomousCommand() {
-                return autoChooser.getSelected(); 
+                return driveStraight;  
         }
 }

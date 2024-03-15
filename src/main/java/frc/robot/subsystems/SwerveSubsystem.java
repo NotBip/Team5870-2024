@@ -187,10 +187,6 @@ public class SwerveSubsystem extends SubsystemBase {
         double prevarea = ta.getDouble(0); 
         double prevX = tx.getDouble(0); 
         double prevY = ty.getDouble(0); 
-        // if(tableID == 6) 
-        // SmartDashboard.putBoolean("ID DETECTED", true); 
-        // else 
-        // SmartDashboard.putBoolean("ID DETECTED", false); 
         
         boolean rotDone = false; 
         boolean xDone = false; 
