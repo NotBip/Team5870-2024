@@ -83,7 +83,7 @@ public class RobotContainer {
         private final FullDetract fullDetract = new FullDetract(pneumatics); 
 
         // Swerve
-        private final ZeroGyro ZeroGyro = new ZeroGyro(swerveSubsystem); 
+        public final ZeroGyro zeroGyro = new ZeroGyro(swerveSubsystem); 
         // private final AutoAlign autoAlign = new AutoAlign(swerveSubsystem, limelight); // Currently in testing. 
         private final Reposition reposition = new Reposition(swerveSubsystem); // Currently in testing. 
 
@@ -140,7 +140,7 @@ public class RobotContainer {
 
         private void configureButtonBindings() {
         // QOL Swerve Controls
-        drBtnStrt.onTrue(ZeroGyro);
+        drBtnStrt.onTrue(zeroGyro);
         // drBtnY.whileTrue(autoAlign); // Currently Testing this auto align feature so yeahhh.    
 
         // Climber Controls
