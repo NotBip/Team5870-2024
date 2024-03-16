@@ -64,7 +64,6 @@ public class Climber extends SubsystemBase {
         double max = SmartDashboard.getNumber("Max Output", 0);
         double min = SmartDashboard.getNumber("Min Output", 0);
         SmartDashboard.putNumber("Climber Position", m_Encoder.getPosition()); 
-        get(); 
 
         
         // if((p != kP)) { m_pidController.setP(p); kP = p; }
@@ -95,12 +94,9 @@ public class Climber extends SubsystemBase {
         followerMotor.setIdleMode(IdleMode.kBrake); 
     }
 
-    public void get() { 
-        SmartDashboard.putNumber("Leader Motor Speed", leaderMotor.get()); 
-    }
-
     public void resetEncoders() { 
         m_Encoder.setPosition(0); 
+        System.out.println("Climber Zeroed");
     }
 
     

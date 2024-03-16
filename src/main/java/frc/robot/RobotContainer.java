@@ -20,6 +20,7 @@ import frc.robot.commands.Climber.ClimberDown;
 import frc.robot.commands.Climber.ClimberManualPosition;
 import frc.robot.commands.Climber.ClimberStop;
 import frc.robot.commands.Climber.ClimberUp;
+import frc.robot.commands.Climber.zeroClimber;
 import frc.robot.commands.Intake.IntakeFullPower;
 import frc.robot.commands.Intake.IntakeSpinBack;
 import frc.robot.commands.Intake.IntakeSpinForward;
@@ -76,6 +77,7 @@ public class RobotContainer {
         private final ClimberDown climberDown = new ClimberDown(climber); 
         private final ClimberUp climberUp = new ClimberUp(climber); 
         private final ClimberStop climberStop = new ClimberStop(climber); 
+        private final zeroClimber zClimber = new zeroClimber(climber); 
 
         // Pneumatics
         private final FullExtend fullExtend = new FullExtend(pneumatics); 
@@ -145,6 +147,7 @@ public class RobotContainer {
         // Climber Controls
         new Trigger(()-> operatorController.getRightTriggerAxis() > 0.3).whileTrue(climberUp); 
         new Trigger(() -> operatorController.getLeftTriggerAxis() > 0.3).whileTrue(climberDown); 
+        drBtnSelect.onTrue(zClimber); 
         opBtnA.whileTrue(new ClimberManualPosition(climber, -26.7));
 
         // Intake Controls
@@ -162,6 +165,6 @@ public class RobotContainer {
 
 
         public Command getAutonomousCommand() {
-                return driveStraight;  
+                return driveStraight.driveStraight();  
         }
-}
+} 
