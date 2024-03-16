@@ -60,9 +60,9 @@ public class RobotContainer {
         private final XboxController operatorController = new XboxController(OIConstants.kOperatorControllerPort); 
 
         // Initializing Auto Commands 
-        private final blueAmp1 blueAmpAuto1 = new blueAmp1(intake, swerveSubsystem); 
-        private final blueAmp2 blueAmpAuto2 = new blueAmp2(intake, swerveSubsystem); 
-        private final blueAmp3 blueAmpAuto3 = new blueAmp3(intake, swerveSubsystem); 
+        //private final blueAmp1 blueAmpAuto1 = new blueAmp1(intake, swerveSubsystem); 
+        //private final blueAmp2 blueAmpAuto2 = new blueAmp2(intake, swerveSubsystem); 
+        //private final blueAmp3 blueAmpAuto3 = new blueAmp3(intake, swerveSubsystem, zeroGyro); 
 
 
         // Initializing Commands
@@ -164,7 +164,7 @@ public class RobotContainer {
 
 
         public Command getAutonomousCommand() {
-        return null; 
+                return null; 
                 // return new DriveStraight(intake, swerveSubsystem, ZeroGyro);  
         }
 } 

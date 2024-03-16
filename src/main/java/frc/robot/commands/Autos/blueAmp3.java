@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Intake.IntakeSpinForward;
 import frc.robot.commands.Intake.IntakeStop;
 import frc.robot.subsystems.Intake;
+import frc.robot.commands.Swerve.ZeroGyro;
+
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class blueAmp3 extends Command {
@@ -16,13 +18,27 @@ public class blueAmp3 extends Command {
     IntakeSpinForward intakeSpinForward; 
     IntakeStop intakeStop; 
     SwerveSubsystem swerveSubsystem; 
+    ZeroGyro zeroGyro;
 
-    public blueAmp3(Intake intake, SwerveSubsystem swerveSubsystem) { 
+    public blueAmp3(Intake intake, SwerveSubsystem swerveSubsystem, ZeroGyro zeroGyro) { 
         this.intake = intake;
         this.swerveSubsystem = swerveSubsystem; 
+        this.zeroGyro = zeroGyro;
         intakeSpinForward = new IntakeSpinForward(intake);
         intakeStop = new IntakeStop(intake); 
         addRequirements(intake);
+    }
+
+    @Override
+    public void initialize() { 
+      PathPlannerPath path = PathPlannerPath.fromPathFile("BA3");
+      PathPlannerPath path2 = PathPlannerPath.fromPathFile("AM");
+
+      new SequentialCommandGroup(
+        zeroGyro.withTimeout(.1), 
+        AutoBuilder.followPath(path),
+        intakeSpinForward.withTimeout(2),
+        intakeStop.alongWith(AutoBuilder.followPath(path2))).schedule();
     }
 
     public Command blueAmp3AutoCommand() { 
