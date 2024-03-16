@@ -20,7 +20,8 @@ public class IntakeSpinForward extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-    intake.moveSpin(intakeSpeed);
+        intake.IntakeMotorFront(-1);
+        intake.IntakeMotorBack(1);    
     }
 
     // Called once the command ends or is interrupted.

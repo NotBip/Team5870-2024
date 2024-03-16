@@ -21,7 +21,8 @@ public class IntakeStop extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        intake.moveSpin(0);
+        intake.IntakeMotorFront(0); //motorspeed to 0
+        intake.IntakeMotorBack(0);  
     }
 
 
