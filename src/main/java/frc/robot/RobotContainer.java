@@ -29,7 +29,7 @@ import frc.robot.commands.Intake.LeftIntakeJoystick;
 import frc.robot.commands.Intake.RightIntakeJoystick;
 import frc.robot.commands.Pneumatics.FullDetract;
 import frc.robot.commands.Pneumatics.FullExtend;
-import frc.robot.commands.Swerve.AutoAlign;
+// import frc.robot.commands.S>erve.AutoAlign;
 import frc.robot.commands.Swerve.Reposition;
 import frc.robot.commands.Swerve.SwerveJoystickCmd;
 import frc.robot.commands.Swerve.ZeroGyro;
@@ -63,7 +63,6 @@ public class RobotContainer {
         private final blueAmp1 blueAmpAuto1 = new blueAmp1(intake, swerveSubsystem); 
         private final blueAmp2 blueAmpAuto2 = new blueAmp2(intake, swerveSubsystem); 
         private final blueAmp3 blueAmpAuto3 = new blueAmp3(intake, swerveSubsystem); 
-        private final DriveStraight driveStraight = new DriveStraight(intake, swerveSubsystem);
 
 
         // Initializing Commands
@@ -85,7 +84,7 @@ public class RobotContainer {
 
         // Swerve
         private final ZeroGyro ZeroGyro = new ZeroGyro(swerveSubsystem); 
-        private final AutoAlign autoAlign = new AutoAlign(swerveSubsystem, limelight); // Currently in testing. 
+        // private final AutoAlign autoAlign = new AutoAlign(swerveSubsystem, limelight); // Currently in testing. 
         private final Reposition reposition = new Reposition(swerveSubsystem); // Currently in testing. 
 
         // Game Controllers
@@ -100,10 +99,10 @@ public class RobotContainer {
         
         // Adding options to Auto Chooser
         // autoChooser.setDefaultOption("Template Auton", driveStraight.DriveStraightWhileTurning()); // Default auto will be `Commands.none()`
-        autoChooser.addOption("BA1", blueAmpAuto1.blueAmp1AutoCommand());
-        autoChooser.addOption("BA2", blueAmpAuto2.blueAmp2AutoCommand());
-        autoChooser.addOption("BA3", blueAmpAuto3.blueAmp3AutoCommand());
-        Shuffleboard.getTab("Autonomous").add("Select Auto", autoChooser).withSize(2, 1);
+        // autoChooser.addOption("BA1", blueAmpAuto1.blueAmp1AutoCommand());
+        // autoChooser.addOption("BA2", blueAmpAuto2.blueAmp2AutoCommand());
+        // autoChooser.addOption("BA3", blueAmpAuto3.blueAmp3AutoCommand());
+        // Shuffleboard.getTab("Autonomous").add("Select Auto", autoChooser).withSize(2, 1);
 
 
         // set default commands for each Subsystem
@@ -142,7 +141,7 @@ public class RobotContainer {
         private void configureButtonBindings() {
         // QOL Swerve Controls
         drBtnStrt.onTrue(ZeroGyro);
-        drBtnY.whileTrue(autoAlign); // Currently Testing this auto align feature so yeahhh.    
+        // drBtnY.whileTrue(autoAlign); // Currently Testing this auto align feature so yeahhh.    
 
         // Climber Controls
         new Trigger(()-> operatorController.getRightTriggerAxis() > 0.3).whileTrue(climberUp); 
@@ -165,6 +164,7 @@ public class RobotContainer {
 
 
         public Command getAutonomousCommand() {
-                return driveStraight.driveStraight();  
+        return null; 
+                // return new DriveStraight(intake, swerveSubsystem, ZeroGyro);  
         }
 } 

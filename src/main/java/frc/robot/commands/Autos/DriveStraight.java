@@ -13,6 +13,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.Intake.IntakeSpinBack;
 import frc.robot.commands.Intake.IntakeSpinForward;
 import frc.robot.commands.Intake.IntakeStop;
+import frc.robot.commands.Swerve.ZeroGyro;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -22,12 +23,14 @@ public class DriveStraight extends Command {
     IntakeSpinBack intakeSpinBack; 
     IntakeStop intakeStop; 
     SwerveSubsystem swerveSubsystem; 
+    ZeroGyro zeroGyro; 
 
-    public DriveStraight(Intake intake, SwerveSubsystem swerveSubsystem) { 
+    public DriveStraight(Intake intake, SwerveSubsystem swerveSubsystem, ZeroGyro zeroGyro) { 
         this.intake = intake;
         this.swerveSubsystem = swerveSubsystem; 
         intakeSpinBack = new IntakeSpinBack(intake);
         intakeStop = new IntakeStop(intake); 
+        zeroGyro = new ZeroGyro(swerveSubsystem); 
         addRequirements(intake);
 
     }
@@ -35,12 +38,18 @@ public class DriveStraight extends Command {
     @Override
     public void initialize() { 
       PathPlannerPath path = PathPlannerPath.fromPathFile("DriveStraight");
-      new SequentialCommandGroup(AutoBuilder.followPath(path)).schedule();;
-    }
+      
+      new SequentialCommandGroup(
+        zeroGyro.withTimeout(.1), 
+        AutoBuilder.followPath(path)).schedule(); 
+    }    
 
     public Command driveStraight() {
       PathPlannerPath path = PathPlannerPath.fromPathFile("DriveStraight");
-      return new SequentialCommandGroup(AutoBuilder.followPath(path)); 
+      
+      return new SequentialCommandGroup(
+        zeroGyro.withTimeout(.1), 
+        AutoBuilder.followPath(path)); 
     }
 
 

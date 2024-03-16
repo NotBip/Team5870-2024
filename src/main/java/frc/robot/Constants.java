@@ -103,7 +103,7 @@ public final class Constants {
         public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
 
-        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 2;
+        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond;
         public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = //
                 kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
         public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
@@ -131,7 +131,7 @@ public final class Constants {
             new PIDConstants(.3, 0, 0), // Translation constants 
             new PIDConstants(.3, 0, 0), // Rotation constants 
             4.5, 
-            1.0748023074, // Drive base radius (distance from center to furthest module) 
+            1.074802307403552, // Drive base radius (distance from center to furthest module) 
             new ReplanningConfig()
             );
     }
