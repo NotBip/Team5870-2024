@@ -47,7 +47,7 @@ public class RobotContainer {
         Field2d field = new Field2d(); 
         
         // Initializing Robot's Subsystems
-        private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+        public final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
         private final Intake intake = new Intake();
         private final Climber climber = new Climber(); 
         private final Pneumatics pneumatics = new Pneumatics(); 
@@ -83,7 +83,7 @@ public class RobotContainer {
         private final FullDetract fullDetract = new FullDetract(pneumatics); 
 
         // Swerve
-        public final ZeroGyro zeroGyro = new ZeroGyro(swerveSubsystem); 
+        private final ZeroGyro zeroGyro = new ZeroGyro(swerveSubsystem); 
         // private final AutoAlign autoAlign = new AutoAlign(swerveSubsystem, limelight); // Currently in testing. 
         private final Reposition reposition = new Reposition(swerveSubsystem); // Currently in testing. 
 
