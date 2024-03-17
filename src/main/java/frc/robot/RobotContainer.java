@@ -47,7 +47,7 @@ public class RobotContainer {
         Field2d field = new Field2d(); 
         
         // Initializing Robot's Subsystems
-        private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+        public final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
         private final Intake intake = new Intake();
         private final Climber climber = new Climber(); 
         private final Pneumatics pneumatics = new Pneumatics(); 
