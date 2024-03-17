@@ -1,6 +1,15 @@
 package frc.robot;
 
+import java.util.List;
+
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -8,9 +17,13 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.Autos.DriveStraight;
 import frc.robot.commands.Autos.blueAmp1;
@@ -35,7 +48,7 @@ import frc.robot.commands.Swerve.SwerveJoystickCmd;
 import frc.robot.commands.Swerve.ZeroGyro;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.PhotonLL;
+// import frc.robot.subsystems.PhotonLL;
 import frc.robot.subsystems.Pneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -47,11 +60,11 @@ public class RobotContainer {
         Field2d field = new Field2d(); 
         
         // Initializing Robot's Subsystems
-        private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+        public final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
         private final Intake intake = new Intake();
         private final Climber climber = new Climber(); 
         private final Pneumatics pneumatics = new Pneumatics(); 
-        private final PhotonLL limelight = new PhotonLL(); 
+        // private final PhotonLL limelight = new PhotonLL(); 
 
         // Initializing Controllers and Joysticks
         private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
@@ -63,7 +76,6 @@ public class RobotContainer {
         //private final blueAmp1 blueAmpAuto1 = new blueAmp1(intake, swerveSubsystem); 
         //private final blueAmp2 blueAmpAuto2 = new blueAmp2(intake, swerveSubsystem); 
         //private final blueAmp3 blueAmpAuto3 = new blueAmp3(intake, swerveSubsystem, zeroGyro); 
-
 
         // Initializing Commands
         // Intake
@@ -86,6 +98,7 @@ public class RobotContainer {
         public final ZeroGyro zeroGyro = new ZeroGyro(swerveSubsystem); 
         // private final AutoAlign autoAlign = new AutoAlign(swerveSubsystem, limelight); // Currently in testing. 
         private final Reposition reposition = new Reposition(swerveSubsystem); // Currently in testing. 
+        private final DriveStraight driveStraight = new DriveStraight(intake, swerveSubsystem, zeroGyro); 
 
         // Game Controllers
         public JoystickButton drBtnA, drBtnB, drBtnX, drBtnY, drBtnLB, drBtnRB, drBtnStrt, drBtnSelect;
@@ -164,7 +177,46 @@ public class RobotContainer {
 
 
         public Command getAutonomousCommand() {
-                return null; 
-                // return new DriveStraight(intake, swerveSubsystem, ZeroGyro);  
+                // return null; 
+                // return driveStraight.driveStraight();  
+        
+             // 1. Create trajectory settings
+        TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
+                AutoConstants.kMaxSpeedMetersPerSecond,
+                AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+                        .setKinematics(DriveConstants.kDriveKinematics);
+
+        // 2. Generate trajectory
+        Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
+                new Pose2d(0, 0, new Rotation2d(0)),
+                List.of(
+                        new Translation2d(3, 0)),
+                new Pose2d(3, 0, Rotation2d.fromDegrees(180)),
+                trajectoryConfig);
+
+        // 3. Define PID controllers for tracking trajectory
+        PIDController xController = new PIDController(.1, 0, 0);
+        PIDController yController = new PIDController(.1, 0, 0);
+        ProfiledPIDController thetaController = new ProfiledPIDController(
+                AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
+        thetaController.enableContinuousInput(-Math.PI, Math.PI);
+
+        // 4. Construct command to follow trajectory
+        SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
+                trajectory,
+                swerveSubsystem::getPose,
+                DriveConstants.kDriveKinematics,
+                xController,
+                yController,
+                thetaController,
+                swerveSubsystem::setModuleStates,
+                swerveSubsystem);
+
+        // 5. Add some init and wrap-up, and return everything
+        return new SequentialCommandGroup(
+                new InstantCommand(() -> swerveSubsystem.zeroHeading()), 
+                new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
+                swerveControllerCommand,
+                new InstantCommand(() -> swerveSubsystem.stopModules()));
         }
 } 

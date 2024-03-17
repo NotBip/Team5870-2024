@@ -41,15 +41,14 @@ public class DriveStraight extends Command {
       
       new SequentialCommandGroup(
         zeroGyro.withTimeout(.1), 
-        AutoBuilder.followPath(path)).schedule(); 
+        AutoBuilder.followPath(path).withTimeout(2)).schedule(); 
     }    
 
     public Command driveStraight() {
       PathPlannerPath path = PathPlannerPath.fromPathFile("DriveStraight");
       
       return new SequentialCommandGroup(
-        zeroGyro.withTimeout(.1), 
-        AutoBuilder.followPath(path)); 
+          AutoBuilder.followPath(path)); 
     }
 
 

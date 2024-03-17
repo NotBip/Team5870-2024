@@ -1,99 +1,99 @@
-package frc.robot.subsystems;
+// package frc.robot.subsystems;
 
-import org.photonvision.PhotonCamera;
+// import org.photonvision.PhotonCamera;
 
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+// import edu.wpi.first.math.geometry.Transform3d;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class PhotonLL extends SubsystemBase {
-  PhotonCamera camera = new PhotonCamera("camara1");
+// public class PhotonLL extends SubsystemBase {
+//   PhotonCamera camera = new PhotonCamera("camara1");
 
-  private double yaw;
+//   private double yaw;
 
-  private double pitch;
+//   private double pitch;
 
-  private double area;
+//   private double area;
 
-  private double skew;
+//   private double skew;
 
-  private double Id;
+//   private double Id;
 
-  private double xMeters;
+//   private double xMeters;
 
-  private double yMeters;
+//   private double yMeters;
 
-  private boolean hasTargets;
+//   private boolean hasTargets;
   
 
 
       
     
-  /** Creates a new ExampleSubsystem. */
-  public PhotonLL() {
+//   /** Creates a new ExampleSubsystem. */
+//   public PhotonLL() {
    
 
     
-  }
+//   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-    var result = camera.getLatestResult();
-    hasTargets = result.hasTargets();
-    if (hasTargets){
-      var target = result.getBestTarget();
+//   @Override
+//   public void periodic() {
+//     // This method will be called once per scheduler run
+//     var result = camera.getLatestResult();
+//     hasTargets = result.hasTargets();
+//     if (hasTargets){
+//       var target = result.getBestTarget();
   
-      // GET DATA:
-      yaw = target.getYaw();
-      pitch = target.getPitch();
-      area = target.getArea();
-      skew = target.getSkew();
-      Id = target.getFiducialId();
-      Transform3d camToTarget = target.getBestCameraToTarget();
+//       // GET DATA:
+//       yaw = target.getYaw();
+//       pitch = target.getPitch();
+//       area = target.getArea();
+//       skew = target.getSkew();
+//       Id = target.getFiducialId();
+//       Transform3d camToTarget = target.getBestCameraToTarget();
       
-      xMeters = camToTarget.getX();
-      yMeters = camToTarget.getY();
+//       xMeters = camToTarget.getX();
+//       yMeters = camToTarget.getY();
 
 
       
-      SmartDashboard.putNumber("Yaw", yaw);
-      SmartDashboard.putNumber("Pitch", pitch);
-      SmartDashboard.putNumber("Area", area);
-      SmartDashboard.putNumber("Apriltag Id", Id);
-      SmartDashboard.putNumber("X-METERS", xMeters);
-      SmartDashboard.putNumber("Y-METERS", yMeters);
-    } 
+//       SmartDashboard.putNumber("Yaw", yaw);
+//       SmartDashboard.putNumber("Pitch", pitch);
+//       SmartDashboard.putNumber("Area", area);
+//       SmartDashboard.putNumber("Apriltag Id", Id);
+//       SmartDashboard.putNumber("X-METERS", xMeters);
+//       SmartDashboard.putNumber("Y-METERS", yMeters);
+//     } 
 
-  }
+//   }
 
-    private static PhotonLL instance;
-    public static  PhotonLL getInstance(){
-      if (instance == null){
-        instance = new PhotonLL();
-      }
+//     private static PhotonLL instance;
+//     public static  PhotonLL getInstance(){
+//       if (instance == null){
+//         instance = new PhotonLL();
+//       }
       
-      return instance;
-    }
+//       return instance;
+//     }
     
-    public boolean hasValueTargets(){
-      return hasTargets;
-    }
+//     public boolean hasValueTargets(){
+//       return hasTargets;
+//     }
 
-    public double getYaw(){
-      return yaw;
-    }
+//     public double getYaw(){
+//       return yaw;
+//     }
 
-    public double getYDistance(){
-      return yMeters;
-    }
+//     public double getYDistance(){
+//       return yMeters;
+//     }
 
-    public double getXDistance(){
-      return xMeters;
-    }
+//     public double getXDistance(){
+//       return xMeters;
+//     }
 
-    public double getArea(){
-      return area;
-    }
-}
+//     public double getArea(){
+//       return area;
+//     }
+// }
 
