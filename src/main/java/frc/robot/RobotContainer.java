@@ -2,6 +2,10 @@ package frc.robot;
 
 import java.util.List;
 
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.EventMarker;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -10,6 +14,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.util.concurrent.Event;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -176,9 +181,12 @@ public class RobotContainer {
         // Pneumatics Controls 
         new POVButton(operatorJoystick, 0).onTrue(fullExtend); 
         new POVButton(operatorJoystick, 180).onTrue(fullDetract); 
-        
 
+        // Autonomous Named Bindings 
+        // NamedCommands.registerCommand("Shoot", intakeSpinForward.withTimeout(2));
 }
+
+
 
 
         public Command getAutonomousCommand() {
@@ -223,5 +231,9 @@ public class RobotContainer {
                 new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
                 swerveControllerCommand,
                 new InstantCommand(() -> swerveSubsystem.stopModules()));
+    
+
+        // return new SequentialCommandGroup( 
+        //         new PathPlannerAuto("DriveStraight"));  
         }
 } 
