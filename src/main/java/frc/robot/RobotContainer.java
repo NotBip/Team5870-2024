@@ -26,9 +26,11 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.Autos.DriveStraight;
+import frc.robot.commands.Autos.RedDriveStraight;
 import frc.robot.commands.Autos.blueAmp1;
 import frc.robot.commands.Autos.blueAmp2;
 import frc.robot.commands.Autos.blueAmp3;
+import frc.robot.commands.Autos.BlueDriveStraight;
 import frc.robot.commands.Climber.ClimberDown;
 import frc.robot.commands.Climber.ClimberManualPosition;
 import frc.robot.commands.Climber.ClimberStop;
@@ -76,6 +78,8 @@ public class RobotContainer {
         //private final blueAmp1 blueAmpAuto1 = new blueAmp1(intake, swerveSubsystem); 
         //private final blueAmp2 blueAmpAuto2 = new blueAmp2(intake, swerveSubsystem); 
         //private final blueAmp3 blueAmpAuto3 = new blueAmp3(intake, swerveSubsystem, zeroGyro); 
+        private final BlueDriveStraight blueDriveStraight = new BlueDriveStraight(); 
+        private final RedDriveStraight redDriveStraight = new RedDriveStraight(); 
 
         // Initializing Commands
         // Intake
@@ -111,8 +115,9 @@ public class RobotContainer {
         public RobotContainer() {
         
         // Adding options to Auto Chooser
-        // autoChooser.setDefaultOption("Template Auton", driveStraight.DriveStraightWhileTurning()); // Default auto will be `Commands.none()`
-        // autoChooser.addOption("BA1", blueAmpAuto1.blueAmp1AutoCommand());
+        autoChooser.setDefaultOption("Nothing", null); // Default auto will be `Commands.none()`
+        autoChooser.addOption("Blue Drive Straight", blueDriveStraight.getAutonomousCommand(swerveSubsystem));
+        autoChooser.addOption("Red Drive Straight", redDriveStraight.getAutonomousCommand(swerveSubsystem));
         // autoChooser.addOption("BA2", blueAmpAuto2.blueAmp2AutoCommand());
         // autoChooser.addOption("BA3", blueAmpAuto3.blueAmp3AutoCommand());
         // Shuffleboard.getTab("Autonomous").add("Select Auto", autoChooser).withSize(2, 1);
@@ -195,8 +200,8 @@ public class RobotContainer {
                 trajectoryConfig);
 
         // 3. Define PID controllers for tracking trajectory
-        PIDController xController = new PIDController(.1, 0, 0);
-        PIDController yController = new PIDController(.1, 0, 0);
+        PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
+        PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
         ProfiledPIDController thetaController = new ProfiledPIDController(
                 AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
