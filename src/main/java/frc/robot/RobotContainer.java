@@ -95,7 +95,7 @@ public class RobotContainer {
         private final FullDetract fullDetract = new FullDetract(pneumatics); 
 
         // Swerve
-        public final ZeroGyro zeroGyro = new ZeroGyro(swerveSubsystem); 
+        private final ZeroGyro zeroGyro = new ZeroGyro(swerveSubsystem); 
         // private final AutoAlign autoAlign = new AutoAlign(swerveSubsystem, limelight); // Currently in testing. 
         private final Reposition reposition = new Reposition(swerveSubsystem); // Currently in testing. 
         private final DriveStraight driveStraight = new DriveStraight(intake, swerveSubsystem, zeroGyro); 
