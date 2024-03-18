@@ -20,7 +20,7 @@ public class ClimberDown extends Command {
      // Called every time the scheduler runs while the command is scheduled.
      @Override
      public void execute() {
-        climber.moveArmControllable(-0.2); 
+        climber.moveArmControllable(-0.20); 
      }
  
  

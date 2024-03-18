@@ -2,9 +2,13 @@ package frc.robot;
 
 import java.util.List;
 
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.path.EventMarker;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.path.PathPlannerTrajectory;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -119,8 +123,8 @@ public class RobotContainer {
         //Get X and Y axis from the joystick to control the robot
         public RobotContainer() {
         
-        // Adding options to Auto Chooser
-        autoChooser.setDefaultOption("Nothing", null); // Default auto will be `Commands.none()`
+        // Adding options to Auto Chooser 
+        autoChooser.setDefaultOption("DriveStraight", new PathPlannerAuto("DriveStraight")); // Default auto will be `Commands.none()`
         autoChooser.addOption("Blue Drive Straight", blueDriveStraight.getAutonomousCommand(swerveSubsystem));
         autoChooser.addOption("Red Drive Straight", redDriveStraight.getAutonomousCommand(swerveSubsystem));
         // autoChooser.addOption("BA2", blueAmpAuto2.blueAmp2AutoCommand());
@@ -225,15 +229,15 @@ public class RobotContainer {
                 swerveSubsystem::setModuleStates,
                 swerveSubsystem);
 
+
+
         // 5. Add some init and wrap-up, and return everything
         return new SequentialCommandGroup(
                 new InstantCommand(() -> swerveSubsystem.zeroHeading()), 
                 new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
                 swerveControllerCommand,
                 new InstantCommand(() -> swerveSubsystem.stopModules()));
-    
 
-        // return new SequentialCommandGroup( 
-        //         new PathPlannerAuto("DriveStraight"));  
-        }
-} 
+    
+        }        
+}

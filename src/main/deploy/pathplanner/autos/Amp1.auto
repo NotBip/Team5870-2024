@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.5528152568430658,
-      "y": 7.06
+      "x": 1.8379276830110018,
+      "y": 7.6218691256702735
     },
-    "rotation": 0
+    "rotation": 90.0
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "DriveStraight"
+            "pathName": "BA1"
           }
         }
       ]
