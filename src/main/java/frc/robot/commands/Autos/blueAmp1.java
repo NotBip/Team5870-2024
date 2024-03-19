@@ -1,10 +1,28 @@
 package frc.robot.commands.Autos;
 
+import java.util.List;
+
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.EventMarker;
 import com.pathplanner.lib.path.PathPlannerPath;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.Intake.IntakeSpinForward;
 import frc.robot.commands.Intake.IntakeStop;
 import frc.robot.commands.Swerve.ZeroGyro;
@@ -17,39 +35,21 @@ public class blueAmp1 extends Command {
     IntakeSpinForward intakeSpinForward; 
     IntakeStop intakeStop; 
     SwerveSubsystem swerveSubsystem;
-    ZeroGyro zeroGyro;
 
-    public blueAmp1(Intake intake, SwerveSubsystem swerveSubsystem, ZeroGyro zeroGyro) { 
+    public blueAmp1(Intake intake, SwerveSubsystem swerveSubsystem) { 
         this.intake = intake;
         this.swerveSubsystem = swerveSubsystem; 
-        this.zeroGyro = zeroGyro;
         intakeSpinForward = new IntakeSpinForward(intake);
         intakeStop = new IntakeStop(intake); 
-        addRequirements(intake);
     }
 
-    @Override
-    public void initialize() { 
-      PathPlannerPath path = PathPlannerPath.fromPathFile("BA1");
-      PathPlannerPath path2 = PathPlannerPath.fromPathFile("AM");
 
-      new SequentialCommandGroup(
-        zeroGyro.withTimeout(.1), 
-        AutoBuilder.followPath(path),
-        intakeSpinForward.withTimeout(2),
-        intakeStop.alongWith(AutoBuilder.followPath(path2))).schedule();
-    }
-
-    public Command blueAmp1AutoCommand() { 
-        PathPlannerPath path = PathPlannerPath.fromPathFile("BA1"); 
-        PathPlannerPath path2 = PathPlannerPath.fromPathFile("AM");
-        // PathPlannerPath testPath = PathPlannerPath.fromPathFile("New Path"); 
+    public Command getAutonomousCommand(SwerveSubsystem swerveSubsystem) {
         return new SequentialCommandGroup(
-            AutoBuilder.followPath(path),
-            intakeSpinForward.withTimeout(2),
-            intakeStop.alongWith(AutoBuilder.followPath(path2)) 
-        ); 
+            AutoBuilder.buildAuto("Amp1")
+        );
     }
+    
 
     
 }

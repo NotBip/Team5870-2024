@@ -26,8 +26,10 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -83,13 +85,6 @@ public class RobotContainer {
         private final Joystick operatorJoystick = new Joystick(OIConstants.kOperatorControllerPort); 
         private final XboxController operatorController = new XboxController(OIConstants.kOperatorControllerPort); 
 
-        // Initializing Auto Commands 
-        //private final blueAmp1 blueAmpAuto1 = new blueAmp1(intake, swerveSubsystem); 
-        //private final blueAmp2 blueAmpAuto2 = new blueAmp2(intake, swerveSubsystem); 
-        //private final blueAmp3 blueAmpAuto3 = new blueAmp3(intake, swerveSubsystem, zeroGyro); 
-        private final BlueDriveStraight blueDriveStraight = new BlueDriveStraight(); 
-        private final RedDriveStraight redDriveStraight = new RedDriveStraight(); 
-
         // Initializing Commands
         // Intake
         private final IntakeSpinBack intakeSpinBack = new IntakeSpinBack(intake); 
@@ -123,13 +118,13 @@ public class RobotContainer {
         //Get X and Y axis from the joystick to control the robot
         public RobotContainer() {
         
+        // Autonomous Registering Commands 
+        NamedCommands.registerCommand("ShootIntake", new WaitCommand(2).alongWith(intakeSpinForward.withTimeout(2))); 
+        
         // Adding options to Auto Chooser 
         autoChooser.setDefaultOption("DriveStraight", new PathPlannerAuto("DriveStraight")); // Default auto will be `Commands.none()`
-        autoChooser.addOption("Blue Drive Straight", blueDriveStraight.getAutonomousCommand(swerveSubsystem));
-        autoChooser.addOption("Red Drive Straight", redDriveStraight.getAutonomousCommand(swerveSubsystem));
-        // autoChooser.addOption("BA2", blueAmpAuto2.blueAmp2AutoCommand());
-        // autoChooser.addOption("BA3", blueAmpAuto3.blueAmp3AutoCommand());
-        // Shuffleboard.getTab("Autonomous").add("Select Auto", autoChooser).withSize(2, 1);
+        autoChooser.addOption("Amp1", new blueAmp1(intake, swerveSubsystem).getAutonomousCommand(swerveSubsystem));
+        Shuffleboard.getTab("Autonomous").add("Select Auto", autoChooser).withSize(2, 1);
 
 
         // set default commands for each Subsystem
@@ -186,11 +181,8 @@ public class RobotContainer {
         new POVButton(operatorJoystick, 0).onTrue(fullExtend); 
         new POVButton(operatorJoystick, 180).onTrue(fullDetract); 
 
-        // Autonomous Named Bindings 
-        // NamedCommands.registerCommand("Shoot", intakeSpinForward.withTimeout(2));
+
 }
-
-
 
 
         public Command getAutonomousCommand() {
@@ -232,12 +224,14 @@ public class RobotContainer {
 
 
         // 5. Add some init and wrap-up, and return everything
-        return new SequentialCommandGroup(
-                new InstantCommand(() -> swerveSubsystem.zeroHeading()), 
-                new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
-                swerveControllerCommand,
-                new InstantCommand(() -> swerveSubsystem.stopModules()));
+        // return new SequentialCommandGroup(
+        //         new InstantCommand(() -> swerveSubsystem.zeroHeading()), 
+        //         new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
+        //         swerveControllerCommand,
+        //         new InstantCommand(() -> swerveSubsystem.stopModules()));
 
-    
+        return autoChooser.getSelected(); 
+
+        // return new blueAmp1(intake, swerveSubsystem).getAutonomousCommand(swerveSubsystem); 
         }        
 }
