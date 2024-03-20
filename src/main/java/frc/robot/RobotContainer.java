@@ -113,11 +113,7 @@ public class RobotContainer {
         // Game Controllers
         public JoystickButton drBtnA, drBtnB, drBtnX, drBtnY, drBtnLB, drBtnRB, drBtnStrt, drBtnSelect;
         public JoystickButton opBtnA, opBtnB, opBtnX, opBtnY, opBtnLB, opBtnRB, opBtnStrt, opBtnSelect; 
-
-        // Trajectory for Autonomous
-        Trajectory finalTrajectory = new Trajectory();
         
-        //Get X and Y axis from the joystick to control the robot
         public RobotContainer() {
         
         // Autonomous Registering Commands 
@@ -158,14 +154,13 @@ public class RobotContainer {
         opBtnRB = new JoystickButton(operatorJoystick, OIConstants.KXboxRightBumper);
         opBtnSelect = new JoystickButton(operatorJoystick, OIConstants.KXboxSelectButton);
         opBtnStrt = new JoystickButton(operatorJoystick, OIConstants.KXboxStartButton);
-        
         configureButtonBindings(); 
         }
 
         private void configureButtonBindings() {
+        
         // QOL Swerve Controls
         drBtnStrt.onTrue(zeroGyro);
-        // drBtnY.whileTrue(autoAlign); // Currently Testing this auto align feature so yeahhh.    
 
         // Climber Controls
         new Trigger(()-> operatorController.getRightTriggerAxis() > 0.3).whileTrue(climberUp); 
@@ -182,15 +177,14 @@ public class RobotContainer {
         // Pneumatics Controls 
         new POVButton(operatorJoystick, 0).onTrue(fullExtend); 
         new POVButton(operatorJoystick, 180).onTrue(fullDetract); 
-
-
 }
 
+        public void configureNamedCommands() { 
+                // Autonomous Registering Commands 
+                NamedCommands.registerCommand("ShootIntake", new WaitCommand(2).alongWith(intakeSpinForward.withTimeout(2))); 
+        }
 
         public Command getAutonomousCommand() {
-                // return null; 
-                // return driveStraight.driveStraight();  
-        
              // 1. Create trajectory settings
         TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
                 AutoConstants.kMaxSpeedMetersPerSecond,

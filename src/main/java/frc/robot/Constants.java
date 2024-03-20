@@ -128,8 +128,8 @@ public final class Constants {
                         kMaxAngularAccelerationRadiansPerSecondSquared);
 
         public static final HolonomicPathFollowerConfig pathFollowerConfig = new HolonomicPathFollowerConfig(
-            new PIDConstants(.3, 0, 0), // Translation constants 
-            new PIDConstants(.3, 0, 0), // Rotation constants 
+            new PIDConstants(0.3, 0, 0),
+            new PIDConstants(0, 0, 0),
             4.5, 
             0.5374011537, // Drive base radius (distance from center to furthest module) 
             new ReplanningConfig()
