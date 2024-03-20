@@ -4,6 +4,7 @@ package frc.robot;
 import java.util.List;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.GoalEndState;
 import com.pathplanner.lib.path.PathConstraints;
@@ -24,6 +25,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,6 +34,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.DriveConstants;
@@ -51,7 +54,7 @@ import frc.robot.Constants.AutonomousMode;
 
 public class RobotContainer {
         // Autonomous Chooser
-        private final SendableChooser<Command> autoChooser;
+        private final SendableChooser<Command> autoChooser = new SendableChooser<>();
         Field2d field = new Field2d(); 
         
         // Initializing Robot's Subsystems
@@ -86,10 +89,12 @@ public class RobotContainer {
         //Get X and Y axis from the joystick to control the robot
         public RobotContainer() {
         
-        // Auto Chooser
-        autoChooser = AutoBuilder.buildAutoChooser(); // Default auto will be `Commands.none()`
-        SmartDashboard.putData("Auto Mode", autoChooser);
-
+        NamedCommands.registerCommand("ShootIntake", new WaitCommand(2).alongWith(intakeSpinForward.withTimeout(2).alongWith(new InstantCommand(() -> SmartDashboard.putBoolean("Intake Spinning", true)))));  
+        NamedCommands.registerCommand("ZeroGyro", new InstantCommand(() -> SmartDashboard.putBoolean("Zeroed Gyro", true)));
+        
+        autoChooser.setDefaultOption("DriveStraight", new PathPlannerAuto("DriveStraight")); // Default auto will be `Commands.none()`
+        autoChooser.addOption("Amp1", new PathPlannerAuto("Amp1"));
+        SmartDashboard.putData("Auto Chooser", autoChooser);    
         // set default commands for each Subsystem
         // swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
         //         swerveSubsystem,
@@ -116,15 +121,17 @@ public class RobotContainer {
         private void configureButtonBindings() {
         // QOL Swerve Controls
         // xboxBtnStrt.onTrue(ZeroGyro); 
+     
 
         // Intake Controls 
         xboxBtnLB.whileTrue(intakeSpinBack);
         xboxBtnRB.whileTrue(intakeSpinForward); 
         SmartDashboard.putData("Path to Heaven1", new PathPlannerAuto("Trial 1"));
         SmartDashboard.putData("Path to Heaven2", new PathPlannerAuto("Trial 2"));
-        SmartDashboard.putData("Path to Heaven3", new PathPlannerAuto("Trial 3"));
+        SmartDashboard.putData("Path to Heaven3", new PathPlannerAuto("Trial 3")); 
         SmartDashboard.putData("Test Path", new PathPlannerAuto("Test"));
         SmartDashboard.putData("Trap", new PathPlannerAuto("Trap"));
+
 
 
         // new JoystickButton(driverJoystick, OIConstants.KXboxStartButton).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));      
@@ -281,6 +288,6 @@ public class RobotContainer {
         //         new InstantCommand(() -> swerveSubsystem.resetOdometry(finalTrajectory.getInitialPose())),
         //         swerveControllerCommand,
         //         new InstantCommand(() -> swerveSubsystem.stopModules()));
-                return blueAmpAuto.blueAmpAutoCommand(); 
+                return autoChooser.getSelected();
         }
 }
