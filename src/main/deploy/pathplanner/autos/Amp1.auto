@@ -28,6 +28,12 @@
           "data": {
             "pathName": "Mid"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ZeroGyro"
+          }
         }
       ]
     }
