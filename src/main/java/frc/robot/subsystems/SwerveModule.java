@@ -1,9 +1,6 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.CANCoder;
-import com.ctre.phoenix6.configs.CANcoderConfiguration;
-import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
-import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
