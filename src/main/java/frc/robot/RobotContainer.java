@@ -2,14 +2,10 @@ package frc.robot;
 
 import java.util.List;
 
-import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.controllers.PPHolonomicDriveController;
-import com.pathplanner.lib.path.EventMarker;
-import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.path.PathPlannerTrajectory;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -18,16 +14,13 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.util.concurrent.Event;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -37,11 +30,7 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.Autos.DriveStraight;
-import frc.robot.commands.Autos.RedDriveStraight;
 import frc.robot.commands.Autos.blueAmp1;
-import frc.robot.commands.Autos.blueAmp2;
-import frc.robot.commands.Autos.blueAmp3;
-import frc.robot.commands.Autos.BlueDriveStraight;
 import frc.robot.commands.Climber.ClimberDown;
 import frc.robot.commands.Climber.ClimberManualPosition;
 import frc.robot.commands.Climber.ClimberStop;
@@ -55,13 +44,10 @@ import frc.robot.commands.Intake.LeftIntakeJoystick;
 import frc.robot.commands.Intake.RightIntakeJoystick;
 import frc.robot.commands.Pneumatics.FullDetract;
 import frc.robot.commands.Pneumatics.FullExtend;
-// import frc.robot.commands.S>erve.AutoAlign;
-import frc.robot.commands.Swerve.Reposition;
 import frc.robot.commands.Swerve.SwerveJoystickCmd;
 import frc.robot.commands.Swerve.ZeroGyro;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
-// import frc.robot.subsystems.PhotonLL;
 import frc.robot.subsystems.Pneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -104,9 +90,6 @@ public class RobotContainer {
 
         // Swerve
         private final ZeroGyro zeroGyro = new ZeroGyro(swerveSubsystem); 
-        // private final AutoAlign autoAlign = new AutoAlign(swerveSubsystem, limelight); // Currently in testing. 
-        private final Reposition reposition = new Reposition(swerveSubsystem); // Currently in testing. 
-        private final DriveStraight driveStraight = new DriveStraight(intake, swerveSubsystem, zeroGyro); 
 
         // Game Controllers
         public JoystickButton drBtnA, drBtnB, drBtnX, drBtnY, drBtnLB, drBtnRB, drBtnStrt, drBtnSelect;
@@ -114,7 +97,6 @@ public class RobotContainer {
         
         public RobotContainer() {
         configureNamedCommands();
-        
         // Adding options to Auto Chooser 
         autoChooser.setDefaultOption("DriveStraight", new PathPlannerAuto("DriveStraight")); // Default auto will be `Commands.none()`
         autoChooser.addOption("Amp1", new blueAmp1(intake, swerveSubsystem).getAutonomousCommand(swerveSubsystem));
