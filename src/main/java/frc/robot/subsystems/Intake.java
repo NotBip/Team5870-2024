@@ -20,14 +20,14 @@ public class Intake extends SubsystemBase{
 
     }
 
-    public void IntakeMotorBack(double IntakeMotorBackSpeed) 
-    { 
+    public void IntakeMotorBack(double IntakeMotorBackSpeed) { 
         IntakeMotorBack.set(IntakeMotorBackSpeed);
     }
 
     public void intakeStop() { 
         IntakeMotorFront.set(0);
         IntakeMotorBack.set(0);
+        SmartDashboard.putBoolean("Intake Spinning", false);
     }
 
 
