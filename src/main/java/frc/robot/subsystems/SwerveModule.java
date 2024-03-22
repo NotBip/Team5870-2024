@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.REVPhysicsSim;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -16,7 +17,8 @@ import frc.robot.Constants.ModuleConstants;
 // import frc.robot.commands.SwerveJoystickCmd;
 
 public class SwerveModule {
-    // Initalize the Motors. 
+    // Initalize the Motors.
+    
     public int modNum; 
     private final CANSparkMax driveMotor; 
     private final CANSparkMax turningMotor; 

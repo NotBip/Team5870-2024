@@ -99,11 +99,6 @@ public class RobotContainer {
         public RobotContainer() {
         configureNamedCommands();
 
-        
-        // Autonomous Registering Commands 
-        NamedCommands.registerCommand("ShootIntake", new WaitCommand(2).alongWith(intakeSpinForward.withTimeout(2)));  
-        NamedCommands.registerCommand("ZeroGyro", zeroGyro);
-
         // Adding options to Auto Chooser 
         autoChooser.setDefaultOption("DriveStraight", new PathPlannerAuto("DriveStraight")); // Default auto will be `Commands.none()`
         autoChooser.addOption("Amp1", new blueAmp1(intake, swerveSubsystem).getAutonomousCommand(swerveSubsystem));
@@ -167,13 +162,14 @@ public class RobotContainer {
 }
 
         public void configureNamedCommands() { 
-                // Autonomous Registering Commands 
-                NamedCommands.registerCommand("ShootIntake", new WaitCommand(2).alongWith(intakeSpinForward.withTimeout(2))); 
+                NamedCommands.registerCommand("ShootIntake", new WaitCommand(2).alongWith(intakeSpinForward.withTimeout(2)));  
+                NamedCommands.registerCommand("ZeroGyro", zeroGyro);
         }
 
         public Command getAutonomousCommand() {
              // 1. Create trajectory settings
         TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
+
                 AutoConstants.kMaxSpeedMetersPerSecond,
                 AutoConstants.kMaxAccelerationMetersPerSecondSquared)
                         .setKinematics(DriveConstants.kDriveKinematics);
