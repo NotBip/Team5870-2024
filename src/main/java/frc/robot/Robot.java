@@ -117,8 +117,6 @@ public class Robot extends LoggedRobot  {
     @Override
     public void autonomousInit() {
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-        SmartDashboard.putBoolean("Intake Spinning", false); 
-        SmartDashboard.putBoolean("Zeroed Gyro", false); 
         // schedule the autonomous command (example)
         if (m_autonomousCommand != null) {
             m_autonomousCommand.schedule();

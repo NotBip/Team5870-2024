@@ -16,5 +16,10 @@ public class Intake extends SubsystemBase{
         SmartDashboard.putNumber("SPEEEED", speed);
     }
 
+    public void stopIntake() { 
+        SmartDashboard.putBoolean("Intake Spinning", false); 
+        shootMotor.set(0);
+    }
+
 
 }

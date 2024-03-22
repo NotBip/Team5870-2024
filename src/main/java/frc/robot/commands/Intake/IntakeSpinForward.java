@@ -26,7 +26,7 @@ public class IntakeSpinForward extends Command {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-    intake.moveSpin(0);
+        intake.stopIntake();
     }
 
     // Returns true when the command should end.
