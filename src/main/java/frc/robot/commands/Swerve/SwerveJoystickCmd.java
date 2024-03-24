@@ -8,6 +8,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.ModuleConstants;
 import frc.robot.Constants.OIConstants;
 
 public class SwerveJoystickCmd extends Command{
@@ -64,7 +65,7 @@ public class SwerveJoystickCmd extends Command{
             }
         } else { 
             chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-                        (xSpeed * 0.5), (ySpeed * 0.5), turningSpeed, swerveSubsystem.getRotation2d());
+                        (xSpeed * ModuleConstants.slowModeMultiplier), (ySpeed * ModuleConstants.slowModeMultiplier), turningSpeed, swerveSubsystem.getRotation2d());
         }
         
 
