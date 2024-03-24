@@ -118,6 +118,11 @@ public class SwerveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         field.setRobotPose(getPose());
+        
+        double p = SmartDashboard.getNumber("P Gain", 0);
+        double d = SmartDashboard.getNumber("D Gain", 0);
+
+
     }
 
     public SwerveModulePosition[] getModulePositions(){

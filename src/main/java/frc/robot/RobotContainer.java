@@ -45,6 +45,10 @@ import frc.robot.commands.Intake.LeftIntakeJoystick;
 import frc.robot.commands.Intake.RightIntakeJoystick;
 import frc.robot.commands.Pneumatics.FullDetract;
 import frc.robot.commands.Pneumatics.FullExtend;
+import frc.robot.commands.Swerve.NudgeBack;
+import frc.robot.commands.Swerve.NudgeFront;
+import frc.robot.commands.Swerve.NudgeLeft;
+import frc.robot.commands.Swerve.NudgeRight;
 import frc.robot.commands.Swerve.SwerveJoystickCmd;
 import frc.robot.commands.Swerve.ZeroGyro;
 import frc.robot.subsystems.Climber;
@@ -91,6 +95,10 @@ public class RobotContainer {
 
         // Swerve
         private final ZeroGyro zeroGyro = new ZeroGyro(swerveSubsystem); 
+        private final NudgeLeft nudgeLeft = new NudgeLeft(swerveSubsystem);
+        private final NudgeRight nudgeRight = new NudgeRight(swerveSubsystem); 
+        private final NudgeFront nudgeFront = new NudgeFront(swerveSubsystem); 
+        private final NudgeBack nudgeBack = new NudgeBack(swerveSubsystem); 
 
         // Game Controllers
         public JoystickButton drBtnA, drBtnB, drBtnX, drBtnY, drBtnLB, drBtnRB, drBtnStrt, drBtnSelect;
@@ -159,6 +167,11 @@ public class RobotContainer {
         // Pneumatics Controls 
         new POVButton(operatorJoystick, 0).onTrue(fullExtend); 
         new POVButton(operatorJoystick, 180).onTrue(fullDetract); 
+        new POVButton(driverJoystick, 0).whileTrue(nudgeFront); 
+        new POVButton(driverJoystick, 90).whileTrue(nudgeRight); 
+        new POVButton(driverJoystick, 180).whileTrue(nudgeBack);
+        new POVButton(driverJoystick, 270).whileTrue(nudgeLeft); 
+
 }
 
         public void configureNamedCommands() { 

@@ -40,7 +40,7 @@ public class Robot extends TimedRobot {
         // and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();
-        CameraServer.startAutomaticCapture("The Third Eye", 1); 
+        CameraServer.startAutomaticCapture(); 
     }
 
     /**
@@ -64,7 +64,6 @@ public class Robot extends TimedRobot {
         // robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
-        SmartDashboard.putNumber("Timer",         DriverStationSim.getMatchTime()); 
 
     }
 
