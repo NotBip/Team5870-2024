@@ -121,7 +121,8 @@ public class RobotContainer {
                 () -> driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
                 () -> driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
                 () -> -driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
-                () -> !driverJoystick.getRawButton(6)));
+                () -> !driverJoystick.getRawButton(6), 
+                () -> driverController.getRightTriggerAxis() > 0.5 ? true : false));
         intake.setDefaultCommand(intakeStop);
         climber.setDefaultCommand(climberStop);
         
