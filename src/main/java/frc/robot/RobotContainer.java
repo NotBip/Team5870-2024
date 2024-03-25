@@ -113,7 +113,6 @@ public class RobotContainer {
                 autoChooser.setDefaultOption("DriveStraight", new PathPlannerAuto("DriveStraight")); // Default auto will be `Commands.none()`
                 autoChooser.addOption("Amp1", new blueAmp1(intake, swerveSubsystem).getAutonomousCommand(swerveSubsystem));
                 autoChooser.addOption("DO NOTHING!!!", null);
-
                 Shuffleboard.getTab("Autonomous").add("Select Auto", autoChooser).withSize(2, 1);
 
 
