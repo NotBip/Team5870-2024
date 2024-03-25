@@ -72,22 +72,25 @@ public class SwerveJoystickCmd extends Command{
         turningSpeed = turningLimiter.calculate(turningSpeed) * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
                 
         // For Source Aligning
-        double velRot = -rotationPID.calculate(swerveSubsystem.getHeading(), rotationOffset);
+        double velRot = -rotationPID.calculate(swerveSubsystem.getHeading() , rotationOffset);
         velRot = turningLimiter.calculate(velRot) * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
 
         ChassisSpeeds chassisSpeeds;
 
         if(!isSlowMode.get()) { 
-            if (fieldOrientedFunction.get()) {
+            
+            // If not alligning for source drive normally
+            if(!sourceAlign.get()) {
+                chassisSpeeds = fieldOrientedFunction.get() ? ChassisSpeeds.fromFieldRelativeSpeeds(
+                            xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d()) : new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
+            } else { 
+                // align to source while driving
                 chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-                        xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());
-            } else if (sourceAlign.get()) {
-                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-                        xSpeed, ySpeed, velRot, swerveSubsystem.getRotation2d());
-            } else {
-                chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
+                        xSpeed, ySpeed, velRot, swerveSubsystem.getRotation2d()); 
             }
+
         } else { 
+            // Activate Slow Mode
             chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
                         (xSpeed * ModuleConstants.slowModeMultiplier), (ySpeed * ModuleConstants.slowModeMultiplier), turningSpeed, swerveSubsystem.getRotation2d());
         }
