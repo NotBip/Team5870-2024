@@ -123,8 +123,9 @@ public class RobotContainer {
                         () -> driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
                         () -> driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
                         () -> -driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
-                        () -> !driverJoystick.getRawButton(6), 
-                        () -> driverController.getRightTriggerAxis() > 0.5 ? true : false));
+                        () -> !driverJoystick.getRawButton(6),          // RB button
+                        () -> driverController.getRightTriggerAxis() > 0.5 ? true : false,
+                        () -> driverController.getRawButton(3)));       // x button
                 intake.setDefaultCommand(intakeStop);
                 climber.setDefaultCommand(climberStop);
                 
@@ -154,7 +155,7 @@ public class RobotContainer {
         
                 // QOL Swerve Controls
                 drBtnStrt.onTrue(zeroGyro);
-                drBtnX.whileTrue(sourceAlign);
+                // drBtnX.whileTrue(sourceAlign);
                 
                 // Climber Controls
                 new Trigger(()-> operatorController.getRightTriggerAxis() > 0.3).whileTrue(climberUp); 

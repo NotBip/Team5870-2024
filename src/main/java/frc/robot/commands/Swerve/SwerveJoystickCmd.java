@@ -2,10 +2,11 @@ package frc.robot.commands.Swerve;
 
 import java.util.function.Supplier;
 import frc.robot.subsystems.SwerveSubsystem;
-
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
@@ -15,21 +16,37 @@ public class SwerveJoystickCmd extends Command{
 
     private final SwerveSubsystem swerveSubsystem;
     private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
-    private final Supplier<Boolean> fieldOrientedFunction, isSlowMode;
+    private final Supplier<Boolean> fieldOrientedFunction, isSlowMode, sourceAlign;
     private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
+    private final PIDController rotationPID;
+    private final double rotationOffset;  
     
     public SwerveJoystickCmd(SwerveSubsystem swerveSubsystem,
         Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, Supplier<Double> turningSpdFunction,
-        Supplier<Boolean> fieldOrientedFunction, Supplier<Boolean> isSlowMode) {
+        Supplier<Boolean> fieldOrientedFunction, Supplier<Boolean> isSlowMode, Supplier<Boolean> sourceAlign) {
         this.swerveSubsystem = swerveSubsystem;
         this.xSpdFunction = xSpdFunction;
         this.ySpdFunction = ySpdFunction;
         this.turningSpdFunction = turningSpdFunction;
         this.fieldOrientedFunction = fieldOrientedFunction;
         this.isSlowMode = isSlowMode; 
+        this.sourceAlign = sourceAlign;
         this.xLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
         this.yLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
         this.turningLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
+
+        this.rotationPID = new PIDController(
+            0.3,
+            0,
+            0);
+
+        var alliance = DriverStation.getAlliance(); 
+        if (alliance.get() == DriverStation.Alliance.Red) { 
+            rotationOffset = 60;
+        } else {
+            rotationOffset = -60;
+        }
+
         addRequirements(swerveSubsystem);
     }
 
@@ -54,12 +71,19 @@ public class SwerveJoystickCmd extends Command{
         ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
         turningSpeed = turningLimiter.calculate(turningSpeed) * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
                 
+        // For Source Aligning
+        double velRot = -rotationPID.calculate(swerveSubsystem.getHeading(), rotationOffset);
+        velRot = turningLimiter.calculate(velRot) * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
+
         ChassisSpeeds chassisSpeeds;
 
         if(!isSlowMode.get()) { 
             if (fieldOrientedFunction.get()) {
                 chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
                         xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());
+            } else if (sourceAlign.get()) {
+                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+                        xSpeed, ySpeed, velRot, swerveSubsystem.getRotation2d());
             } else {
                 chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
             }
@@ -67,7 +91,6 @@ public class SwerveJoystickCmd extends Command{
             chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
                         (xSpeed * ModuleConstants.slowModeMultiplier), (ySpeed * ModuleConstants.slowModeMultiplier), turningSpeed, swerveSubsystem.getRotation2d());
         }
-        
 
         SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
         swerveSubsystem.setModuleStates(moduleStates);
