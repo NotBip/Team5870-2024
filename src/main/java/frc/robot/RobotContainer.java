@@ -51,6 +51,7 @@ import frc.robot.commands.Swerve.NudgeLeft;
 import frc.robot.commands.Swerve.NudgeRight;
 import frc.robot.commands.Swerve.SwerveJoystickCmd;
 import frc.robot.commands.Swerve.ZeroGyro;
+import frc.robot.commands.Swerve.SourceAlign;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Pneumatics;
@@ -99,81 +100,83 @@ public class RobotContainer {
         private final NudgeRight nudgeRight = new NudgeRight(swerveSubsystem); 
         private final NudgeFront nudgeFront = new NudgeFront(swerveSubsystem); 
         private final NudgeBack nudgeBack = new NudgeBack(swerveSubsystem); 
+        private final SourceAlign sourceAlign = new SourceAlign(swerveSubsystem); 
 
         // Game Controllers
         public JoystickButton drBtnA, drBtnB, drBtnX, drBtnY, drBtnLB, drBtnRB, drBtnStrt, drBtnSelect;
         public JoystickButton opBtnA, opBtnB, opBtnX, opBtnY, opBtnLB, opBtnRB, opBtnStrt, opBtnSelect; 
         
         public RobotContainer() {
-        configureNamedCommands();
+                configureNamedCommands();
 
-        // Adding options to Auto Chooser 
-        autoChooser.setDefaultOption("DriveStraight", new PathPlannerAuto("DriveStraight")); // Default auto will be `Commands.none()`
-        autoChooser.addOption("Amp1", new blueAmp1(intake, swerveSubsystem).getAutonomousCommand(swerveSubsystem));
-        autoChooser.addOption("DO NOTHING!!!", null);
+                // Adding options to Auto Chooser 
+                autoChooser.setDefaultOption("DriveStraight", new PathPlannerAuto("DriveStraight")); // Default auto will be `Commands.none()`
+                autoChooser.addOption("Amp1", new blueAmp1(intake, swerveSubsystem).getAutonomousCommand(swerveSubsystem));
+                autoChooser.addOption("DO NOTHING!!!", null);
 
-        Shuffleboard.getTab("Autonomous").add("Select Auto", autoChooser).withSize(2, 1);
+                Shuffleboard.getTab("Autonomous").add("Select Auto", autoChooser).withSize(2, 1);
 
 
-        // set default commands for each Subsystem
-        swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
-                swerveSubsystem,
-                () -> driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
-                () -> driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
-                () -> -driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
-                () -> !driverJoystick.getRawButton(6), 
-                () -> driverController.getRightTriggerAxis() > 0.5 ? true : false));
-        intake.setDefaultCommand(intakeStop);
-        climber.setDefaultCommand(climberStop);
-        
-        // Xbox Driver Controller Buttons
-        drBtnA = new JoystickButton(driverJoystick, OIConstants.KXboxButtonA);
-        drBtnB = new JoystickButton(driverJoystick, OIConstants.KXboxButtonB);
-        drBtnX = new JoystickButton(driverJoystick, OIConstants.KXboxButtonX);
-        drBtnY = new JoystickButton(driverJoystick, OIConstants.KXboxButtonY);
-        drBtnLB = new JoystickButton(driverJoystick, OIConstants.KXboxLeftBumper);
-        drBtnRB = new JoystickButton(driverJoystick, OIConstants.KXboxRightBumper);
-        drBtnSelect = new JoystickButton(driverJoystick, OIConstants.KXboxSelectButton);
-        drBtnStrt = new JoystickButton(driverJoystick, OIConstants.KXboxStartButton);
+                // set default commands for each Subsystem
+                swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
+                        swerveSubsystem,
+                        () -> driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
+                        () -> driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
+                        () -> -driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
+                        () -> !driverJoystick.getRawButton(6), 
+                        () -> driverController.getRightTriggerAxis() > 0.5 ? true : false));
+                intake.setDefaultCommand(intakeStop);
+                climber.setDefaultCommand(climberStop);
+                
+                // Xbox Driver Controller Buttons
+                drBtnA = new JoystickButton(driverJoystick, OIConstants.KXboxButtonA);
+                drBtnB = new JoystickButton(driverJoystick, OIConstants.KXboxButtonB);
+                drBtnX = new JoystickButton(driverJoystick, OIConstants.KXboxButtonX);
+                drBtnY = new JoystickButton(driverJoystick, OIConstants.KXboxButtonY);
+                drBtnLB = new JoystickButton(driverJoystick, OIConstants.KXboxLeftBumper);
+                drBtnRB = new JoystickButton(driverJoystick, OIConstants.KXboxRightBumper);
+                drBtnSelect = new JoystickButton(driverJoystick, OIConstants.KXboxSelectButton);
+                drBtnStrt = new JoystickButton(driverJoystick, OIConstants.KXboxStartButton);
 
-        // Xbox Operator Controller Buttons. 
-        opBtnA = new JoystickButton(operatorJoystick, OIConstants.KXboxButtonA);
-        opBtnB = new JoystickButton(operatorJoystick, OIConstants.KXboxButtonB);
-        opBtnX = new JoystickButton(operatorJoystick, OIConstants.KXboxButtonX);
-        opBtnY = new JoystickButton(operatorJoystick, OIConstants.KXboxButtonY);
-        opBtnLB = new JoystickButton(operatorJoystick, OIConstants.KXboxLeftBumper);
-        opBtnRB = new JoystickButton(operatorJoystick, OIConstants.KXboxRightBumper);
-        opBtnSelect = new JoystickButton(operatorJoystick, OIConstants.KXboxSelectButton);
-        opBtnStrt = new JoystickButton(operatorJoystick, OIConstants.KXboxStartButton);
-        configureButtonBindings(); 
+                // Xbox Operator Controller Buttons. 
+                opBtnA = new JoystickButton(operatorJoystick, OIConstants.KXboxButtonA);
+                opBtnB = new JoystickButton(operatorJoystick, OIConstants.KXboxButtonB);
+                opBtnX = new JoystickButton(operatorJoystick, OIConstants.KXboxButtonX);
+                opBtnY = new JoystickButton(operatorJoystick, OIConstants.KXboxButtonY);
+                opBtnLB = new JoystickButton(operatorJoystick, OIConstants.KXboxLeftBumper);
+                opBtnRB = new JoystickButton(operatorJoystick, OIConstants.KXboxRightBumper);
+                opBtnSelect = new JoystickButton(operatorJoystick, OIConstants.KXboxSelectButton);
+                opBtnStrt = new JoystickButton(operatorJoystick, OIConstants.KXboxStartButton);
+                configureButtonBindings(); 
         }
 
         private void configureButtonBindings() {
         
-        // QOL Swerve Controls
-        drBtnStrt.onTrue(zeroGyro);
+                // QOL Swerve Controls
+                drBtnStrt.onTrue(zeroGyro);
+                drBtnX.whileTrue(sourceAlign);
+                
+                // Climber Controls
+                new Trigger(()-> operatorController.getRightTriggerAxis() > 0.3).whileTrue(climberUp); 
+                new Trigger(() -> operatorController.getLeftTriggerAxis() > 0.3).whileTrue(climberDown); 
+                drBtnSelect.onTrue(zClimber); 
+                opBtnA.whileTrue(new ClimberManualPosition(climber, -26.7));
 
-        // Climber Controls
-        new Trigger(()-> operatorController.getRightTriggerAxis() > 0.3).whileTrue(climberUp); 
-        new Trigger(() -> operatorController.getLeftTriggerAxis() > 0.3).whileTrue(climberDown); 
-        drBtnSelect.onTrue(zClimber); 
-        opBtnA.whileTrue(new ClimberManualPosition(climber, -26.7));
+                // Intake Controls
+                new Trigger(() -> Math.abs(operatorJoystick.getRawAxis(1)) > 0.3).whileTrue(
+                        new LeftIntakeJoystick(() -> operatorJoystick.getRawAxis(1), intake));
+                new Trigger(() -> Math.abs(operatorJoystick.getRawAxis(5)) > 0.3).whileTrue(
+                        new RightIntakeJoystick(() -> operatorJoystick.getRawAxis(5), intake));
 
-        // Intake Controls
-        new Trigger(() -> Math.abs(operatorJoystick.getRawAxis(1)) > 0.3).whileTrue(
-                new LeftIntakeJoystick(() -> operatorJoystick.getRawAxis(1), intake));
-        new Trigger(() -> Math.abs(operatorJoystick.getRawAxis(5)) > 0.3).whileTrue(
-                new RightIntakeJoystick(() -> operatorJoystick.getRawAxis(5), intake));
+                // Pneumatics Controls 
+                new POVButton(operatorJoystick, 0).onTrue(fullExtend); 
+                new POVButton(operatorJoystick, 180).onTrue(fullDetract); 
+                new POVButton(driverJoystick, 0).whileTrue(nudgeFront); 
+                new POVButton(driverJoystick, 90).whileTrue(nudgeRight); 
+                new POVButton(driverJoystick, 180).whileTrue(nudgeBack);
+                new POVButton(driverJoystick, 270).whileTrue(nudgeLeft); 
 
-        // Pneumatics Controls 
-        new POVButton(operatorJoystick, 0).onTrue(fullExtend); 
-        new POVButton(operatorJoystick, 180).onTrue(fullDetract); 
-        new POVButton(driverJoystick, 0).whileTrue(nudgeFront); 
-        new POVButton(driverJoystick, 90).whileTrue(nudgeRight); 
-        new POVButton(driverJoystick, 180).whileTrue(nudgeBack);
-        new POVButton(driverJoystick, 270).whileTrue(nudgeLeft); 
-
-}
+        }
 
         public void configureNamedCommands() { 
                 NamedCommands.registerCommand("ShootIntake", new WaitCommand(2).alongWith(intakeSpinForward.withTimeout(2)));  
@@ -181,50 +184,50 @@ public class RobotContainer {
         }
 
         public Command getAutonomousCommand() {
-             // 1. Create trajectory settings
-        TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
+                // 1. Create trajectory settings
+                TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
 
-                AutoConstants.kMaxSpeedMetersPerSecond,
-                AutoConstants.kMaxAccelerationMetersPerSecondSquared)
-                        .setKinematics(DriveConstants.kDriveKinematics);
+                        AutoConstants.kMaxSpeedMetersPerSecond,
+                        AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+                                .setKinematics(DriveConstants.kDriveKinematics);
 
-        // 2. Generate trajectory
-        Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-                new Pose2d(0, 0, new Rotation2d(0)),
-                List.of(
-                        new Translation2d(3, 0)),
-                new Pose2d(3, 0, Rotation2d.fromDegrees(0)),
-                trajectoryConfig);
+                // 2. Generate trajectory
+                Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
+                        new Pose2d(0, 0, new Rotation2d(0)),
+                        List.of(
+                                new Translation2d(3, 0)),
+                        new Pose2d(3, 0, Rotation2d.fromDegrees(0)),
+                        trajectoryConfig);
 
-        // 3. Define PID controllers for tracking trajectory
-        PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
-        PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
-        ProfiledPIDController thetaController = new ProfiledPIDController(
-                AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
-        thetaController.enableContinuousInput(-Math.PI, Math.PI);
+                // 3. Define PID controllers for tracking trajectory
+                PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
+                PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
+                ProfiledPIDController thetaController = new ProfiledPIDController(
+                        AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
+                thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-        // 4. Construct command to follow trajectory
-        SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-                trajectory,
-                swerveSubsystem::getPose,
-                DriveConstants.kDriveKinematics,
-                xController,
-                yController,
-                thetaController,
-                swerveSubsystem::setModuleStates,
-                swerveSubsystem);
+                // 4. Construct command to follow trajectory
+                SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
+                        trajectory,
+                        swerveSubsystem::getPose,
+                        DriveConstants.kDriveKinematics,
+                        xController,
+                        yController,
+                        thetaController,
+                        swerveSubsystem::setModuleStates,
+                        swerveSubsystem);
 
 
 
-        // 5. Add some init and wrap-up, and return everything
-        // return new SequentialCommandGroup(
-        //         new InstantCommand(() -> swerveSubsystem.zeroHeading()), 
-        //         new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
-        //         swerveControllerCommand,
-        //         new InstantCommand(() -> swerveSubsystem.stopModules()));
+                // 5. Add some init and wrap-up, and return everything
+                // return new SequentialCommandGroup(
+                //         new InstantCommand(() -> swerveSubsystem.zeroHeading()), 
+                //         new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
+                //         swerveControllerCommand,
+                //         new InstantCommand(() -> swerveSubsystem.stopModules()));
 
-        return autoChooser.getSelected(); 
+                return autoChooser.getSelected(); 
 
-        // return new blueAmp1(intake, swerveSubsystem).getAutonomousCommand(swerveSubsystem); 
+                // return new blueAmp1(intake, swerveSubsystem).getAutonomousCommand(swerveSubsystem); 
         }        
 }
