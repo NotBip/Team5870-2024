@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
 
+import java.sql.Driver;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -26,6 +28,7 @@ public class SwerveSubsystem extends SubsystemBase {
     private AHRS navx = new AHRS(SPI.Port.kMXP);
     public SwerveModule[] SwerveMods;
     private SwerveDriveOdometry odometer; 
+    public double simGyroRot = 0; 
 
     public SwerveSubsystem(){
         new Thread(() -> {
@@ -89,7 +92,9 @@ public class SwerveSubsystem extends SubsystemBase {
                 }
                 return false;
             }, this);
-            
+
+        SmartDashboard.putNumber("SimGyroRot", 0); 
+
     }
 
 
@@ -121,8 +126,9 @@ public class SwerveSubsystem extends SubsystemBase {
         
         double p = SmartDashboard.getNumber("P Gain", 0);
         double d = SmartDashboard.getNumber("D Gain", 0);
-
-
+        double rot = SmartDashboard.getNumber("SimGyroRot", 0); 
+        SmartDashboard.putString("Alliance Color", DriverStation.getAlliance().toString()); 
+        if(simGyroRot != rot) simGyroRot = rot; 
     }
 
     public SwerveModulePosition[] getModulePositions(){
@@ -157,6 +163,7 @@ public class SwerveSubsystem extends SubsystemBase {
         SwerveMods[1].setDesiredState(desiredStates[1], "Front Right");
         SwerveMods[2].setDesiredState(desiredStates[2], "Back Left");
         SwerveMods[3].setDesiredState(desiredStates[3], "Back Right");
+        SmartDashboard.putNumber("Wheel Speeds", desiredStates[0].speedMetersPerSecond); 
     }
 
     public void getAbsoluteEncoder() { 

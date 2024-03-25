@@ -19,7 +19,6 @@ public class SwerveJoystickCmd extends Command{
     private final Supplier<Boolean> fieldOrientedFunction, isSlowMode, sourceAlign;
     private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
     private final PIDController rotationPID;
-    private final double rotationOffset;  
     
     public SwerveJoystickCmd(SwerveSubsystem swerveSubsystem,
         Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, Supplier<Double> turningSpdFunction,
@@ -40,12 +39,7 @@ public class SwerveJoystickCmd extends Command{
             0,
             0);
 
-        var alliance = DriverStation.getAlliance(); 
-        if (alliance.get() == DriverStation.Alliance.Red) { 
-            rotationOffset = 60;
-        } else {
-            rotationOffset = -60;
-        }
+
 
         addRequirements(swerveSubsystem);
     }
@@ -60,6 +54,14 @@ public class SwerveJoystickCmd extends Command{
         double xSpeed = xSpdFunction.get();
         double ySpeed = ySpdFunction.get();
         double turningSpeed = turningSpdFunction.get();
+        double rotationOffset; 
+
+        var alliance = DriverStation.getAlliance(); 
+        if (alliance.get() == DriverStation.Alliance.Red) { 
+            rotationOffset = 60;
+        } else {
+            rotationOffset = -60;
+        }
 
         // 2. Apply deadband
         xSpeed = Math.abs(xSpeed) > OIConstants.kDeadband ? xSpeed : 0.0;
@@ -72,8 +74,7 @@ public class SwerveJoystickCmd extends Command{
         turningSpeed = turningLimiter.calculate(turningSpeed) * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
                 
         // For Source Aligning
-        double velRot = -rotationPID.calculate(swerveSubsystem.getHeading() , rotationOffset);
-        velRot = turningLimiter.calculate(velRot) * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
+        double velRot = -rotationPID.calculate(swerveSubsystem.getRotation2d().getDegrees() , rotationOffset);
 
         ChassisSpeeds chassisSpeeds;
 
