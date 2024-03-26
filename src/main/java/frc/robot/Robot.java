@@ -134,7 +134,7 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
-        new InstantCommand(() -> m_robotContainer.swerveSubsystem.zeroHeading()).withTimeout(.1).schedule();
+        // new InstantCommand(() -> m_robotContainer.swerveSubsystem.zeroHeading()).withTimeout(.1).schedule();
     }
 
     /** This function is called periodically during operator control. */
