@@ -163,7 +163,9 @@ public class RobotContainer {
                 new Trigger(()-> operatorController.getRightTriggerAxis() > 0.3).whileTrue(climberUp); 
                 new Trigger(() -> operatorController.getLeftTriggerAxis() > 0.3).whileTrue(climberDown); 
                 drBtnSelect.onTrue(zClimber); 
-                opBtnA.whileTrue(new ClimberManualPosition(climber, -26.7));
+                opBtnA.whileTrue(new ClimberManualPosition(climber, -59.072261810302734));
+                opBtnY.whileTrue(new ClimberManualPosition(climber, 88));
+
 
                 // Intake Controls
                 new Trigger(() -> Math.abs(operatorJoystick.getRawAxis(1)) > 0.3).whileTrue(

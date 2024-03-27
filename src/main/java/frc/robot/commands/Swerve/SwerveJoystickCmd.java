@@ -35,7 +35,7 @@ public class SwerveJoystickCmd extends Command{
         this.turningLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
 
         this.rotationPID = new PIDController(
-            0.3,
+            0.05,
             0,
             0);
 
