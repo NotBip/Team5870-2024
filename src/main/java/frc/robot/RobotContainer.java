@@ -16,12 +16,15 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.simulation.DriverStationSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -111,7 +114,7 @@ public class RobotContainer {
 
                 // Adding options to Auto Chooser 
                 autoChooser.setDefaultOption("DriveStraight", new PathPlannerAuto("DriveStraight")); // Default auto will be `Commands.none()`
-                autoChooser.addOption("Amp1", new blueAmp1(intake, swerveSubsystem).getAutonomousCommand(swerveSubsystem));
+                autoChooser.addOption("Amp1", new PathPlannerAuto("Amp1"));
                 autoChooser.addOption("DO NOTHING!!!", null);
                 Shuffleboard.getTab("Autonomous").add("Select Auto", autoChooser).withSize(2, 1);
 
@@ -127,7 +130,7 @@ public class RobotContainer {
                         () -> driverController.getRawButton(3)));       // x button
                 intake.setDefaultCommand(intakeStop);
                 climber.setDefaultCommand(climberStop);
-                
+
                 // Xbox Driver Controller Buttons
                 drBtnA = new JoystickButton(driverJoystick, OIConstants.KXboxButtonA);
                 drBtnB = new JoystickButton(driverJoystick, OIConstants.KXboxButtonB);
@@ -179,7 +182,11 @@ public class RobotContainer {
         }
 
         public void configureNamedCommands() { 
-                NamedCommands.registerCommand("ShootIntake", new WaitCommand(2).alongWith(intakeSpinForward.withTimeout(2)));  
+                NamedCommands.registerCommand("ShootIntake", 
+                        new WaitCommand(2).alongWith(
+                                new SequentialCommandGroup(
+                                        new WaitCommand(.5), intakeSpinForward.withTimeout(1.5))));  
+
                 NamedCommands.registerCommand("ZeroGyro", zeroGyro);
         }
 

@@ -22,6 +22,16 @@
       }
     }
   },
+  "NetworkTables": {
+    "transitory": {
+      "PathPlanner": {
+        "HotReload": {
+          "open": true
+        },
+        "open": true
+      }
+    }
+  },
   "NetworkTables Info": {
     "Clients": {
       "open": true
