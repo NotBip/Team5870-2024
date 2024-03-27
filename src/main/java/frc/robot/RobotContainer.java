@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -179,7 +180,11 @@ public class RobotContainer {
         }
 
         public void configureNamedCommands() { 
-                NamedCommands.registerCommand("ShootIntake", new WaitCommand(2).alongWith(intakeSpinForward.withTimeout(2)));  
+                NamedCommands.registerCommand("ShootIntake", 
+                        new WaitCommand(2).alongWith(
+                                new SequentialCommandGroup(
+                                        new WaitCommand(.5), intakeSpinForward.withTimeout(1.5))));  
+
                 NamedCommands.registerCommand("ZeroGyro", zeroGyro);
         }
 
