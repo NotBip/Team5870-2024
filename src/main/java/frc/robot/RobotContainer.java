@@ -79,10 +79,10 @@ public class RobotContainer {
 
         // Initializing Commands
         // Intake
-        private final IntakeSpinBack intakeSpinBack = new IntakeSpinBack(intake); 
+        // private final IntakeSpinBack intakeSpinBack = new IntakeSpinBack(intake); 
         private final IntakeSpinForward intakeSpinForward = new IntakeSpinForward(intake); 
         private final IntakeStop intakeStop = new IntakeStop(intake);
-        private final IntakeFullPower intakeFullPower = new IntakeFullPower(intake); 
+        // private final IntakeFullPower intakeFullPower = new IntakeFullPower(intake); 
         
         // Climber
         private final ClimberDown climberDown = new ClimberDown(climber); 
@@ -100,7 +100,7 @@ public class RobotContainer {
         private final NudgeRight nudgeRight = new NudgeRight(swerveSubsystem); 
         private final NudgeFront nudgeFront = new NudgeFront(swerveSubsystem); 
         private final NudgeBack nudgeBack = new NudgeBack(swerveSubsystem); 
-        private final SourceAlign sourceAlign = new SourceAlign(swerveSubsystem); 
+        // private final SourceAlign sourceAlign = new SourceAlign(swerveSubsystem); 
 
         // Game Controllers
         public JoystickButton drBtnA, drBtnB, drBtnX, drBtnY, drBtnLB, drBtnRB, drBtnStrt, drBtnSelect;
