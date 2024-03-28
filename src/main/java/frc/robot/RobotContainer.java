@@ -114,7 +114,7 @@ public class RobotContainer {
 
                 // Adding options to Auto Chooser 
                 autoChooser.setDefaultOption("DriveStraight", new PathPlannerAuto("DriveStraight")); // Default auto will be `Commands.none()`
-                autoChooser.addOption("Amp1", new PathPlannerAuto("Amp1"));
+                autoChooser.addOption("Amp1", new PathPlannerAuto("Amp1").alongWith(new ClimberManualPosition(climber, -59.072261810302734).withTimeout(4)));
                 autoChooser.addOption("DO NOTHING!!!", null);
                 Shuffleboard.getTab("Autonomous").add("Select Auto", autoChooser).withSize(2, 1);
 

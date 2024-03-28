@@ -82,8 +82,6 @@ public class Robot extends TimedRobot {
      */ 
     @Override
     public void autonomousInit() {
-        SmartDashboard.putBoolean("Intake Spinning", false); 
-        SmartDashboard.putBoolean("Zeroed Gyro", false); 
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
         // schedule the autonomous command (example)

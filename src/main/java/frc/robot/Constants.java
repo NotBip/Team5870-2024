@@ -122,7 +122,7 @@ public final class Constants {
 
         public static final HolonomicPathFollowerConfig pathFollowerConfig = new HolonomicPathFollowerConfig(
             new PIDConstants(0.3, 0, 0),
-            new PIDConstants(0, 0, 0),
+            new PIDConstants(0.05, 0, 0.01),
             4.5, 
             0.5374011537, // Drive base radius (distance from center to furthest module) 
             new ReplanningConfig()

@@ -53,6 +53,7 @@ public class Climber extends SubsystemBase {
         SmartDashboard.putNumber("Max Output", kMaxOutput);
         SmartDashboard.putNumber("Min Output", kMinOutput);
         SmartDashboard.putNumber("Set Position", 0);
+        SmartDashboard.putBoolean("Climber Spinning", false); 
     }
 
     @Override
@@ -86,9 +87,11 @@ public class Climber extends SubsystemBase {
 
     public void setPosition(double setRotation) { 
         m_pidController.setReference(setRotation, CANSparkMax.ControlType.kPosition);
+        SmartDashboard.putBoolean("Climber Spinning", true); 
     }
 
     public void hold() { 
+        SmartDashboard.putBoolean("Climber Spinning", false); 
         leaderMotor.set(0);
         leaderMotor.setIdleMode(IdleMode.kBrake); 
         followerMotor.setIdleMode(IdleMode.kBrake); 
