@@ -2,6 +2,7 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Auto Chooser": "String Chooser",
       "/SmartDashboard/Auto Mode": "String Chooser",
       "/SmartDashboard/Example Auto": "Command",
       "/SmartDashboard/Field": "Field2d",
@@ -10,6 +11,7 @@
       "/SmartDashboard/Path to Heaven1": "Command",
       "/SmartDashboard/Path to Heaven2": "Command",
       "/SmartDashboard/Path to Heaven3": "Command",
+      "/SmartDashboard/Test Path": "Command",
       "/SmartDashboard/Trap": "Command"
     },
     "windows": {
