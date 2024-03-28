@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import javax.lang.model.element.ModuleElement;
 
 import frc.robot.subsystems.SwerveModule;
+import frc.robot.subsystems.SwerveSim;
 import frc.robot.subsystems.SwerveSubsystem;
 
 
@@ -21,15 +22,15 @@ import frc.robot.subsystems.SwerveSubsystem.*;
 
 public class SwerveJoystickCmd extends Command{
 
-    private final SwerveSubsystem swerveSubsystem;
+    private final SwerveSim swerveSim;
     private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
     private final Supplier<Boolean> fieldOrientedFunction;
     private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
     
-    public SwerveJoystickCmd(SwerveSubsystem swerveSubsystem,
+    public SwerveJoystickCmd(SwerveSim swerveSim,
         Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, Supplier<Double> turningSpdFunction,
         Supplier<Boolean> fieldOrientedFunction) {
-        this.swerveSubsystem = swerveSubsystem;
+        this.swerveSim = swerveSim;
         this.xSpdFunction = xSpdFunction;
         this.ySpdFunction = ySpdFunction;
         this.turningSpdFunction = turningSpdFunction;
@@ -37,7 +38,7 @@ public class SwerveJoystickCmd extends Command{
         this.xLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
         this.yLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
         this.turningLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
-        addRequirements(swerveSubsystem);
+        addRequirements(swerveSim);
     }
 
     @Override
@@ -65,21 +66,17 @@ public class SwerveJoystickCmd extends Command{
         ChassisSpeeds chassisSpeeds;
         if (fieldOrientedFunction.get()) {
             // Relative to field
-            chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-                    xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());
+            swerveSim.driveFieldRelative(ChassisSpeeds.fromFieldRelativeSpeeds(
+                xSpeed, ySpeed, turningSpeed, swerveSim.getPose().getRotation()));
        } else {
             // Relative to robot
-            chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
+            swerveSim.driveRobotRelative(new ChassisSpeeds(xSpeed, ySpeed, turningSpeed)); 
         }
-        // 5. Convert chassis speeds to individual module states
-        SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-        // 6. Output each module states to wheels
-        swerveSubsystem.setModuleStates(moduleStates);
-    }
+        }
+
 
     @Override
     public void end(boolean interrupted) {
-        swerveSubsystem.stopModules();
     }
 
     @Override

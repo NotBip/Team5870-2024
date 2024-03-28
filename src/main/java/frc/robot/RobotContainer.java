@@ -66,6 +66,7 @@ public class RobotContainer {
         private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
         private final XboxController driverController = new XboxController(0); 
         private final XboxController operatorController = new XboxController(1); 
+        
 
         // Initializing Auto Commands 
         private final blueAmp blueAmpAuto = new blueAmp(intake, swerveSubsystem); 
@@ -96,12 +97,12 @@ public class RobotContainer {
         autoChooser.addOption("Amp1", new PathPlannerAuto("Amp1"));
         SmartDashboard.putData("Auto Chooser", autoChooser);    
         // set default commands for each Subsystem
-        // swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
-        //         swerveSubsystem,
-        //         () -> -driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
-        //         () -> -driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
-        //         () -> -driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
-        //         () -> !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
+        swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
+                swerveSubsystem,
+                () -> -driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
+                () -> -driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
+                () -> -driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
+                () -> !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
         intake.setDefaultCommand(intakeStop);
         // climber.setDefaultCommand(climberStop);
         
