@@ -124,9 +124,9 @@ public class SwerveSubsystem extends SubsystemBase {
 
     }
     
-    public void setGyroforAuto() {  
-        navx.setAngleAdjustment(-PathPlannerAuto.getStaringPoseFromAutoFile("Amp1").getRotation().getDegrees());
-    }
+    // public void setGyroforAuto() {  
+    //     navx.setAngleAdjustment(-PathPlannerAuto.getStaringPoseFromAutoFile("Amp1").getRotation().getDegrees());
+    // }
 
     public Pose2d getPose() { 
         return odometer.getPoseMeters(); 
@@ -197,7 +197,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     public void driveRobotRelative(ChassisSpeeds robotRelativeSpeeds) { 
         ChassisSpeeds chassisSpeeds = new ChassisSpeeds(-robotRelativeSpeeds.vxMetersPerSecond, -robotRelativeSpeeds.vyMetersPerSecond, robotRelativeSpeeds.omegaRadiansPerSecond);
-        chassisSpeeds = ChassisSpeeds.discretize(robotRelativeSpeeds, 0.02); 
+        chassisSpeeds = ChassisSpeeds.discretize(chassisSpeeds, 0.02); 
 
         SwerveModuleState[] targetStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
         setModuleStates(targetStates); 
