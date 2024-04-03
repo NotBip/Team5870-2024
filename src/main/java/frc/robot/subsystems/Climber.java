@@ -13,6 +13,8 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 public class Climber extends SubsystemBase {
     private CANSparkMax leaderMotor; 
     private CANSparkMax followerMotor; 
+    private CANSparkMax leftMotor; 
+    private CANSparkMax rightMotor; 
     DigitalInput bottomLimitSwitch;
     DigitalInput topLimitSwitch;
     private SparkPIDController m_pidController;
@@ -25,6 +27,8 @@ public class Climber extends SubsystemBase {
         // Initializing motors and limit switches
         leaderMotor = new CANSparkMax(climberConstants.leaderMotor, MotorType.kBrushless);
         followerMotor = new CANSparkMax(climberConstants.followerMotor, MotorType.kBrushless);
+        leftMotor = new CANSparkMax(climberConstants.leaderMotor, MotorType.kBrushless);
+        rightMotor = new CANSparkMax(climberConstants.followerMotor, MotorType.kBrushless);
 
         // Resetting motors
         leaderMotor.restoreFactoryDefaults();
@@ -77,6 +81,14 @@ public class Climber extends SubsystemBase {
         }
     }
 
+    public void moveLeft(double speed) { 
+        leftMotor.set(speed);
+    }
+
+    public void moveRight(double speed) { 
+        rightMotor.set(speed);
+    }
+
     public void moveArm() { 
         leaderMotor.set(kMotorSpeed);
     }
@@ -93,7 +105,7 @@ public class Climber extends SubsystemBase {
     public void hold() { 
         SmartDashboard.putBoolean("Climber Spinning", false); 
         leaderMotor.set(0);
-        leaderMotor.setIdleMode(IdleMode.kBrake); 
+        leaderMotor.setIdleMode(IdleMode.kBrake);   
         followerMotor.setIdleMode(IdleMode.kBrake); 
     }
 

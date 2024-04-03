@@ -36,7 +36,9 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.Autos.DriveStraight;
 import frc.robot.commands.Autos.blueAmp1;
 import frc.robot.commands.Climber.ClimberDown;
+import frc.robot.commands.Climber.ClimberLeft;
 import frc.robot.commands.Climber.ClimberManualPosition;
+import frc.robot.commands.Climber.ClimberRight;
 import frc.robot.commands.Climber.ClimberStop;
 import frc.robot.commands.Climber.ClimberUp;
 import frc.robot.commands.Climber.zeroClimber;
@@ -92,6 +94,8 @@ public class RobotContainer {
         private final ClimberUp climberUp = new ClimberUp(climber); 
         private final ClimberStop climberStop = new ClimberStop(climber); 
         private final zeroClimber zClimber = new zeroClimber(climber); 
+        private final ClimberLeft climberLeft = new ClimberLeft(climber); 
+        private final ClimberRight climberRight = new ClimberRight(climber); 
 
         // Pneumatics
         private final FullExtend fullExtend = new FullExtend(pneumatics); 
@@ -165,7 +169,8 @@ public class RobotContainer {
                 drBtnSelect.onTrue(zClimber); 
                 opBtnA.whileTrue(new ClimberManualPosition(climber, -59.072261810302734));
                 opBtnY.whileTrue(new ClimberManualPosition(climber, 88));
-
+                opBtnLB.whileTrue(climberLeft); 
+                opBtnRB.whileTrue(climberRight); 
 
                 // Intake Controls
                 new Trigger(() -> Math.abs(operatorJoystick.getRawAxis(1)) > 0.3).whileTrue(
