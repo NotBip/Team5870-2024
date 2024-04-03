@@ -121,19 +121,14 @@ public class RobotContainer {
                 // Adding options to Auto Chooser 
                 autoChooser.setDefaultOption("DriveStraight", new SequentialCommandGroup(
                         new InstantCommand(() -> swerveSubsystem.zeroHeading()), 
-                        // new InstantCommand(() -> swerveSubsystem.resetOdometry(PathPlannerAuto.getStaringPoseFromAutoFile("DriveStraight"))),
                         new WaitCommand(10),
                         AutoBuilder.buildAuto("DriveStraight")));
-                        // new PathPlannerAuto("DriveStraight"))); // Default auto will be `Commands.none()`
                 
-                        // autoChooser.addOption("Amp1", new PathPlannerAuto("Amp1").alongWith(new ClimberManualPosition(climber, -59.072261810302734).withTimeout(4)));
                 autoChooser.addOption("AmpGooDTEST", new SequentialCommandGroup(
                         new InstantCommand(() -> swerveSubsystem.resetOdometry(PathPlannerAuto.getStaringPoseFromAutoFile("Amp1"))), 
                         new InstantCommand(() -> swerveSubsystem.zeroHeading()),
-                        // new InstantCommand(() -> swerveSubsystem.setGyroforAuto()),
                         new PathPlannerAuto("Amp1")));
-                        // .alongWith(
-                        //         new ClimberManualPosition(climber, -59.072261810302734).withTimeout(4))));
+
                 Shuffleboard.getTab("Autonomous").add("Select Auto", autoChooser).withSize(2, 1);
                 autoChooser.addOption("DO NOTHING!!!", null);
 
