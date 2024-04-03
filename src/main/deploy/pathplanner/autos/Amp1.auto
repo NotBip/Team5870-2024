@@ -20,19 +20,19 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootIntake"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Mid"
+            "name": "ArmDown"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ZeroGyro"
+            "name": "ShootIntake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ArmUp"
           }
         }
       ]

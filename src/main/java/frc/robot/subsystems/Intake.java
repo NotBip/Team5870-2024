@@ -21,7 +21,7 @@ public class Intake extends SubsystemBase{
     }
 
     public void IntakeMotorFront(double IntakeMotorFrontSpeed) { 
-        IntakeMotorFront.set(IntakeMotorFrontSpeed);
+        IntakeMotorFront.set(-IntakeMotorFrontSpeed);
         SmartDashboard.putBoolean("Intake Spinning", true);
 
     }

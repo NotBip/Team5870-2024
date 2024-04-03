@@ -20,7 +20,7 @@ public final class Constants {
         public static final double kTurningEncoderRot2Rad = kTurningMotorGearRatio * 2 * Math.PI;
         public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60.0;
         public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60.0;
-        public static final double kPTurning = 0.3; 
+        public static final double kPTurning = 0.2; 
         public static final double slowModeMultiplier = 0.5;           
     }
 
@@ -121,8 +121,8 @@ public final class Constants {
                         kMaxAngularAccelerationRadiansPerSecondSquared);
 
         public static final HolonomicPathFollowerConfig pathFollowerConfig = new HolonomicPathFollowerConfig(
-            new PIDConstants(0.3, 0, 0),
-            new PIDConstants(0.05, 0, 0.01),
+            new PIDConstants(0.2, 0, 0),
+            new PIDConstants(.05, 0, 0.01),
             4.5, 
             0.5374011537, // Drive base radius (distance from center to furthest module) 
             new ReplanningConfig()

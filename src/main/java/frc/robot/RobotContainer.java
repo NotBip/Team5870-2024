@@ -2,6 +2,8 @@ package frc.robot;
 
 import java.util.List;
 
+import com.fasterxml.jackson.databind.util.Named;
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
@@ -84,7 +86,7 @@ public class RobotContainer {
 
         // Initializing Commands
         // Intake
-        // private final IntakeSpinBack intakeSpinBack = new IntakeSpinBack(intake); 
+        private final IntakeSpinBack intakeSpinBack = new IntakeSpinBack(intake); 
         private final IntakeSpinForward intakeSpinForward = new IntakeSpinForward(intake); 
         private final IntakeStop intakeStop = new IntakeStop(intake);
         // private final IntakeFullPower intakeFullPower = new IntakeFullPower(intake); 
@@ -117,10 +119,23 @@ public class RobotContainer {
                 configureNamedCommands();
 
                 // Adding options to Auto Chooser 
-                autoChooser.setDefaultOption("DriveStraight", new PathPlannerAuto("DriveStraight")); // Default auto will be `Commands.none()`
-                autoChooser.addOption("Amp1", new PathPlannerAuto("Amp1").alongWith(new ClimberManualPosition(climber, -59.072261810302734).withTimeout(4)));
-                autoChooser.addOption("DO NOTHING!!!", null);
+                autoChooser.setDefaultOption("DriveStraight", new SequentialCommandGroup(
+                        new InstantCommand(() -> swerveSubsystem.zeroHeading()), 
+                        // new InstantCommand(() -> swerveSubsystem.resetOdometry(PathPlannerAuto.getStaringPoseFromAutoFile("DriveStraight"))),
+                        new WaitCommand(10),
+                        AutoBuilder.buildAuto("DriveStraight")));
+                        // new PathPlannerAuto("DriveStraight"))); // Default auto will be `Commands.none()`
+                
+                        // autoChooser.addOption("Amp1", new PathPlannerAuto("Amp1").alongWith(new ClimberManualPosition(climber, -59.072261810302734).withTimeout(4)));
+                autoChooser.addOption("AmpGooDTEST", new SequentialCommandGroup(
+                        new InstantCommand(() -> swerveSubsystem.resetOdometry(PathPlannerAuto.getStaringPoseFromAutoFile("Amp1"))), 
+                        new InstantCommand(() -> swerveSubsystem.zeroHeading()),
+                        // new InstantCommand(() -> swerveSubsystem.setGyroforAuto()),
+                        new PathPlannerAuto("Amp1")));
+                        // .alongWith(
+                        //         new ClimberManualPosition(climber, -59.072261810302734).withTimeout(4))));
                 Shuffleboard.getTab("Autonomous").add("Select Auto", autoChooser).withSize(2, 1);
+                autoChooser.addOption("DO NOTHING!!!", null);
 
 
                 // set default commands for each Subsystem
@@ -161,14 +176,18 @@ public class RobotContainer {
         
                 // QOL Swerve Controls
                 drBtnStrt.onTrue(zeroGyro);
+                opBtnX.whileTrue(intakeSpinBack); 
+                drBtnB.whileTrue(new ClimberManualPosition(climber, 0)); 
                 // drBtnX.whileTrue(sourceAlign);
+
+
                 
                 // Climber Controls
                 new Trigger(()-> operatorController.getRightTriggerAxis() > 0.3).whileTrue(climberUp); 
                 new Trigger(() -> operatorController.getLeftTriggerAxis() > 0.3).whileTrue(climberDown); 
                 drBtnSelect.onTrue(zClimber); 
                 opBtnA.whileTrue(new ClimberManualPosition(climber, -59.072261810302734));
-                opBtnY.whileTrue(new ClimberManualPosition(climber, 88));
+                opBtnY.whileTrue(new ClimberManualPosition(climber, 79.21708679199219));
                 opBtnLB.whileTrue(climberLeft); 
                 opBtnRB.whileTrue(climberRight); 
 
@@ -179,8 +198,8 @@ public class RobotContainer {
                         new RightIntakeJoystick(() -> operatorJoystick.getRawAxis(5), intake));
 
                 // Pneumatics Controls 
-                new POVButton(operatorJoystick, 0).onTrue(fullExtend); 
-                new POVButton(operatorJoystick, 180).onTrue(fullDetract); 
+                // new POVButton(operatorJoystick, 0).onTrue(fullExtend); 
+                // new POVButton(operatorJoystick, 180).onTrue(fullDetract); 
                 new POVButton(driverJoystick, 0).whileTrue(nudgeFront); 
                 new POVButton(driverJoystick, 90).whileTrue(nudgeRight); 
                 new POVButton(driverJoystick, 180).whileTrue(nudgeBack);
@@ -192,9 +211,11 @@ public class RobotContainer {
                 NamedCommands.registerCommand("ShootIntake", 
                         new WaitCommand(2).alongWith(
                                 new SequentialCommandGroup(
-                                        new WaitCommand(.5), intakeSpinForward.withTimeout(1.5))));  
+                                        new WaitCommand(.5), intakeSpinForward.withTimeout(.75))));  
 
                 NamedCommands.registerCommand("ZeroGyro", zeroGyro);
+                NamedCommands.registerCommand("ArmDown", new ClimberManualPosition(climber, -59.072261810302734).withTimeout(2));
+                NamedCommands.registerCommand("ArmUp", new ClimberManualPosition(climber, 0).withTimeout(2));
         }
 
         public Command getAutonomousCommand() {

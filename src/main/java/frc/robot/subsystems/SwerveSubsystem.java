@@ -5,13 +5,17 @@ import java.sql.Driver;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import frc.robot.Constants;
@@ -78,6 +82,13 @@ public class SwerveSubsystem extends SubsystemBase {
         };
 
         odometer = new SwerveDriveOdometry(Constants.DriveConstants.kDriveKinematics, new Rotation2d(0), getModulePositions());
+        // odometer = new SwerveDriveOdometry(
+        //     Constants.DriveConstants.kDriveKinematics, 
+        //     new Rotation2d(0), 
+        //     getModulePositions(), 
+        //     new Pose2d(new Translation2d(), 
+        //         new Rotation2d(Units.degreesToRadians(180)))
+        //     );
 
         AutoBuilder.configureHolonomic(
             this::getPose, 
@@ -87,10 +98,10 @@ public class SwerveSubsystem extends SubsystemBase {
             AutoConstants.pathFollowerConfig, 
             () -> { 
                 var alliance = DriverStation.getAlliance(); 
-                if(alliance.isPresent()) { 
-                    return alliance.get() == DriverStation.Alliance.Red; 
-                }
-                return false;
+                if(alliance.get() == DriverStation.Alliance.Red)
+                    return true; 
+                else
+                    return false;
             }, this);
 
         SmartDashboard.putNumber("SimGyroRot", 0); 
@@ -109,9 +120,13 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public Rotation2d getRotation2d() {
-         return Rotation2d.fromDegrees(-navx.getYaw());
+        return Rotation2d.fromDegrees(getHeading());
 
     }
+    
+    // public void setGyroforAuto() {  
+    //     navx.setAngleAdjustment(-PathPlannerAuto.getStaringPoseFromAutoFile("Amp1").getRotation().getDegrees());
+    // }
 
     public Pose2d getPose() { 
         return odometer.getPoseMeters(); 
@@ -124,12 +139,14 @@ public class SwerveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         field.setRobotPose(getPose());
+
+        SmartDashboard.putString("Robot Pose", getPose().toString());
         
         double p = SmartDashboard.getNumber("P Gain", 0);
         double d = SmartDashboard.getNumber("D Gain", 0);
-        double rot = SmartDashboard.getNumber("SimGyroRot", 0); 
+        SmartDashboard.putNumber("gyro", getRotation2d().getDegrees()); 
         SmartDashboard.putString("Alliance Color", DriverStation.getAlliance().toString()); 
-        if(simGyroRot != rot) simGyroRot = rot; 
+        // if(simGyroRot != rot) simGyroRot = rot; 
     }
 
     public SwerveModulePosition[] getModulePositions(){
@@ -179,9 +196,10 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void driveRobotRelative(ChassisSpeeds robotRelativeSpeeds) { 
-        ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(robotRelativeSpeeds, 0.02); 
+        ChassisSpeeds chassisSpeeds = new ChassisSpeeds(-robotRelativeSpeeds.vxMetersPerSecond, -robotRelativeSpeeds.vyMetersPerSecond, robotRelativeSpeeds.omegaRadiansPerSecond);
+        chassisSpeeds = ChassisSpeeds.discretize(chassisSpeeds, 0.02); 
 
-        SwerveModuleState[] targetStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(targetSpeeds);
+        SwerveModuleState[] targetStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
         setModuleStates(targetStates); 
     }
 
