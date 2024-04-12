@@ -215,11 +215,16 @@ public class RobotContainer {
 
         public void configureNamedCommands() { 
                 NamedCommands.registerCommand("ShootIntake", intakeSpinForward.withTimeout(.75));  
-
                 NamedCommands.registerCommand("ZeroGyro", zeroGyro);
                 NamedCommands.registerCommand("ArmDown", new ClimberManualPosition(climber, 0).withTimeout(2));
                 NamedCommands.registerCommand("ArmUp", new ClimberManualPosition(climber, 0).withTimeout(2));
         }
+
+        public void killMode() { 
+                swerveSubsystem.aprilTagMode();
+        }
+
+
 
         public Command getAutonomousCommand() {
                 // 1. Create trajectory settings
@@ -264,7 +269,8 @@ public class RobotContainer {
                 //         swerveControllerCommand,
                 //         new InstantCommand(() -> swerveSubsystem.stopModules()));
 
-                return autoChooser.getSelected(); 
+                // return autoChooser.getSelected(); 
+                return null; 
 
                 // return new blueAmp1(intake, swerveSubsystem).getAutonomousCommand(swerveSubsystem); 
         }        

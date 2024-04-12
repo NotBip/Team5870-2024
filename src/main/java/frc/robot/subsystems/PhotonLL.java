@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class PhotonLL extends SubsystemBase {
-  PhotonCamera camera = new PhotonCamera("camara1");
+  PhotonCamera camera = new PhotonCamera("limelight");
 
   private double yaw;
 

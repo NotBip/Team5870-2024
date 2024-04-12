@@ -94,33 +94,7 @@ public class Robot extends TimedRobot {
     /** This function is called periodically during autonomous. */
     @Override
     public void autonomousPeriodic() {
-        // boolean autoDone = false; 
-        // NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight"); 
-        // double tableID = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tid").getDouble(0); 
-        // NetworkTableEntry tx = table.getEntry("tx"); // Limelight's x-coordinate of the target
-        // NetworkTableEntry ty = table.getEntry("ty"); // Limelight's y-coordinate of the target
-        // NetworkTableEntry ta = table.getEntry("ta"); // Limelight's area of the target
-        // double x = tx.getDouble(0); 
-        // double y = ty.getDouble(0); 
-        // double area = ta.getDouble(0); 
-        // ChassisSpeeds chassisSpeeds; 
-        // SmartDashboard.putBoolean("AUTO DONE", autoDone);
-
-
-        // if (tableID == 6 && (m_robotContainer.swerveSubsystem.getHeading() <= -89 && m_robotContainer.swerveSubsystem.getHeading() >= -91) && !autoDone) { 
-        //     m_autonomousCommand.cancel();;
-        //     autoDone = true; 
-        // }
-
-        // if(tableID == 6) { 
-        //     if (x < -2) { 
-        //         SmartDashboard.putBoolean("ASDASDASDASD", true);
-        //     }
-        //     else { 
-        //         SmartDashboard.putBoolean("ASDASDASDASD", false);
-
-        //     }
-        // }
+        m_robotContainer.killMode();
     }
 
     @Override
