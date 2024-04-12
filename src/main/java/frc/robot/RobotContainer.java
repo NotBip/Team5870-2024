@@ -204,8 +204,8 @@ public class RobotContainer {
                         new RightIntakeJoystick(() -> operatorJoystick.getRawAxis(5), intake));
 
                 // Pneumatics Controls 
-                // new POVButton(operatorJoystick, 0).onTrue(fullExtend); 
-                // new POVButton(operatorJoystick, 180).onTrue(fullDetract); 
+                new POVButton(operatorJoystick, 0).onTrue(fullExtend); 
+                new POVButton(operatorJoystick, 180).onTrue(fullDetract); 
                 new POVButton(driverJoystick, 0).whileTrue(nudgeFront); 
                 new POVButton(driverJoystick, 90).whileTrue(nudgeRight); 
                 new POVButton(driverJoystick, 180).whileTrue(nudgeBack);
