@@ -124,10 +124,21 @@ public class RobotContainer {
                         new WaitCommand(10),
                         AutoBuilder.buildAuto("DriveStraight")));
                 
-                autoChooser.addOption("AmpGooDTEST", new SequentialCommandGroup(
+                autoChooser.addOption("just amp bc andrew said so", new SequentialCommandGroup(
                         new InstantCommand(() -> swerveSubsystem.resetOdometry(PathPlannerAuto.getStaringPoseFromAutoFile("Amp1"))), 
                         new InstantCommand(() -> swerveSubsystem.zeroHeading()),
+                        new WaitCommand(7),
                         new PathPlannerAuto("Amp1")));
+
+                autoChooser.addOption("DriveToMid", new SequentialCommandGroup(
+                        new InstantCommand(() -> swerveSubsystem.zeroHeading()), 
+                        new WaitCommand(10), 
+                        AutoBuilder.buildAuto("DriveToMid")));
+
+                autoChooser.addOption("amp + mob bc i said so", new SequentialCommandGroup(
+                        new InstantCommand(() -> swerveSubsystem.resetOdometry(PathPlannerAuto.getStaringPoseFromAutoFile("Amp1"))), 
+                        new InstantCommand(() -> swerveSubsystem.zeroHeading()),
+                        new PathPlannerAuto("amp+mob")));
 
                 Shuffleboard.getTab("Autonomous").add("Select Auto", autoChooser).withSize(2, 1);
                 autoChooser.addOption("DO NOTHING!!!", null);
@@ -183,8 +194,8 @@ public class RobotContainer {
                 drBtnSelect.onTrue(zClimber); 
                 opBtnA.whileTrue(new ClimberManualPosition(climber, -59.072261810302734));
                 opBtnY.whileTrue(new ClimberManualPosition(climber, 79.21708679199219));
-                opBtnLB.whileTrue(climberLeft); 
-                opBtnRB.whileTrue(climberRight); 
+                // opBtnLB.whileTrue(climberLeft); 
+                // opBtnRB.whileTrue(climberRight); 
 
                 // Intake Controls
                 new Trigger(() -> Math.abs(operatorJoystick.getRawAxis(1)) > 0.3).whileTrue(
@@ -203,13 +214,10 @@ public class RobotContainer {
         }
 
         public void configureNamedCommands() { 
-                NamedCommands.registerCommand("ShootIntake", 
-                        new WaitCommand(2).alongWith(
-                                new SequentialCommandGroup(
-                                        new WaitCommand(.5), intakeSpinForward.withTimeout(.75))));  
+                NamedCommands.registerCommand("ShootIntake", intakeSpinForward.withTimeout(.75));  
 
                 NamedCommands.registerCommand("ZeroGyro", zeroGyro);
-                NamedCommands.registerCommand("ArmDown", new ClimberManualPosition(climber, -59.072261810302734).withTimeout(2));
+                NamedCommands.registerCommand("ArmDown", new ClimberManualPosition(climber, 0).withTimeout(2));
                 NamedCommands.registerCommand("ArmUp", new ClimberManualPosition(climber, 0).withTimeout(2));
         }
 

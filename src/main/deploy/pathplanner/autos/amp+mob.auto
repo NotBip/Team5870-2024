@@ -40,6 +40,12 @@
           "data": {
             "name": "ArmUp"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Mid"
+          }
         }
       ]
     }
