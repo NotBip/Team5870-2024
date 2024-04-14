@@ -207,7 +207,7 @@ public class SwerveSubsystem extends SubsystemBase {
         setModuleStates(targetStates); 
     }
 
-    public void aprilTagMode() { 
+    public void aprilTagMode(PhotonLL cam) { 
         SlewRateLimiter xLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond); 
         SlewRateLimiter yLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond); 
         SlewRateLimiter rotLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond); 
@@ -244,6 +244,7 @@ public class SwerveSubsystem extends SubsystemBase {
         SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
         setModuleStates(moduleStates);
         }
+
     }
 
 } // end Class

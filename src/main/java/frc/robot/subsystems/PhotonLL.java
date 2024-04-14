@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonUtils;
 
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -94,6 +95,10 @@ public class PhotonLL extends SubsystemBase {
 
     public double getArea(){
       return area;
+    }
+
+    public double getFiducialId() { 
+      return Id; 
     }
 }
 

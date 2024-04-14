@@ -61,6 +61,7 @@ import frc.robot.commands.Swerve.ZeroGyro;
 import frc.robot.commands.Swerve.SourceAlign;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.PhotonLL;
 import frc.robot.subsystems.Pneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -76,7 +77,7 @@ public class RobotContainer {
         private final Intake intake = new Intake();
         private final Climber climber = new Climber(); 
         private final Pneumatics pneumatics = new Pneumatics(); 
-        // private final PhotonLL limelight = new PhotonLL(); 
+        private final PhotonLL limelight = new PhotonLL(); 
 
         // Initializing Controllers and Joysticks
         private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
@@ -221,7 +222,7 @@ public class RobotContainer {
         }
 
         public void killMode() { 
-                swerveSubsystem.aprilTagMode();
+                swerveSubsystem.aprilTagMode(limelight);
         }
 
 
