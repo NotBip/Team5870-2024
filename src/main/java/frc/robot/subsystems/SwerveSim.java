@@ -15,6 +15,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,6 +34,7 @@ public class SwerveSim extends SubsystemBase {
   private SwerveDriveOdometry odometry;
 
   public SimGyro gyro;
+  StructArrayPublisher<SwerveModuleState> publisher = NetworkTableInstance.getDefault().getStructArrayTopic("Swerve States", SwerveModuleState.struct).publish();  
   
    private Field2d field = new Field2d();
   
@@ -81,6 +84,8 @@ public class SwerveSim extends SubsystemBase {
     odometry.update(gyro.getRotation2d(), getPositions());
 
     field.setRobotPose(getPose());
+
+    publisher.set(getModuleStates());
   }
 
   public Pose2d getPose() {
