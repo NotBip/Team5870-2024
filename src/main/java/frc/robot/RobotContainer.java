@@ -125,7 +125,7 @@ public class RobotContainer {
                         new WaitCommand(10),
                         AutoBuilder.buildAuto("DriveStraight")));
                 
-                autoChooser.addOption("just amp bc andrew said so", new SequentialCommandGroup(
+                autoChooser.addOption("Amp1", new SequentialCommandGroup(
                         new InstantCommand(() -> swerveSubsystem.resetOdometry(PathPlannerAuto.getStaringPoseFromAutoFile("Amp1"))), 
                         new InstantCommand(() -> swerveSubsystem.zeroHeading()),
                         new WaitCommand(7),
@@ -136,13 +136,15 @@ public class RobotContainer {
                         new WaitCommand(10), 
                         AutoBuilder.buildAuto("DriveToMid")));
 
-                autoChooser.addOption("amp + mob bc i said so", new SequentialCommandGroup(
+                autoChooser.addOption("Amp1", new SequentialCommandGroup(
                         new InstantCommand(() -> swerveSubsystem.resetOdometry(PathPlannerAuto.getStaringPoseFromAutoFile("Amp1"))), 
                         new InstantCommand(() -> swerveSubsystem.zeroHeading()),
                         new PathPlannerAuto("amp+mob")));
 
+                autoChooser.addOption("DriveMidRotateTest", AutoBuilder.buildAuto("DriveMidRotateTest")); 
+                autoChooser.addOption("3 note test", AutoBuilder.buildAuto("3 note test"));
+                autoChooser.addOption("DO NOTHING!", null);
                 Shuffleboard.getTab("Autonomous").add("Select Auto", autoChooser).withSize(2, 1);
-                autoChooser.addOption("DO NOTHING!!!", null);
 
 
                 // set default commands for each Subsystem
@@ -270,8 +272,10 @@ public class RobotContainer {
                 //         swerveControllerCommand,
                 //         new InstantCommand(() -> swerveSubsystem.stopModules()));
 
-                // return autoChooser.getSelected(); 
-                return null; 
+                swerveSubsystem.resetOdometry(PathPlannerAuto.getStaringPoseFromAutoFile(autoChooser.getSelected().getName()));
+                return autoChooser.getSelected(); 
+
+                // return null; 
 
                 // return new blueAmp1(intake, swerveSubsystem).getAutonomousCommand(swerveSubsystem); 
         }        
