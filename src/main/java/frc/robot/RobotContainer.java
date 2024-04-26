@@ -92,16 +92,16 @@ public class RobotContainer {
         
         NamedCommands.registerCommand("ShootIntake", new WaitCommand(2).alongWith(intakeSpinForward.withTimeout(2).alongWith(new InstantCommand(() -> SmartDashboard.putBoolean("Intake Spinning", true)))));  
         NamedCommands.registerCommand("ZeroGyro", new InstantCommand(() -> SmartDashboard.putBoolean("Zeroed Gyro", true)));
-        
+
         autoChooser.setDefaultOption("DriveStraight", new PathPlannerAuto("DriveStraight")); // Default auto will be `Commands.none()`
         autoChooser.addOption("Amp1", new PathPlannerAuto("Amp1"));
-        SmartDashboard.putData("Auto Chooser", autoChooser);    
+        SmartDashboard.putData("Auto Chooser", autoChooser);   
         // set default commands for each Subsystem
         swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                 swerveSubsystem,
                 () -> -driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
                 () -> -driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
-                () -> -driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
+                () -> driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
                 () -> !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
         intake.setDefaultCommand(intakeStop);
         // climber.setDefaultCommand(climberStop);
@@ -289,6 +289,7 @@ public class RobotContainer {
         //         new InstantCommand(() -> swerveSubsystem.resetOdometry(finalTrajectory.getInitialPose())),
         //         swerveControllerCommand,
         //         new InstantCommand(() -> swerveSubsystem.stopModules()));
+                swerveSubsystem.resetPose(PathPlannerAuto.getStaringPoseFromAutoFile(autoChooser.getSelected().getName())); 
                 return autoChooser.getSelected();
         }
 }

@@ -31,7 +31,7 @@ public class SwerveSim extends SubsystemBase {
   private SwerveDriveKinematics kinematics;
   private SwerveDriveOdometry odometry;
 
-  private SimGyro gyro;
+  public SimGyro gyro;
   
    private Field2d field = new Field2d();
   
