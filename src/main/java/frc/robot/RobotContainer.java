@@ -122,7 +122,6 @@ public class RobotContainer {
                 // Adding options to Auto Chooser 
                 autoChooser.setDefaultOption("DriveStraight", new SequentialCommandGroup(
                         new InstantCommand(() -> swerveSubsystem.zeroHeading()), 
-                        new WaitCommand(10),
                         AutoBuilder.buildAuto("DriveStraight")));
                 
                 autoChooser.addOption("Amp1", new SequentialCommandGroup(
@@ -272,7 +271,8 @@ public class RobotContainer {
                 //         swerveControllerCommand,
                 //         new InstantCommand(() -> swerveSubsystem.stopModules()));
 
-                swerveSubsystem.resetOdometry(PathPlannerAuto.getStaringPoseFromAutoFile(autoChooser.getSelected().getName()));
+                // swerveSubsystem.resetOdometry(PathPlannerAuto.getStaringPoseFromAutoFile(autoChooser.getSelected().getName()));
+                
                 return autoChooser.getSelected(); 
 
                 // return null; 

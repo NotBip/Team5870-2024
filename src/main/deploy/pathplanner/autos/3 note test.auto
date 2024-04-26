@@ -20,25 +20,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "3 note 2"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "3 note 3"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "3 note 4"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
             "pathName": "3 note 5"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "3 Note 3"
           }
         }
       ]
