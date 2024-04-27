@@ -40,7 +40,7 @@ public class Robot extends TimedRobot {
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();
         CameraServer.startAutomaticCapture(); 
-        PortForwarder.add(5800, "photonvision.local", 5800);
+        // PortForwarder.add(5800, "photonvision.local", 5800);
     }
 
     /**
@@ -95,6 +95,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousPeriodic() {
         // m_robotContainer.killMode();
+        // System.out.println("ra");
     }
 
     @Override

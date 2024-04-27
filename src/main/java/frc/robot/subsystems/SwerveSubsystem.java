@@ -212,26 +212,16 @@ public class SwerveSubsystem extends SubsystemBase {
         SlewRateLimiter yLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond); 
         SlewRateLimiter rotLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond); 
 
-        PIDController drivePID = new PIDController(0.3, 0, 0); 
-        PIDController stafePID = new PIDController(0.3, 0, 0); 
-        PIDController rotPID = new PIDController(0.3, 0, 0); 
+        PIDController drivePID = new PIDController(0.05, 0, 0); 
+        PIDController stafePID = new PIDController(0.05, 0, 0); 
+        PIDController rotPID = new PIDController(0.1, 0, 0); 
         double driveOffset = 7; 
         double strafeOffset = 0; 
         double rotOffset = 0; 
 
-        NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-        double tableID = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tid").getDouble(0); 
-        table.getEntry("pipeline").setNumber(tableID);
-        NetworkTableEntry tx = table.getEntry("tx"); // Limelight's x-coordinate of the target
-        NetworkTableEntry ta = table.getEntry("ta"); // Limelight's area of the target
-        double[] robotPose = table.getEntry("botpose").getDoubleArray(new double[6]);
-        double limelightArea = ta.getDouble(0); 
-        double limelightX = tx.getDouble(0); 
-
-        if(tableID == 6) { 
-        double velForward = drivePID.calculate(limelightArea, driveOffset);
-        double velStrafe = stafePID.calculate(limelightX, strafeOffset); 
-        double rot = rotPID.calculate(-robotPose[5], rotOffset); 
+        double velForward = drivePID.calculate(cam.getArea(), driveOffset);
+        double velStrafe = stafePID.calculate(cam.getYDistance(), strafeOffset); 
+        double rot = rotPID.calculate(cam.getYaw(), rotOffset); 
 
 
         velForward = xLimiter.calculate(velForward) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond; 
@@ -240,11 +230,9 @@ public class SwerveSubsystem extends SubsystemBase {
 
         ChassisSpeeds chassisSpeeds; 
 
-        chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(velForward, velStrafe, rot, getRotation2d());
+        chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(velForward, 0, rot, getRotation2d());
         SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
         setModuleStates(moduleStates);
-        }
-
     }
 
 } // end Class

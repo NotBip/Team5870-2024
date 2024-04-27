@@ -273,9 +273,9 @@ public class RobotContainer {
 
                 // swerveSubsystem.resetOdometry(PathPlannerAuto.getStaringPoseFromAutoFile(autoChooser.getSelected().getName()));
                 
-                return autoChooser.getSelected(); 
+                // return autoChooser.getSelected(); 
 
-                // return null; 
+                return null; 
 
                 // return new blueAmp1(intake, swerveSubsystem).getAutonomousCommand(swerveSubsystem); 
         }        
