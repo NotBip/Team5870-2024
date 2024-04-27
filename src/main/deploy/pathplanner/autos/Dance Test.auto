@@ -1,0 +1,31 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 8.270256540513078,
+      "y": 2.6287371358284757
+    },
+    "rotation": -89.99999999999974
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Funky"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "FunkyReverse"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Dance",
+  "choreoAuto": false
+}

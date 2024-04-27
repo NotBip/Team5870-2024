@@ -3,6 +3,7 @@ package frc.robot;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -18,26 +19,23 @@ public final class Constants {
         public static final double kTurningMotorGearRatio = 1 / (150.0/7); 
         public static final double kDriveEncoderRot2Meter = kDriveMotorGearRatio * Math.PI * kWheelDiameterMeters;
         public static final double kTurningEncoderRot2Rad = kTurningMotorGearRatio * 2 * Math.PI;
-        public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60.0;
-        public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60.0;
-        public static final double kPTurning = 0.2; 
-        public static final double slowModeMultiplier = 0.5;           
+        public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
+        public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60;
+        public static final double kPTurning = 0.3;             
     }
 
     // Module for Intake Constants
     public static final class IntakeConstants { 
         public static double intakeSpeed = 0.5; 
-        public static int armMotor1 = 9; 
-        public static int armMotor2 = 8; 
     }
 
-    public static final class PneumaticsConstants { 
-        public static int solenoidExtend1ID = 0; 
-        public static int solenoidExtend2ID = 2; 
-        public static int solenoidDetract1ID = 1; 
-        public static int solenoidDetract2ID = 4; 
-        public static int compressorID = 0; 
+
+    // May be removed later. 
+    public enum AutonomousMode {
+        rAlliance1, rAlliance2, rAlliance3, bAlliance1, bAlliance2, bAlliance3, test;
+        public static AutonomousMode currentMode = rAlliance1;
     }
+
 
     // Module for Swerve Drive. 
     public static final class DriveConstants {
@@ -50,33 +48,33 @@ public final class Constants {
         
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
             // front left
-            new Translation2d(kWheelBase / 2, kTrackWidth / 2), 
+            new Translation2d(kWheelBase / 2, kTrackWidth / 2),
             // front right
-            new Translation2d(kWheelBase / 2, -kTrackWidth / 2), 
+            new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
             // back left
-            new Translation2d(-kWheelBase / 2, kTrackWidth / 2), 
+            new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
             // back right
             new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
 
-        public static final int kFrontLeftDriveMotorPort = 8;
-        public static final int kBackLeftDriveMotorPort = 2;
-        public static final int kBackRightDriveMotorPort = 4;
-        public static final int kFrontRightDriveMotorPort = 6;
+        public static final int kFrontLeftDriveMotorPort = 1;
+        public static final int kBackLeftDriveMotorPort = 3;
+        public static final int kFrontRightDriveMotorPort = 7;
+        public static final int kBackRightDriveMotorPort = 5;
 
-        public static final int kFrontLeftTurningMotorPort = 1;
-        public static final int kBackLeftTurningMotorPort = 3;
-        public static final int kBackRightTurningMotorPort = 5;
-        public static final int kFrontRightTurningMotorPort = 7;
+        public static final int kFrontLeftTurningMotorPort = 2;
+        public static final int kBackLeftTurningMotorPort = 4;
+        public static final int kFrontRightTurningMotorPort = 8;
+        public static final int kBackRightTurningMotorPort = 6;
 
         public static final boolean kFrontLeftTurningEncoderReversed = true;
         public static final boolean kBackLeftTurningEncoderReversed = true;
         public static final boolean kFrontRightTurningEncoderReversed = true;
         public static final boolean kBackRightTurningEncoderReversed = true;
 
-        public static final boolean kFrontLeftDriveEncoderReversed = false;
-        public static final boolean kBackLeftDriveEncoderReversed = false;
-        public static final boolean kFrontRightDriveEncoderReversed = true;
-        public static final boolean kBackRightDriveEncoderReversed = true;
+        public static final boolean kFrontLeftDriveEncoderReversed = true;
+        public static final boolean kBackLeftDriveEncoderReversed = true;
+        public static final boolean kFrontRightDriveEncoderReversed = false;
+        public static final boolean kBackRightDriveEncoderReversed = false;
 
         public static final int kFrontLeftDriveAbsoluteEncoderPort = 9;
         public static final int kBackLeftDriveAbsoluteEncoderPort = 10;
@@ -88,15 +86,15 @@ public final class Constants {
         public static final boolean kFrontRightDriveAbsoluteEncoderReversed = false;
         public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
 
-        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 3.8748354701;
-        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 5.91345937;
-        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 4.84891327050;
-        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 4.015961702; 
+        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 3.896311201229528;
+        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 2.34392264388926;
+        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 5.971787207238801;
+        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 0.159534001940107; 
 
         public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
 
-        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond;
+        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond/2;
         public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = //
                 kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
         public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
@@ -108,23 +106,23 @@ public final class Constants {
     public static final class AutoConstants {
         public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 4;
         public static final double kMaxAngularSpeedRadiansPerSecond = //
-                DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
+                DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 4;
         public static final double kPXController = .3;
         public static final double kPYController = .3;
-        public static final double kPThetaController = .3;
+        public static final double kPThetaController = 3;
 
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints = //
                 new TrapezoidProfile.Constraints(
-                        kMaxAngularSpeedRadiansPerSecond, 
+                        kMaxAngularSpeedRadiansPerSecond,
                         kMaxAngularAccelerationRadiansPerSecondSquared);
 
         public static final HolonomicPathFollowerConfig pathFollowerConfig = new HolonomicPathFollowerConfig(
-            new PIDConstants(0.01, 0, 0),
-            new PIDConstants(.01, 0, 0.01),
-            5, 
-            0.5374011537, // Drive base radius (distance from center to furthest module) 
+            new PIDConstants(.3, 0, 0), // Translation constants 
+            new PIDConstants(3.0, 0, 0), // Rotation constants 
+            4.5, 
+            0.53881536726424, // Drive base radius (distance from center to furthest module) 
             new ReplanningConfig()
             );
     }
@@ -133,9 +131,8 @@ public final class Constants {
     // Module for Controller Joystick
     public static final class OIConstants {
 
-        // Joystick Values Used for Swerve Controls
+        // Joystick Values Used for Swerve Controlls
         public static final int kDriverControllerPort = 0;
-        public static final int kOperatorControllerPort = 1; 
         public static final int kDriverYAxis = 1;
         public static final int kDriverXAxis = 0;
         public static final int kDriverRotAxis = 4;
@@ -151,15 +148,20 @@ public final class Constants {
         public static final int KXboxRightBumper = 6; 
         public static final int KXboxSelectButton = 7; 
         public static final int KXboxStartButton = 8; 
-        public static final int KXboxLeftTrigger = 9;
-        public static final int KXboxRightTrigger = 10; 
+        public static final int KXboxLeftTrigger = 2; 
+        public static final int KXboxRightTrigger = 3; 
         
     }
 
     public static final class climberConstants { 
-        public static final int leaderMotor = 14; 
-        public static final int followerMotor = 13;
+        public static final int leaderMotor = 0; 
+        public static final int followerMotor = 0;
         public static final int bottomLimitSwitch = 0; 
         public static final int topLimitSwitch = 0;  
-    } 
+    }
+
+    public static final class ArmConstants { 
+        public static final int shootMotor = 0; 
+    }
+
 }
