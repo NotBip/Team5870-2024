@@ -2,12 +2,14 @@
   "robotWidth": 0.76,
   "robotLength": 0.76,
   "holonomicMode": true,
-  "pathFolders": [],
-  "autoFolders": [
-    "New Folder"
+  "pathFolders": [
+    "Dance"
   ],
-  "defaultMaxVel": 4.1,
-  "defaultMaxAccel": 6.0,
+  "autoFolders": [
+    "Dance"
+  ],
+  "defaultMaxVel": 1.0,
+  "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
   "maxModuleSpeed": 5.0
