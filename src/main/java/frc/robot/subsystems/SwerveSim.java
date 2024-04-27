@@ -9,7 +9,9 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -17,6 +19,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -35,8 +38,12 @@ public class SwerveSim extends SubsystemBase {
 
   public SimGyro gyro;
   StructArrayPublisher<SwerveModuleState> publisher = NetworkTableInstance.getDefault().getStructArrayTopic("Swerve States", SwerveModuleState.struct).publish();  
-  
+  StructPublisher<Pose3d> publisherPose = NetworkTableInstance.getDefault().getStructTopic("MyPose", Pose3d.struct).publish();
    private Field2d field = new Field2d();
+   private Field2d field2 = new Field2d();
+   private Field2d field3 = new Field2d();
+   private double yaw = 0; 
+
   
   public SwerveSim() {
     gyro = new SimGyro();
@@ -74,6 +81,8 @@ public class SwerveSim extends SubsystemBase {
     // PathPlannerLogging.setLogActivePathCallback((poses) -> field.getObject("path").setPoses(poses));
     // field.getRobotObject().setPose(PathPlannerAuto.getStaringPoseFromAutoFile("New Auto"));
     SmartDashboard.putData("Field", field);
+    SmartDashboard.putData("Field2", field2); 
+    SmartDashboard.putData("Field3", field3); 
   }
 
   @Override
@@ -82,10 +91,17 @@ public class SwerveSim extends SubsystemBase {
     gyro.updateRotation(getSpeeds().omegaRadiansPerSecond);
 
     odometry.update(gyro.getRotation2d(), getPositions());
+    Pose3d fly = new Pose3d(getPose().getX(), getPose().getY(), yaw, new Rotation3d(0, 0, getPose().getRotation().getRadians()));
+
+    Pose2d offsetPose2d = new Pose2d(getPose().getX()+1, getPose().getY()+1, getPose().getRotation()); 
+    Pose2d offsetPose2d2 = new Pose2d(getPose().getX()-1, getPose().getY()+1, getPose().getRotation()); 
 
     field.setRobotPose(getPose());
+    field2.setRobotPose(offsetPose2d);
+    field3.setRobotPose(offsetPose2d2);
 
     publisher.set(getModuleStates());
+    publisherPose.set(fly);
   }
 
   public Pose2d getPose() {
@@ -94,6 +110,16 @@ public class SwerveSim extends SubsystemBase {
 
   public void resetPose(Pose2d pose) {
     odometry.resetPosition(gyro.getRotation2d(), getPositions(), pose);
+  }
+
+  public void updatePose3d(boolean reversed, double move) { 
+    if(yaw <= 0 && reversed)
+      return;
+
+    if(reversed)
+      yaw -= move;  
+    else 
+      yaw += move; 
   }
 
   public ChassisSpeeds getSpeeds() {
@@ -135,6 +161,10 @@ public class SwerveSim extends SubsystemBase {
     return positions;
   }
 
+  public void resetGyro() { 
+    gyro.resetGyro();
+  }
+
   /**
    * Basic simulation of a swerve module, will just hold its current state and not use any hardware
    */
@@ -166,6 +196,10 @@ public class SwerveSim extends SubsystemBase {
 
     public Rotation2d getRotation2d() {
       return currentRotation;
+    }
+
+    public void resetGyro() { 
+      currentRotation = new Rotation2d(0); 
     }
 
     public void updateRotation(double angularVelRps){

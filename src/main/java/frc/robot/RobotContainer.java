@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.SwerveJoystickCmd;
@@ -37,6 +38,9 @@ public class RobotContainer {
 
         swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                 swerveSubsystem,
+                () -> driverJoystick.getRawAxis(3), 
+                () -> driverJoystick.getRawAxis(2), 
+                () -> driverJoystick.getRawAxis(2) == 1 ? true : false, 
                 () -> -driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
                 () -> -driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
                 () -> -driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
@@ -45,7 +49,9 @@ public class RobotContainer {
         configureButtonBindings(); 
         }
 
-        private void configureButtonBindings() {}
+        private void configureButtonBindings() {
+                new JoystickButton(driverJoystick, 3).onTrue(new InstantCommand(() -> swerveSubsystem.resetGyro())) ; 
+        }
   
 
 

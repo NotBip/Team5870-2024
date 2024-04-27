@@ -6,6 +6,8 @@
       "/SmartDashboard/Auto Mode": "String Chooser",
       "/SmartDashboard/Example Auto": "Command",
       "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/Field2": "Field2d",
+      "/SmartDashboard/Field3": "Field2d",
       "/SmartDashboard/On-the-fly path": "Command"
     },
     "windows": {

@@ -11,14 +11,17 @@ import frc.robot.Constants.OIConstants;
 public class SwerveJoystickCmd extends Command{
 
     private final SwerveSim swerveSim;
-    private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
-    private final Supplier<Boolean> fieldOrientedFunction;
+    private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction, zSpdFuntion, zSpdFuntion2;
+    private final Supplier<Boolean> fieldOrientedFunction, reversed;
     private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
     
-    public SwerveJoystickCmd(SwerveSim swerveSim,
+    public SwerveJoystickCmd(SwerveSim swerveSim, Supplier<Double> zSpdFunction, Supplier<Double> zSpdFunction2, Supplier<Boolean> reversed,
         Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, Supplier<Double> turningSpdFunction,
         Supplier<Boolean> fieldOrientedFunction) {
         this.swerveSim = swerveSim;
+        this.zSpdFuntion2 = zSpdFunction2; 
+        this.zSpdFuntion = zSpdFunction; 
+        this.reversed = reversed; 
         this.xSpdFunction = xSpdFunction;
         this.ySpdFunction = ySpdFunction;
         this.turningSpdFunction = turningSpdFunction;
@@ -54,11 +57,17 @@ public class SwerveJoystickCmd extends Command{
         ChassisSpeeds chassisSpeeds;
         if (fieldOrientedFunction.get()) {
             // Relative to field
-            swerveSim.driveRobotRelative(new ChassisSpeeds(xSpeed, ySpeed, turningSpeed));
+            swerveSim.driveFieldRelative(new ChassisSpeeds(xSpeed, ySpeed, turningSpeed));
        } else {
             // Relative to robot
-            swerveSim.driveRobotRelative(new ChassisSpeeds(xSpeed*.5, ySpeed*.5, turningSpeed)); 
+            swerveSim.driveFieldRelative(new ChassisSpeeds(xSpeed*.5, ySpeed*.5, turningSpeed)); 
         }
+
+        if(zSpdFuntion.get() >= 1 || zSpdFuntion2.get() >= 1){ 
+            swerveSim.updatePose3d(reversed.get(), .01); 
+
+        }
+
         }
 
 
