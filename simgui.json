@@ -8,6 +8,9 @@
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/Field2": "Field2d",
       "/SmartDashboard/Field3": "Field2d",
+      "/SmartDashboard/Field4": "Field2d",
+      "/SmartDashboard/Field5": "Field2d",
+      "/SmartDashboard/Field6": "Field2d",
       "/SmartDashboard/On-the-fly path": "Command"
     },
     "windows": {

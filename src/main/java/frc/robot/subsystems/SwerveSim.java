@@ -38,10 +38,12 @@ public class SwerveSim extends SubsystemBase {
 
   public SimGyro gyro;
   StructArrayPublisher<SwerveModuleState> publisher = NetworkTableInstance.getDefault().getStructArrayTopic("Swerve States", SwerveModuleState.struct).publish();  
-  StructPublisher<Pose3d> publisherPose = NetworkTableInstance.getDefault().getStructTopic("MyPose", Pose3d.struct).publish();
-   private Field2d field = new Field2d();
-   private Field2d field2 = new Field2d();
-   private Field2d field3 = new Field2d();
+  StructPublisher<Pose3d> publisherPose = NetworkTableInstance.getDefault().getStructTopic("MyPose1", Pose3d.struct).publish();
+  StructPublisher<Pose3d> publisherPose2 = NetworkTableInstance.getDefault().getStructTopic("MyPose2", Pose3d.struct).publish();
+  StructPublisher<Pose3d> publisherPose3 = NetworkTableInstance.getDefault().getStructTopic("MyPose3", Pose3d.struct).publish();
+  StructPublisher<Pose3d> publisherPose4 = NetworkTableInstance.getDefault().getStructTopic("MyPose4", Pose3d.struct).publish();
+  StructPublisher<Pose3d> publisherPose5 = NetworkTableInstance.getDefault().getStructTopic("MyPose5", Pose3d.struct).publish();
+
    private double yaw = 0; 
 
   
@@ -80,9 +82,6 @@ public class SwerveSim extends SubsystemBase {
     // Set up custom logging to add the current path to a field 2d widget
     // PathPlannerLogging.setLogActivePathCallback((poses) -> field.getObject("path").setPoses(poses));
     // field.getRobotObject().setPose(PathPlannerAuto.getStaringPoseFromAutoFile("New Auto"));
-    SmartDashboard.putData("Field", field);
-    SmartDashboard.putData("Field2", field2); 
-    SmartDashboard.putData("Field3", field3); 
   }
 
   @Override
@@ -91,17 +90,21 @@ public class SwerveSim extends SubsystemBase {
     gyro.updateRotation(getSpeeds().omegaRadiansPerSecond);
 
     odometry.update(gyro.getRotation2d(), getPositions());
-    Pose3d fly = new Pose3d(getPose().getX(), getPose().getY(), yaw, new Rotation3d(0, 0, getPose().getRotation().getRadians()));
+    Pose3d fly1 = new Pose3d(getPose().getX()-1, getPose().getY()-1, 0, new Rotation3d(0, 0, getPose().getRotation().getRadians()));
+    Pose3d fly2 = new Pose3d(getPose().getX()+1, getPose().getY()-1, 0, new Rotation3d(0, 0, getPose().getRotation().getRadians()));
+    Pose3d fly3 = new Pose3d(getPose().getX()+1, getPose().getY()+1, 0, new Rotation3d(0, 0, getPose().getRotation().getRadians()));
+    Pose3d fly4 = new Pose3d(getPose().getX()-1, getPose().getY()+1, 0, new Rotation3d(0, 0, getPose().getRotation().getRadians()));
+    Pose3d fly5 = new Pose3d(getPose().getX(), getPose().getY(), 0, new Rotation3d(0, 0, getPose().getRotation().getRadians()));
 
-    Pose2d offsetPose2d = new Pose2d(getPose().getX()+1, getPose().getY()+1, getPose().getRotation()); 
-    Pose2d offsetPose2d2 = new Pose2d(getPose().getX()-1, getPose().getY()+1, getPose().getRotation()); 
 
-    field.setRobotPose(getPose());
-    field2.setRobotPose(offsetPose2d);
-    field3.setRobotPose(offsetPose2d2);
 
     publisher.set(getModuleStates());
-    publisherPose.set(fly);
+    publisherPose.set(fly1);
+    publisherPose2.set(fly2);
+    publisherPose3.set(fly3);
+    publisherPose4.set(fly4);
+    publisherPose5.set(fly5);
+
   }
 
   public Pose2d getPose() {
