@@ -87,13 +87,7 @@ public class SwerveSubsystem extends SubsystemBase {
         };
 
         odometer = new SwerveDriveOdometry(Constants.DriveConstants.kDriveKinematics, new Rotation2d(0), getModulePositions());
-        // odometer = new SwerveDriveOdometry(
-        //     Constants.DriveConstants.kDriveKinematics, 
-        //     new Rotation2d(0), 
-        //     getModulePositions(), 
-        //     new Pose2d(new Translation2d(), 
-        //         new Rotation2d(Units.degreesToRadians(180)))
-        //     );
+
 
         AutoBuilder.configureHolonomic(
             this::getPose, 

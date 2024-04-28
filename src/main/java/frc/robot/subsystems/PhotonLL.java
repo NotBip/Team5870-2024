@@ -26,6 +26,8 @@ public class PhotonLL extends SubsystemBase {
   private double yMeters;
 
   private boolean hasTargets;
+
+  private Transform3d transform3d;
   
 
 
@@ -52,11 +54,9 @@ public class PhotonLL extends SubsystemBase {
       area = target.getArea();
       skew = target.getSkew();
       Id = target.getFiducialId();
-
-      xMeters =       target.getBestCameraToTarget().getX(); 
-
-      yMeters =       target.getBestCameraToTarget().getX(); 
-
+      xMeters = target.getBestCameraToTarget().getX(); 
+      yMeters = target.getBestCameraToTarget().getX(); 
+      transform3d = result.getMultiTagResult().estimatedPose.best; 
 
 
       
@@ -103,6 +103,10 @@ public class PhotonLL extends SubsystemBase {
 
     public double getFiducialId() { 
       return Id; 
+    }
+
+    public Transform3d geTransform3d() { 
+      return transform3d;
     }
 }
 
