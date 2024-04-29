@@ -58,6 +58,7 @@ import frc.robot.commands.Swerve.NudgeLeft;
 import frc.robot.commands.Swerve.NudgeRight;
 import frc.robot.commands.Swerve.SwerveJoystickCmd;
 import frc.robot.commands.Swerve.ZeroGyro;
+import frc.robot.commands.Swerve.aprilTagFollowing;
 import frc.robot.commands.Swerve.SourceAlign;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
@@ -90,7 +91,6 @@ public class RobotContainer {
         private final IntakeSpinBack intakeSpinBack = new IntakeSpinBack(intake); 
         private final IntakeSpinForward intakeSpinForward = new IntakeSpinForward(intake); 
         private final IntakeStop intakeStop = new IntakeStop(intake);
-        // private final IntakeFullPower intakeFullPower = new IntakeFullPower(intake); 
         
         // Climber
         private final ClimberDown climberDown = new ClimberDown(climber); 
@@ -110,7 +110,8 @@ public class RobotContainer {
         private final NudgeRight nudgeRight = new NudgeRight(swerveSubsystem); 
         private final NudgeFront nudgeFront = new NudgeFront(swerveSubsystem); 
         private final NudgeBack nudgeBack = new NudgeBack(swerveSubsystem); 
-        // private final SourceAlign sourceAlign = new SourceAlign(swerveSubsystem); 
+        private final aprilTagFollowing aprilTagFollowing = new aprilTagFollowing(swerveSubsystem, limelight);
+
 
         // Game Controllers
         public JoystickButton drBtnA, drBtnB, drBtnX, drBtnY, drBtnLB, drBtnRB, drBtnStrt, drBtnSelect;
@@ -143,6 +144,7 @@ public class RobotContainer {
                 autoChooser.addOption("DriveMidRotateTest", AutoBuilder.buildAuto("DriveMidRotateTest")); 
                 autoChooser.addOption("3 note test", AutoBuilder.buildAuto("3 note test"));
                 autoChooser.addOption("DO NOTHING!", null);
+                autoChooser.addOption("AprilTagFollowing", aprilTagFollowing);
                 Shuffleboard.getTab("Autonomous").add("Select Auto", autoChooser).withSize(2, 1);
 
 
@@ -227,7 +229,7 @@ public class RobotContainer {
 
 
         public Command getAutonomousCommand() {                
-                // return autoChooser.getSelected(); 
-                return null; 
+                return autoChooser.getSelected(); 
+                // return null; 
         }        
 }

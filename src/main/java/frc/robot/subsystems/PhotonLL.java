@@ -49,13 +49,13 @@ public class PhotonLL extends SubsystemBase {
       var target = result.getBestTarget();
   
       // GET DATA:
-      yaw = target.getYaw();
+      yaw = Math.toDegrees(target.getBestCameraToTarget().getRotation().getZ());
       pitch = target.getPitch();
       area = target.getArea();
       skew = target.getSkew();
       Id = target.getFiducialId();
-      xMeters = target.getBestCameraToTarget().getX(); 
-      yMeters = target.getBestCameraToTarget().getX(); 
+      xMeters = target.getBestCameraToTarget().getTranslation().getX(); 
+      yMeters = target.getBestCameraToTarget().getTranslation().getY(); 
       transform3d = result.getMultiTagResult().estimatedPose.best; 
 
 

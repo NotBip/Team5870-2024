@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 
 import java.sql.Driver;
+import java.sql.Struct;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -21,6 +22,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import frc.robot.Constants;
@@ -38,6 +40,7 @@ public class SwerveSubsystem extends SubsystemBase {
     public SwerveModule[] SwerveMods;
     private SwerveDriveOdometry odometer; 
     public double simGyroRot = 0; 
+    StructArrayPublisher<SwerveModuleState> publisher = NetworkTableInstance.getDefault().getStructArrayTopic("Module States", SwerveModuleState.struct).publish();
 
     public SwerveSubsystem(){
         new Thread(() -> {
@@ -143,8 +146,10 @@ public class SwerveSubsystem extends SubsystemBase {
         
         double p = SmartDashboard.getNumber("P Gain", 0);
         double d = SmartDashboard.getNumber("D Gain", 0);
-        SmartDashboard.putNumber("gyro", getRotation2d().getDegrees()); 
+        SmartDashboard.putNumber("gyro", getRotation2d().getRadians()); 
         SmartDashboard.putString("Alliance Color", DriverStation.getAlliance().toString()); 
+
+        publisher.set(getModuleStates());
     }
 
     public SwerveModulePosition[] getModulePositions(){
@@ -213,7 +218,7 @@ public class SwerveSubsystem extends SubsystemBase {
         double strafeOffset = 0; 
         double rotOffset = 0; 
 
-        double velForward = drivePID.calculate(cam.getArea(), driveOffset);
+        double velForward = drivePID.calculate(cam.getXDistance(), driveOffset);
         double velStrafe = stafePID.calculate(cam.getYDistance(), strafeOffset); 
         double rot = rotPID.calculate(cam.getYaw(), rotOffset); 
 
@@ -224,7 +229,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
         ChassisSpeeds chassisSpeeds; 
 
-        chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(velForward, 0, rot, getRotation2d());
+        chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(velForward, velStrafe, rot, getRotation2d());
         SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
         setModuleStates(moduleStates);
     }
