@@ -17,6 +17,8 @@ import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -30,6 +32,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.networktables.StructPublisher;
@@ -49,17 +53,11 @@ public class SwerveSim extends SubsystemBase {
   private SwerveDriveKinematics kinematics;
   private SwerveDriveOdometry odometry;
   private Field2d field = new Field2d();
-
+  private ChassisSpeeds targetChassisSpeeds = new ChassisSpeeds();
+  private Vision vision = new Vision(); 
   public SimGyro gyro;
-  PhotonCamera camera = new PhotonCamera("limelight");  
-  StructArrayPublisher<SwerveModuleState> publisher = NetworkTableInstance.getDefault().getStructArrayTopic("Swerve States", SwerveModuleState.struct).publish();  
-  StructPublisher<Pose3d> publisherPose = NetworkTableInstance.getDefault().getStructTopic("MyPose1", Pose3d.struct).publish();
 
-
-  SwerveDrivePoseEstimator swerveDrivePoseEstimator;  
-  AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
-  Transform3d robotToCam; 
-  PhotonPoseEstimator photonPoseEstimator; 
+  private final SwerveDrivePoseEstimator poseEstimator;
   
   public SwerveSim() {
     gyro = new SimGyro();
@@ -93,33 +91,69 @@ public class SwerveSim extends SubsystemBase {
       this
     );
     
-    swerveDrivePoseEstimator = new SwerveDrivePoseEstimator(DriveConstants.kDriveKinematics, gyro.getRotation2d(), getPositions(), getPose());
-    Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0)); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
-    photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, camera , robotToCam);
-
+    var stateStdDevs = VecBuilder.fill(0.1, 0.1, 0.1);
+    var visionStdDevs = VecBuilder.fill(1, 1, 1);
+    poseEstimator = new SwerveDrivePoseEstimator(DriveConstants.kDriveKinematics, gyro.getRotation2d(), getPositions(), new Pose2d(), stateStdDevs, visionStdDevs); 
+    
     SmartDashboard.putData("Field", field);
   }
 
   @Override
   public void periodic() {
     // Update the simulated gyro, not needed in a real project
-    var res = camera.getLatestResult(); 
-
-    if(res.hasTargets()) { 
-      getEstimatedGlobalPose(getPose()); 
-      publisherPose.set(new Pose3d(photonPoseEstimator.getRobotToCameraTransform().getTranslation(), photonPoseEstimator.getRobotToCameraTransform().getRotation())); 
-    }
 
     gyro.updateRotation(getSpeeds().omegaRadiansPerSecond); 
     odometry.update(gyro.getRotation2d(), getPositions());
+    poseEstimator.update(gyro.getRotation2d(), getPositions()); 
 
+    var visionEst = vision.getEstimatedGlobalPose();
+    visionEst.ifPresent(
+      est -> {
+          var estPose = est.estimatedPose.toPose2d();
+          // Change our trust in the measurement based on the tags we can see
+          var estStdDevs = vision.getEstimationStdDevs(estPose);
 
-    
+          addVisionMeasurement(
+                  est.estimatedPose.toPose2d(), est.timestampSeconds, estStdDevs);
+      });
+
+    // Log values to the dashboard
+    log();
+  }
+
+    public void addVisionMeasurement(Pose2d visionMeasurement, double timestampSeconds) {
+      poseEstimator.addVisionMeasurement(visionMeasurement, timestampSeconds);
+  }
+
+  public void addVisionMeasurement(
+          Pose2d visionMeasurement, double timestampSeconds, Matrix<N3, N1> stdDevs) {
+      poseEstimator.addVisionMeasurement(visionMeasurement, timestampSeconds, stdDevs);
   }
 
   public Pose2d getPose() {
-    return odometry.getPoseMeters();
+    return poseEstimator.getEstimatedPosition();
   }
+
+  public Pose2d getPose2d() { 
+    return odometry.getPoseMeters(); 
+  }
+
+  public void log() {
+    String table = "Drive/";
+    Pose2d pose = getPose();
+    SmartDashboard.putNumber(table + "X", pose.getX());
+    SmartDashboard.putNumber(table + "Y", pose.getY());
+    SmartDashboard.putNumber(table + "Heading", pose.getRotation().getDegrees());
+    ChassisSpeeds chassisSpeeds = getSpeeds();
+    SmartDashboard.putNumber(table + "VX", chassisSpeeds.vxMetersPerSecond);
+    SmartDashboard.putNumber(table + "VY", chassisSpeeds.vyMetersPerSecond);
+    SmartDashboard.putNumber(
+            table + "Omega Degrees", Math.toDegrees(chassisSpeeds.omegaRadiansPerSecond));
+    SmartDashboard.putNumber(table + "Target VX", targetChassisSpeeds.vxMetersPerSecond);
+    SmartDashboard.putNumber(table + "Target VY", targetChassisSpeeds.vyMetersPerSecond);
+    SmartDashboard.putNumber(
+            table + "Target Omega Degrees", Math.toDegrees(targetChassisSpeeds.omegaRadiansPerSecond));
+}
 
   public void resetPose(Pose2d pose) {
     odometry.resetPosition(gyro.getRotation2d(), getPositions(), pose);
@@ -163,11 +197,6 @@ public class SwerveSim extends SubsystemBase {
     }
     return positions;
   }
-
-  public Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d prevEstimatedRobotPose) {
-    photonPoseEstimator.setReferencePose(prevEstimatedRobotPose);
-    return photonPoseEstimator.update();
-}
 
   /**
    * Basic simulation of a swerve module, will just hold its current state and not use any hardware
