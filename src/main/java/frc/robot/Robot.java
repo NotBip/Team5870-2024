@@ -39,8 +39,6 @@ public class Robot extends TimedRobot {
         // and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();
-        CameraServer.startAutomaticCapture(); 
-        // PortForwarder.add(5800, "photonvision.local", 5800);
     }
 
     /**

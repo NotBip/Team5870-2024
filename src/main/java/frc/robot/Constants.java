@@ -24,20 +24,6 @@ public final class Constants {
         public static final double slowModeMultiplier = 0.5;           
     }
 
-    // Module for Intake Constants
-    public static final class IntakeConstants { 
-        public static double intakeSpeed = 0.5; 
-        public static int armMotor1 = 9; 
-        public static int armMotor2 = 8; 
-    }
-
-    public static final class PneumaticsConstants { 
-        public static int solenoidExtend1ID = 0; 
-        public static int solenoidExtend2ID = 2; 
-        public static int solenoidDetract1ID = 1; 
-        public static int solenoidDetract2ID = 4; 
-        public static int compressorID = 0; 
-    }
 
     // Module for Swerve Drive. 
     public static final class DriveConstants {
@@ -51,47 +37,29 @@ public final class Constants {
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
             // front left
             new Translation2d(kWheelBase / 2, kTrackWidth / 2), 
-            // front right
-            new Translation2d(kWheelBase / 2, -kTrackWidth / 2), 
-            // back left
-            new Translation2d(-kWheelBase / 2, kTrackWidth / 2), 
             // back right
             new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
 
         public static final int kFrontLeftDriveMotorPort = 8;
-        public static final int kBackLeftDriveMotorPort = 2;
         public static final int kBackRightDriveMotorPort = 4;
-        public static final int kFrontRightDriveMotorPort = 6;
 
         public static final int kFrontLeftTurningMotorPort = 1;
-        public static final int kBackLeftTurningMotorPort = 3;
         public static final int kBackRightTurningMotorPort = 5;
-        public static final int kFrontRightTurningMotorPort = 7;
 
         public static final boolean kFrontLeftTurningEncoderReversed = true;
-        public static final boolean kBackLeftTurningEncoderReversed = true;
-        public static final boolean kFrontRightTurningEncoderReversed = true;
         public static final boolean kBackRightTurningEncoderReversed = true;
 
         public static final boolean kFrontLeftDriveEncoderReversed = false;
-        public static final boolean kBackLeftDriveEncoderReversed = false;
-        public static final boolean kFrontRightDriveEncoderReversed = true;
         public static final boolean kBackRightDriveEncoderReversed = true;
 
         public static final int kFrontLeftDriveAbsoluteEncoderPort = 9;
-        public static final int kBackLeftDriveAbsoluteEncoderPort = 10;
-        public static final int kFrontRightDriveAbsoluteEncoderPort = 12;
         public static final int kBackRightDriveAbsoluteEncoderPort = 11;
 
         public static final boolean kFrontLeftDriveAbsoluteEncoderReversed = false;
-        public static final boolean kBackLeftDriveAbsoluteEncoderReversed = false;
-        public static final boolean kFrontRightDriveAbsoluteEncoderReversed = false;
         public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
 
-        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 3.8748354701;
-        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 5.91345937;
-        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 4.84891327050;
-        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 4.015961702; 
+        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 0;
+        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 0; 
 
         public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
@@ -155,11 +123,4 @@ public final class Constants {
         public static final int KXboxRightTrigger = 10; 
         
     }
-
-    public static final class climberConstants { 
-        public static final int leaderMotor = 14; 
-        public static final int followerMotor = 13;
-        public static final int bottomLimitSwitch = 0; 
-        public static final int topLimitSwitch = 0;  
-    } 
 }
