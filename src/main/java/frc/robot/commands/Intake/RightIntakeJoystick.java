@@ -25,7 +25,7 @@ public class RightIntakeJoystick extends Command {
     @Override
     public void execute() {
         intake.IntakeMotorBack(-Math.abs(ySpdFunction.get()));
-        intake.IntakeMotorFront(Math.abs(ySpdFunction.get()*.7));
+        intake.IntakeMotorFront(Math.abs(ySpdFunction.get()));
     }
 
 
