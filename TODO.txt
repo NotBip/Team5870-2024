@@ -1,0 +1,11 @@
+Remember section
+draggable events
+deleteable events
+add event screen
+hide visibility using top buttons
+save events to file
+change day at midnight
+animation on button click
+event save/read to file
+repeat events
+delete repeat events
