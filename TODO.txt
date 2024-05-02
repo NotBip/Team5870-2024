@@ -9,3 +9,6 @@ animation on button click
 event save/read to file
 repeat events
 delete repeat events
+
+Later:
+- custom themes
