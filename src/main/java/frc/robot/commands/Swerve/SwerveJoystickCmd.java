@@ -16,18 +16,19 @@ public class SwerveJoystickCmd extends Command{
 
     private final SwerveSubsystem swerveSubsystem;
     private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
-    private final Supplier<Boolean> fieldOrientedFunction, sourceAlign;
+    private final Supplier<Boolean> fieldOrientedFunction, isSlowMode, sourceAlign;
     private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
     private final PIDController rotationPID;
     
     public SwerveJoystickCmd(SwerveSubsystem swerveSubsystem,
         Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, Supplier<Double> turningSpdFunction,
-        Supplier<Boolean> fieldOrientedFunction, Supplier<Boolean> sourceAlign) {
+        Supplier<Boolean> fieldOrientedFunction, Supplier<Boolean> isSlowMode, Supplier<Boolean> sourceAlign) {
         this.swerveSubsystem = swerveSubsystem;
         this.xSpdFunction = xSpdFunction;
         this.ySpdFunction = ySpdFunction;
         this.turningSpdFunction = turningSpdFunction;
         this.fieldOrientedFunction = fieldOrientedFunction;
+        this.isSlowMode = isSlowMode; 
         this.sourceAlign = sourceAlign;
         this.xLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
         this.yLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
@@ -77,9 +78,23 @@ public class SwerveJoystickCmd extends Command{
 
         ChassisSpeeds chassisSpeeds;
 
+        if(!isSlowMode.get()) { 
+            
+            // If not alligning for source drive normally
+            if(!sourceAlign.get()) {
+                chassisSpeeds = fieldOrientedFunction.get() ? ChassisSpeeds.fromFieldRelativeSpeeds(
+                            xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d()) : new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
+            } else { 
+                // align to source while driving
+                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+                        xSpeed, ySpeed, velRot, swerveSubsystem.getRotation2d()); 
+            }
+
+        } else { 
             // Activate Slow Mode
             chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
                         (xSpeed * ModuleConstants.slowModeMultiplier), (ySpeed * ModuleConstants.slowModeMultiplier), turningSpeed, swerveSubsystem.getRotation2d());
+        }
 
         SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
         swerveSubsystem.setModuleStates(moduleStates);

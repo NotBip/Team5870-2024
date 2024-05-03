@@ -155,6 +155,7 @@ public class RobotContainer {
                         () -> driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
                         () -> -driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
                         () -> !driverJoystick.getRawButton(6),          // RB button
+                        () -> driverController.getRightTriggerAxis() > 0.5 ? true : false,
                         () -> driverController.getRawButton(3)));       // x button
                 intake.setDefaultCommand(intakeStop);
                 climber.setDefaultCommand(climberStop);
@@ -185,20 +186,32 @@ public class RobotContainer {
         
                 // QOL Swerve Controls
                 drBtnStrt.onTrue(zeroGyro);
+                opBtnX.whileTrue(intakeSpinBack); 
+                drBtnB.whileTrue(new ClimberManualPosition(climber, 0)); 
+                // drBtnX.whileTrue(sourceAlign);
+
+
                 
                 // Climber Controls
+                new Trigger(()-> operatorController.getRightTriggerAxis() > 0.3).whileTrue(climberUp); 
+                new Trigger(() -> operatorController.getLeftTriggerAxis() > 0.3).whileTrue(climberDown); 
                 drBtnSelect.onTrue(zClimber); 
+                opBtnA.whileTrue(new ClimberManualPosition(climber, -59.072261810302734));
+                opBtnY.whileTrue(new ClimberManualPosition(climber, 79.21708679199219));
 
                 // Intake Controls
-                new Trigger(() -> Math.abs(driverJoystick.getRawAxis(2)) > 0.1).whileTrue(
-                        new LeftIntakeJoystick(() -> driverJoystick.getRawAxis(2), intake));
-                new Trigger(() -> Math.abs(driverJoystick.getRawAxis(3)) > 0.3).whileTrue(
-                        new RightIntakeJoystick(() -> driverJoystick.getRawAxis(3), intake));
+                new Trigger(() -> Math.abs(operatorJoystick.getRawAxis(1)) > 0.3).whileTrue(
+                        new LeftIntakeJoystick(() -> operatorJoystick.getRawAxis(1), intake));
+                new Trigger(() -> Math.abs(operatorJoystick.getRawAxis(5)) > 0.3).whileTrue(
+                        new RightIntakeJoystick(() -> operatorJoystick.getRawAxis(5), intake));
 
-                new POVButton(driverJoystick, 90).onTrue(fullExtend); 
-                new POVButton(driverJoystick, 270).onTrue(fullDetract); 
-                new POVButton(driverJoystick, 0).whileTrue(climberUp); 
-                new POVButton(driverJoystick, 180).whileTrue(climberDown); 
+                // Pneumatics Controls 
+                new POVButton(operatorJoystick, 0).onTrue(fullExtend); 
+                new POVButton(operatorJoystick, 180).onTrue(fullDetract); 
+                new POVButton(driverJoystick, 0).whileTrue(nudgeFront); 
+                new POVButton(driverJoystick, 90).whileTrue(nudgeRight); 
+                new POVButton(driverJoystick, 180).whileTrue(nudgeBack);
+                new POVButton(driverJoystick, 270).whileTrue(nudgeLeft); 
 
         }
 
