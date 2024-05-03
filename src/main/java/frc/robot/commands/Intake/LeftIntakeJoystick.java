@@ -24,8 +24,8 @@ public class LeftIntakeJoystick extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        intake.IntakeMotorFront(ySpdFunction.get());
-        intake.IntakeMotorBack(ySpdFunction.get());
+        intake.IntakeMotorFront(Math.abs(ySpdFunction.get()));
+        intake.IntakeMotorBack(Math.abs(ySpdFunction.get()));
     }
 
 
