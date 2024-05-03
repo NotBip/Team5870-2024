@@ -188,6 +188,8 @@ public class RobotContainer {
                 
                 // Climber Controls
                 drBtnSelect.onTrue(zClimber); 
+                drBtnA.whileTrue(new ClimberManualPosition(climber, -59.072261810302734));
+                drBtnY.whileTrue(new ClimberManualPosition(climber, 79.21708679199219));
 
                 // Intake Controls
                 new Trigger(() -> Math.abs(driverJoystick.getRawAxis(2)) > 0.1).whileTrue(
@@ -195,11 +197,13 @@ public class RobotContainer {
                 new Trigger(() -> Math.abs(driverJoystick.getRawAxis(3)) > 0.3).whileTrue(
                         new RightIntakeJoystick(() -> driverJoystick.getRawAxis(3), intake));
 
-                new POVButton(driverJoystick, 90).onTrue(fullExtend); 
-                new POVButton(driverJoystick, 270).onTrue(fullDetract); 
-                new POVButton(driverJoystick, 0).whileTrue(climberUp); 
-                new POVButton(driverJoystick, 180).whileTrue(climberDown); 
+                drBtnRB.whileTrue(climberUp); 
+                drBtnRB.whileTrue(climberDown); 
+                
 
+
+                new POVButton(driverJoystick, 0).onTrue(fullExtend); 
+                new POVButton(driverJoystick, 180).onTrue(fullDetract); 
         }
 
         public void configureNamedCommands() { 
