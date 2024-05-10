@@ -58,11 +58,11 @@ import frc.robot.commands.Swerve.NudgeLeft;
 import frc.robot.commands.Swerve.NudgeRight;
 import frc.robot.commands.Swerve.SwerveJoystickCmd;
 import frc.robot.commands.Swerve.ZeroGyro;
-import frc.robot.commands.Swerve.aprilTagFollowing;
-import frc.robot.commands.Swerve.SourceAlign;
+// import frc.robot.commands.Swerve.aprilTagFollowing;
+// import frc.robot.commands.Swerve.SourceAlign;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.PhotonLL;
+// import frc.robot.subsystems.PhotonLL;
 import frc.robot.subsystems.Pneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -78,7 +78,7 @@ public class RobotContainer {
         private final Intake intake = new Intake();
         private final Climber climber = new Climber(); 
         private final Pneumatics pneumatics = new Pneumatics(); 
-        private final PhotonLL limelight = new PhotonLL(); 
+        // private final PhotonLL limelight = new PhotonLL(); 
 
         // Initializing Controllers and Joysticks
         private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
@@ -110,7 +110,7 @@ public class RobotContainer {
         private final NudgeRight nudgeRight = new NudgeRight(swerveSubsystem); 
         private final NudgeFront nudgeFront = new NudgeFront(swerveSubsystem); 
         private final NudgeBack nudgeBack = new NudgeBack(swerveSubsystem); 
-        private final aprilTagFollowing aprilTagFollowing = new aprilTagFollowing(swerveSubsystem, limelight);
+        // private final aprilTagFollowing aprilTagFollowing = new aprilTagFollowing(swerveSubsystem, limelight);
 
 
         // Game Controllers
@@ -144,7 +144,7 @@ public class RobotContainer {
                 autoChooser.addOption("DriveMidRotateTest", AutoBuilder.buildAuto("DriveMidRotateTest")); 
                 autoChooser.addOption("3 note test", AutoBuilder.buildAuto("3 note test"));
                 autoChooser.addOption("DO NOTHING!", null);
-                autoChooser.addOption("AprilTagFollowing", aprilTagFollowing);
+                // autoChooser.addOption("AprilTagFollowing", aprilTagFollowing);
                 Shuffleboard.getTab("Autonomous").add("Select Auto", autoChooser).withSize(2, 1);
 
 
@@ -190,14 +190,15 @@ public class RobotContainer {
                 drBtnSelect.onTrue(zClimber); 
                 drBtnA.whileTrue(new ClimberManualPosition(climber, -59.072261810302734));
                 drBtnY.whileTrue(new ClimberManualPosition(climber, 79.21708679199219));
+                drBtnX.whileTrue(new ClimberManualPosition(climber, 0));        
 
-                // Intake Controls
-                new Trigger(() -> Math.abs(driverJoystick.getRawAxis(2)) > 0.1).whileTrue(
-                        new LeftIntakeJoystick(() -> driverJoystick.getRawAxis(2), intake));
-                new Trigger(() -> Math.abs(driverJoystick.getRawAxis(3)) > 0.3).whileTrue(
-                        new RightIntakeJoystick(() -> driverJoystick.getRawAxis(3), intake));
+                // // Intake Controls
+                // new Trigger(() -> Math.abs(driverJoystick.getRawAxis(2)) > 0.1).whileTrue(
+                //         new LeftIntakeJoystick(() -> driverJoystick.getRawAxis(2), intake));
+                // new Trigger(() -> Math.abs(driverJoystick.getRawAxis(3)) > 0.3).whileTrue(
+                //         new RightIntakeJoystick(() -> driverJoystick.getRawAxis(3), intake));
 
-                drBtnRB.whileTrue(climberUp); 
+                drBtnLB.whileTrue(climberUp); 
                 drBtnRB.whileTrue(climberDown); 
                 
 
@@ -213,9 +214,9 @@ public class RobotContainer {
                 NamedCommands.registerCommand("ArmUp", new ClimberManualPosition(climber, 0).withTimeout(2));
         }
 
-        public void killMode() { 
-                swerveSubsystem.aprilTagMode(limelight);
-        }
+        // public void killMode() { 
+        //         swerveSubsystem.aprilTagMode(limelight);
+        // }
 
 
 

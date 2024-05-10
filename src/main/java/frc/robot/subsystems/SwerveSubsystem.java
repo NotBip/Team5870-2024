@@ -206,33 +206,33 @@ public class SwerveSubsystem extends SubsystemBase {
         setModuleStates(targetStates); 
     }
 
-    public void aprilTagMode(PhotonLL cam) { 
-        SlewRateLimiter xLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond); 
-        SlewRateLimiter yLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond); 
-        SlewRateLimiter rotLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond); 
+    // public void aprilTagMode(PhotonLL cam) { 
+    //     SlewRateLimiter xLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond); 
+    //     SlewRateLimiter yLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond); 
+    //     SlewRateLimiter rotLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond); 
 
-        PIDController drivePID = new PIDController(0.05, 0, 0); 
-        PIDController stafePID = new PIDController(0.05, 0, 0); 
-        PIDController rotPID = new PIDController(0.1, 0, 0); 
-        double driveOffset = 7; 
-        double strafeOffset = 0; 
-        double rotOffset = 0; 
+    //     PIDController drivePID = new PIDController(0.05, 0, 0); 
+    //     PIDController stafePID = new PIDController(0.05, 0, 0); 
+    //     PIDController rotPID = new PIDController(0.1, 0, 0); 
+    //     double driveOffset = 7; 
+    //     double strafeOffset = 0; 
+    //     double rotOffset = 0; 
 
-        double velForward = drivePID.calculate(cam.getXDistance(), driveOffset);
-        double velStrafe = stafePID.calculate(cam.getYDistance(), strafeOffset); 
-        double rot = rotPID.calculate(cam.getYaw(), rotOffset); 
+    //     double velForward = drivePID.calculate(cam.getXDistance(), driveOffset);
+    //     double velStrafe = stafePID.calculate(cam.getYDistance(), strafeOffset); 
+    //     double rot = rotPID.calculate(cam.getYaw(), rotOffset); 
 
 
-        velForward = xLimiter.calculate(velForward) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond; 
-        velStrafe = yLimiter.calculate(velStrafe) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond; 
-        rot = rotLimiter.calculate(rot) * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
+    //     velForward = xLimiter.calculate(velForward) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond; 
+    //     velStrafe = yLimiter.calculate(velStrafe) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond; 
+    //     rot = rotLimiter.calculate(rot) * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
 
-        ChassisSpeeds chassisSpeeds; 
+    //     ChassisSpeeds chassisSpeeds; 
 
-        chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(velForward, velStrafe, rot, getRotation2d());
-        SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-        setModuleStates(moduleStates);
-    }
+    //     chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(velForward, velStrafe, rot, getRotation2d());
+    //     SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+    //     setModuleStates(moduleStates);
+    // }
 
 } // end Class
  
