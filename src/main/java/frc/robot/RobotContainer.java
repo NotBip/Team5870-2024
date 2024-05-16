@@ -78,7 +78,7 @@ public class RobotContainer {
         private final Intake intake = new Intake();
         private final Climber climber = new Climber(); 
         private final Pneumatics pneumatics = new Pneumatics(); 
-        private final PhotonLL limelight = new PhotonLL(); 
+        // private final PhotonLL limelight = new PhotonLL(); 
 
         // Initializing Controllers and Joysticks
         private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
@@ -110,7 +110,7 @@ public class RobotContainer {
         private final NudgeRight nudgeRight = new NudgeRight(swerveSubsystem); 
         private final NudgeFront nudgeFront = new NudgeFront(swerveSubsystem); 
         private final NudgeBack nudgeBack = new NudgeBack(swerveSubsystem); 
-        private final aprilTagFollowing aprilTagFollowing = new aprilTagFollowing(swerveSubsystem, limelight);
+        // private final aprilTagFollowing aprilTagFollowing = new aprilTagFollowing(swerveSubsystem, limelight);
 
 
         // Game Controllers
@@ -140,11 +140,12 @@ public class RobotContainer {
                         new InstantCommand(() -> swerveSubsystem.resetOdometry(PathPlannerAuto.getStaringPoseFromAutoFile("Amp1"))), 
                         new InstantCommand(() -> swerveSubsystem.zeroHeading()),
                         new PathPlannerAuto("amp+mob")));
-
+                
+                autoChooser.addOption("Dance", AutoBuilder.buildAuto("Dance")); 
                 autoChooser.addOption("DriveMidRotateTest", AutoBuilder.buildAuto("DriveMidRotateTest")); 
                 autoChooser.addOption("3 note test", AutoBuilder.buildAuto("3 note test"));
                 autoChooser.addOption("DO NOTHING!", null);
-                autoChooser.addOption("AprilTagFollowing", aprilTagFollowing);
+                // autoChooser.addOption("AprilTagFollowing", aprilTagFollowing);
                 Shuffleboard.getTab("Autonomous").add("Select Auto", autoChooser).withSize(2, 1);
 
 
@@ -223,7 +224,7 @@ public class RobotContainer {
         }
 
         public void killMode() { 
-                swerveSubsystem.aprilTagMode(limelight);
+                // swerveSubsystem.aprilTagMode(limelight);
         }
 
 
