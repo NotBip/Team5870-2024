@@ -23,7 +23,7 @@ public class IntakeSpinBack extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        intake.IntakeMotorFront(-1);
+        intake.IntakeMotorFront(1);
         intake.IntakeMotorBack(-1);    
     }
 

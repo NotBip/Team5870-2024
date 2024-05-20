@@ -145,7 +145,6 @@ public class RobotContainer {
                 autoChooser.addOption("DriveMidRotateTest", AutoBuilder.buildAuto("DriveMidRotateTest")); 
                 autoChooser.addOption("3 note test", AutoBuilder.buildAuto("3 note test"));
                 autoChooser.addOption("DO NOTHING!", null);
-                // autoChooser.addOption("AprilTagFollowing", aprilTagFollowing);
                 Shuffleboard.getTab("Autonomous").add("Select Auto", autoChooser).withSize(2, 1);
 
 
@@ -188,7 +187,7 @@ public class RobotContainer {
                 // QOL Swerve Controls
                 drBtnStrt.onTrue(zeroGyro);
                 opBtnX.whileTrue(intakeSpinBack); 
-                drBtnB.whileTrue(new ClimberManualPosition(climber, 0)); 
+                opBtnB.whileTrue(new ClimberManualPosition(climber, 0)); 
                 // drBtnX.whileTrue(sourceAlign);
 
 
