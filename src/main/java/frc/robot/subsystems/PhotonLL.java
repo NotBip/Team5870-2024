@@ -1,10 +1,7 @@
 package frc.robot.subsystems;
 
 import org.photonvision.PhotonCamera;
-import org.photonvision.PhotonUtils;
-
 import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -16,8 +13,6 @@ public class PhotonLL extends SubsystemBase {
   private double pitch;
 
   private double area;
-
-  private double skew;
 
   private double Id;
 
@@ -52,7 +47,6 @@ public class PhotonLL extends SubsystemBase {
       yaw = Math.toDegrees(target.getBestCameraToTarget().getRotation().getZ());
       pitch = target.getPitch();
       area = target.getArea();
-      skew = target.getSkew();
       Id = target.getFiducialId();
       xMeters = target.getBestCameraToTarget().getTranslation().getX(); 
       yMeters = target.getBestCameraToTarget().getTranslation().getY(); 

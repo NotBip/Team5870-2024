@@ -125,10 +125,6 @@ public class SwerveSubsystem extends SubsystemBase {
         return Rotation2d.fromDegrees(getHeading());
 
     }
-    
-    // public void setGyroforAuto() {  
-    //     navx.setAngleAdjustment(-PathPlannerAuto.getStaringPoseFromAutoFile("Amp1").getRotation().getDegrees());
-    // }
 
     public Pose2d getPose() { 
         return odometer.getPoseMeters(); 

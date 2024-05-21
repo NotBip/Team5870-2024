@@ -9,7 +9,6 @@ public class Intake extends SubsystemBase{
 
     private VictorSP IntakeMotorFront = new VictorSP(IntakeConstants.armMotor1);
     private VictorSP IntakeMotorBack = new VictorSP(IntakeConstants.armMotor2);
-    // add shootmotor3
     
     public Intake() { 
         SmartDashboard.putBoolean("Intake Spinning", false);

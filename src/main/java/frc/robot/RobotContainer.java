@@ -1,50 +1,26 @@
 package frc.robot;
 
-import java.util.List;
-
-import com.fasterxml.jackson.databind.util.Named;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.simulation.DriverStationSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.Autos.DriveStraight;
-import frc.robot.commands.Autos.blueAmp1;
 import frc.robot.commands.Climber.ClimberDown;
-import frc.robot.commands.Climber.ClimberLeft;
 import frc.robot.commands.Climber.ClimberManualPosition;
-import frc.robot.commands.Climber.ClimberRight;
 import frc.robot.commands.Climber.ClimberStop;
 import frc.robot.commands.Climber.ClimberUp;
 import frc.robot.commands.Climber.zeroClimber;
-import frc.robot.commands.Intake.IntakeFullPower;
 import frc.robot.commands.Intake.IntakeSpinBack;
 import frc.robot.commands.Intake.IntakeSpinForward;
 import frc.robot.commands.Intake.IntakeStop;
@@ -58,11 +34,8 @@ import frc.robot.commands.Swerve.NudgeLeft;
 import frc.robot.commands.Swerve.NudgeRight;
 import frc.robot.commands.Swerve.SwerveJoystickCmd;
 import frc.robot.commands.Swerve.ZeroGyro;
-import frc.robot.commands.Swerve.aprilTagFollowing;
-import frc.robot.commands.Swerve.SourceAlign;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.PhotonLL;
 import frc.robot.subsystems.Pneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -97,8 +70,6 @@ public class RobotContainer {
         private final ClimberUp climberUp = new ClimberUp(climber); 
         private final ClimberStop climberStop = new ClimberStop(climber); 
         private final zeroClimber zClimber = new zeroClimber(climber); 
-        private final ClimberLeft climberLeft = new ClimberLeft(climber); 
-        private final ClimberRight climberRight = new ClimberRight(climber); 
 
         // Pneumatics
         private final FullExtend fullExtend = new FullExtend(pneumatics); 
@@ -146,6 +117,8 @@ public class RobotContainer {
                 autoChooser.addOption("3 note test", AutoBuilder.buildAuto("3 note test"));
                 autoChooser.addOption("DO NOTHING!", null);
                 // autoChooser.addOption("AprilTagFollowing", aprilTagFollowing);
+
+                // Create a autonomous tab and add the auto chooser
                 Shuffleboard.getTab("Autonomous").add("Select Auto", autoChooser).withSize(2, 1);
 
 
@@ -189,9 +162,6 @@ public class RobotContainer {
                 drBtnStrt.onTrue(zeroGyro);
                 opBtnX.whileTrue(intakeSpinBack); 
                 drBtnB.whileTrue(new ClimberManualPosition(climber, 0)); 
-                // drBtnX.whileTrue(sourceAlign);
-
-
                 
                 // Climber Controls
                 new Trigger(()-> operatorController.getRightTriggerAxis() > 0.3).whileTrue(climberUp); 
@@ -223,14 +193,7 @@ public class RobotContainer {
                 NamedCommands.registerCommand("ArmUp", new ClimberManualPosition(climber, 0).withTimeout(2));
         }
 
-        public void killMode() { 
-                // swerveSubsystem.aprilTagMode (limelight);
-        }
-
-
-
         public Command getAutonomousCommand() {                
                 return autoChooser.getSelected(); 
-                // return null; 
         }        
 }

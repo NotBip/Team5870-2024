@@ -1,9 +1,7 @@
 package frc.robot.commands.Climber;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Climber;
-import java.util.function.Supplier;
 
 
 public class ClimberManualPosition extends Command {
