@@ -137,7 +137,7 @@ public class SwerveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         field.setRobotPose(getPose());
-
+        odometer.update(getRotation2d(), getModulePositions());
         SmartDashboard.putString("Robot Pose", getPose().toString());
         
         double p = SmartDashboard.getNumber("P Gain", 0);
