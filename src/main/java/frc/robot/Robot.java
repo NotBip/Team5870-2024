@@ -4,14 +4,16 @@
 
 package frc.robot;
 
-
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 
+/**
+ * FAIR WARNING: Do not make any edits to this class unless you know what
+ * you are doing, do not modify this file except to change the parameter class to the startRobot
+ * call.
+ */
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -40,7 +42,6 @@ public class Robot extends TimedRobot {
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();
         CameraServer.startAutomaticCapture(); 
-        // PortForwarder.add(5800, "photonvision.local", 5800);
     }
 
     /**
@@ -64,19 +65,14 @@ public class Robot extends TimedRobot {
         // robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
-        // m_robotContainer.swerveSubsystem.getAbsoluteEncoder();
-
-
     }
 
     /** This function is called once each time the robot enters Disabled mode. */
     @Override
-    public void disabledInit() {
-    }
+    public void disabledInit() {}
 
     @Override
-    public void disabledPeriodic() {
-    }
+    public void disabledPeriodic() {}
 
     /**
      * This autonomous runs the autonomous command selected by your
@@ -95,10 +91,7 @@ public class Robot extends TimedRobot {
 
     /** This function is called periodically during autonomous. */
     @Override
-    public void autonomousPeriodic() {
-        // m_robotContainer.killMode();
-        // System.out.println("ra");
-    }
+    public void autonomousPeriodic() {}
 
     @Override
     public void teleopInit() {

@@ -11,9 +11,12 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.Constants;
 import frc.robot.Constants.ModuleConstants;
 
+/**
+ * This class is used to initalize each swerve modules. (REPLACE THE DEPRECATED CLASS IMPORT) 
+ */
 public class SwerveModule {
+
     // Initalize the Motors.
-    
     public int modNum; 
     private final CANSparkMax driveMotor; 
     private final CANSparkMax turningMotor; 
@@ -26,11 +29,9 @@ public class SwerveModule {
     PIDController turningPidController;
 
     // Initalizing ports for encoder. 
-    private final CANCoder absoluteEncoder;
+    private final CANCoder absoluteEncoder; // Need to replace this with the new class for 2025. 
     private final boolean absoluteEncoderReversed;
     private double absoluteEncoderOffsetRad;
-    public double offset = 0; 
-
 
     /**g
      * Constructor for each Swerve Module. 
@@ -64,7 +65,7 @@ public class SwerveModule {
         turningEncoder = turningMotor.getEncoder();
         
 
-        // Convert Encoder values. 
+        // Convert Encoder values from rotations to actual measurements we can use. 
         driveEncoder.setPositionConversionFactor(ModuleConstants.kDriveEncoderRot2Meter);
         driveEncoder.setVelocityConversionFactor(ModuleConstants.kDriveEncoderRPM2MeterPerSec);
         turningEncoder.setPositionConversionFactor(ModuleConstants.kTurningEncoderRot2Rad);
@@ -78,56 +79,88 @@ public class SwerveModule {
         resetEncoders();
     }
 
-   
+   /**
+    * This method uses the turning encoder to get the position of the turning motor. 
+    * @return The position of the turning motor in radians.
+    */
     public double getTurningPosition() {
         return turningEncoder.getPosition();
     }
 
+    /**
+     * This method uses the driveEncoder to get the velocity of the drive motor. 
+     * @return The velocity of the drive motor in Meters per seconds.
+     */
     public double getDriveVelocity() {
         return driveEncoder.getVelocity();
     }
 
-   
+    /**
+     * This method uses the turning encoder to get the velocity at which the turning motor moves. 
+     * @return The speed at which the turning motor moves in Radians per sec. 
+     */
     public double getTurningVelocity() {
         return turningEncoder.getVelocity(); 
     }
 
-   
+    /**
+     * Uses the absolute encoder for the module to figure of the angle at which the wheel is facing relative to the front defined in the constants class using the 
+     * absolute encoder offsets. 
+     * @return The angle of the wheel in radians. 
+     */
     public double getAbsoluteEncoderRad() {
         double angle = absoluteEncoder.getAbsolutePosition();
-        angle *= (Math.PI/180);
-        angle -= absoluteEncoderOffsetRad;
+        angle *= (Math.PI/180); // Convert to radians
+        angle -= absoluteEncoderOffsetRad; // Subtract the offset so they are all facing the same direction at angle 0;
         return angle * (absoluteEncoderReversed ? -1.0 : 1.0);
     }
 
-
-   
+   /**
+    * This method is used to reset both the drive and turning encoder. The drive encoder is set to 0 and the turning encoder is set to the current angle of the wheel
+    * using getAbsoluteEncoderRad()
+    */
     public void resetEncoders() {
         driveEncoder.setPosition(0);
         turningEncoder.setPosition(getAbsoluteEncoderRad());
     }
     
-  
+    /**
+     * This method is used to get the state of the swerve module. 
+     * @return The current state of the swerve module which contains the velocity and rotation2D. 
+     */
     public SwerveModuleState getState() {
         return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPosition()));
     }
 
+    /**
+     * This method takes in the new state of the swerve module and figures out to most optimal way to achieve that state using the optimize function from WPILib. 
+     * it then outputs the speed to the motors which is further optimized with a PID Controller.
+     * @param state The new state of the swerve module. 
+     * @param wheel The position of the wheel (It is used for debugging mostly not needed)
+     */
     public void setDesiredState(SwerveModuleState state, String wheel) { 
         if (Math.abs(state.speedMetersPerSecond) < 0.001) {
             stop();
             return;
         }
-        state = SwerveModuleState.optimize(state, getState().angle);
-        driveMotor.set(state.speedMetersPerSecond / Constants.DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
-        turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
+        state = SwerveModuleState.optimize(state, getState().angle); // figures out the fastest way for the motor to go to it's new position
+        driveMotor.set(state.speedMetersPerSecond / Constants.DriveConstants.kPhysicalMaxSpeedMetersPerSecond); // setting the speed for the drive motor. 
+        turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians())); // calculating the speed for the turning motor to achieve the required angle and outputs it. 
     }
 
+    /**
+     * This method is used to get the positon of the swerve module. 
+     * @return The positon of the swerve module which contains the drive Encoder's position in meters and the angle at which the wheel is facing 
+     */
     public SwerveModulePosition getPositions(){ 
         return new SwerveModulePosition(
             driveEncoder.getPosition(), 
             getState().angle);
     }
 
+    /**
+     * This method is used to stop both the turning and drive motor by setting their speed to 0 for the swerve module. 
+     */
     public void stop() {
         driveMotor.set(0);
         turningMotor.set(0);
